@@ -229,12 +229,13 @@
   const shelf = document.createElement('div');
   shelf.className = 'tt2-submode-shelf';
   shelf.setAttribute('aria-hidden', 'true');
-  shelf.innerHTML = '<nav class="tt2-submode-nav" aria-label="交通手段"></nav>';
+  shelf.innerHTML = '<nav class="tt2-submode-nav" role="tablist" aria-label="交通手段"></nav>';
   destRow.after(shelf);
   const nav = shelf.querySelector('.tt2-submode-nav');
   let activeDestination = -1;
   let activeButtons = [];
   let openTimer = 0;
+  let revealToken = 0;
 
   const viewIsDayTrips = () => document.documentElement.dataset.ttView === 'day-trips';
   const selectedIndex = buttons => Math.max(0, buttons.findIndex(b => (b.getAttribute('aria-selected') || b.getAttribute('aria-pressed')) === 'true'));
@@ -267,6 +268,14 @@
   function buildShelf(destIndex) {
     const config = modeConfig(destIndex);
     if (!config) return hideShelf();
+    const switching = activeDestination !== -1 && activeDestination !== destIndex;
+    // A newly chosen destination opens its own second row from zero height,
+    // including when switching directly from Jiufen to Shifen and back.
+    if (switching && shelf.classList.contains('is-open')) {
+      shelf.classList.remove('is-open');
+      void shelf.offsetHeight;
+    }
+    const token = ++revealToken;
     activeDestination = destIndex;
     section.dataset.tt2Submode = config.key;
     nav.style.setProperty('--tt2-submode-cols', String(config.labels.length));
@@ -275,6 +284,7 @@
       const button = document.createElement('button');
       button.type = 'button';
       button.className = 'tt2-submode-button';
+      button.setAttribute('role', 'tab');
       button.setAttribute('aria-selected', String(index === config.selected));
       button.innerHTML = `<span class="tt2-submode-button-label">${label}</span>`;
       button.addEventListener('click', () => {
@@ -286,10 +296,13 @@
     });
     shelf.setAttribute('aria-hidden', 'false');
     clearTimeout(openTimer);
-    requestAnimationFrame(() => shelf.classList.add('is-open'));
+    requestAnimationFrame(() => {
+      if (token === revealToken) shelf.classList.add('is-open');
+    });
   }
 
   function hideShelf() {
+    ++revealToken;
     activeDestination = -1;
     activeButtons = [];
     delete section.dataset.tt2Submode;
