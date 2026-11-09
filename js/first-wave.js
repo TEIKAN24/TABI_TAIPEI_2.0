@@ -31,7 +31,7 @@
     backdrop.setAttribute('aria-hidden', String(!open));
     panel.inert = !open;
     if (!open) {
-      closingTimer = window.setTimeout(() => { if (previousFocus?.isConnected) previousFocus.focus({preventScroll:true}); }, reduce.matches ? 0 : 370);
+      closingTimer = window.setTimeout(() => { if (previousFocus?.isConnected) previousFocus.focus({preventScroll:true}); }, reduce.matches ? 0 : 185);
     }
   };
   button.addEventListener('click', () => setMenu(!menuOpen()));

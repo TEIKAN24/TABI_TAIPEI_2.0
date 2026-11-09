@@ -99,6 +99,7 @@
     root.classList.toggle('tt-route-home', isHome);
     root.classList.toggle('tt-route-chapter', !isHome);
     root.dataset.ttView = next;
+    if (next !== 'travel') root.classList.remove('tt2-airport-open');
     hero.classList.toggle('tt-view-hidden', !isHome);
     main.classList.toggle('tt-view-hidden', isHome);
     body.classList.toggle('tt-view-hidden', !['travel', 'food'].includes(next));
@@ -114,6 +115,7 @@
       current = next;
       activateChapterDetails(next);
       window.scrollTo({top: 0, behavior: 'auto'});
+      main.scrollTop = 0;
       requestAnimationFrame(() => requestAnimationFrame(() => {
         window.dispatchEvent(new Event('resize'));
         document.dispatchEvent(new CustomEvent('tt:viewchange', {
@@ -143,12 +145,13 @@
     event.stopImmediatePropagation();
     const toggle = document.getElementById('tt-menu-toggle');
     if (root.classList.contains('tt-nav-open')) toggle?.click();
+    if (raw === 'travel') root.classList.remove('tt2-airport-open');
     go(next);
-    // Preserve access to the unmodified airport tools from the side menu.
+    // The original airport controls stay alive in the travel screen, using
+    // a bounded inner pane because the document itself no longer scrolls.
     if (raw === 'airport-route-selector') {
-      requestAnimationFrame(() => requestAnimationFrame(() => {
-        document.getElementById(raw)?.scrollIntoView({block: 'start', behavior: 'auto'});
-      }));
+      root.classList.add('tt2-airport-open');
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
     }
   }, true);
   addEventListener('popstate', () => show(parse(), {force: true}));

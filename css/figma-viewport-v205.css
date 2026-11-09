@@ -1,0 +1,250 @@
+/* TAIPEI CITY GUIDE 2.0.5 — fixed-screen navigation and scoped scrolling.
+   The Figma phone frame is not a vertically scrolling one-page document.
+   Text lists, maps with built-in pan, calendar and horizontally scrolling tabs
+   keep their native independent input, content and event handlers. */
+html.tt2-fidelity {
+  height:100%; width:100%; overflow:hidden!important; overscroll-behavior:none;
+}
+html.tt2-fidelity body {
+  height:100svh; max-height:100dvh; min-height:0!important;
+  margin:0; overflow:hidden!important; overscroll-behavior:none;
+  display:flex;flex-direction:column;
+}
+html.tt2-fidelity .tt-sitebar {flex:0 0 var(--tt2-sitebar-height,104px);position:relative;top:auto;}
+html.tt2-fidelity.tt-route-home #top.hero {
+  flex:1 1 auto;height:calc(100dvh - var(--tt2-sitebar-height,104px));
+  max-height:calc(100dvh - var(--tt2-sitebar-height,104px));
+  min-height:0!important;overflow:hidden!important;
+}
+html.tt2-fidelity.tt-route-home .tt-home {
+  height:100%;min-height:0!important;overflow:hidden;
+}
+html.tt2-fidelity.tt-route-chapter #guide {
+  flex:1 1 auto; position:relative;box-sizing:border-box;
+  min-height:0!important;max-height:calc(100dvh - var(--tt2-sitebar-height,104px));
+  height:calc(100dvh - var(--tt2-sitebar-height,104px));
+  overflow:hidden!important;overscroll-behavior:none;
+  padding-top:0!important;padding-bottom:0!important;
+}
+/* 01 / 旅支度: header and three tabs stay fixed. Only the text list can scroll.
+   Figma's baseline is y184 content start, y776 thin bottom rule. */
+html.tt2-fidelity[data-tt-view='travel'] #guide > .page-body {
+  height:100%;max-height:100%;min-height:0;
+  display:flex!important;flex-direction:column;overflow:hidden!important;
+}
+html.tt2-fidelity[data-tt-view='travel'] .page-body > .tt-chapter-heading,
+html.tt2-fidelity[data-tt-view='travel'] .tt-travel-tabs {flex:0 0 auto;}
+html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane {
+  flex:0 1 auto;
+  height:calc(100% - 156px);
+  min-height:0!important;max-height:calc(100% - 156px);
+  overflow-y:auto!important;overflow-x:hidden!important;
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane::-webkit-scrollbar {display:none;}
+/* Additional legacy notes and secondary pass entries must remain accessible,
+   but may not extend the shell. Their content is already in native panels. */
+html.tt2-fidelity[data-tt-view='travel'] .tt2-original-note-extra,
+html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-continuation {display:none!important;}
+/* All other chapters: freeze the section heading and category navigation.
+   Original data-backed <details> are the ONLY scrollable content panels. */
+html.tt2-fidelity.tt-route-chapter[data-tt-view='city-walk'] #guide > :not(.tt-chapter-heading):not(.tt2-chapter-tabs):not(details),
+html.tt2-fidelity.tt-route-chapter[data-tt-view='sights'] #guide > :not(.tt-chapter-heading):not(.tt2-chapter-tabs):not(details) {
+  display:none!important;
+}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > .tt-chapter-heading[data-tt-chapter='city-walk'],
+html.tt2-fidelity[data-tt-view='sights'] #guide > .tt-chapter-heading[data-tt-chapter='sights'] {
+  display:flex!important;position:absolute;top:0;left:0;right:0;
+  width:100%;height:34px;min-height:34px;box-sizing:border-box;
+  margin:0!important;padding:0 0 1px;
+  gap:17px;align-items:center;
+  border-top:1px solid rgba(239,239,239,.43);
+  border-bottom:1px solid rgba(239,239,239,.43);
+  z-index:3;
+}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > .tt-chapter-heading .tt-chapter-number,
+html.tt2-fidelity[data-tt-view='sights'] #guide > .tt-chapter-heading .tt-chapter-number {font:400 18px/1.1 var(--tt2-num);min-width:20px;}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > .tt-chapter-heading .tt-chapter-name,
+html.tt2-fidelity[data-tt-view='sights'] #guide > .tt-chapter-heading .tt-chapter-name {font:400 15px/1.1 var(--tt2-serif);}
+html.tt2-fidelity #guide > .tt2-chapter-tabs {display:none;}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > .tt2-chapter-tabs[data-tt2-chapter='city-walk'],
+html.tt2-fidelity[data-tt-view='sights'] #guide > .tt2-chapter-tabs[data-tt2-chapter='sights'] {
+  display:grid;position:absolute;top:34px;left:0;right:0;
+  grid-auto-flow:column;grid-auto-columns:1fr;
+  height:46px;min-height:46px;z-index:3;
+  border-bottom:1px solid rgba(239,239,239,.43);
+}
+html.tt2-fidelity .tt2-chapter-tab {
+  min-width:0;padding:0 4px;border:0;border-right:1px solid rgba(239,239,239,.43);
+  color:#9e9e9e;background:#000;white-space:nowrap;
+  font:400 12px/1.2 var(--tt2-ui);cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+html.tt2-fidelity .tt2-chapter-tab:last-child {border-right:0;}
+html.tt2-fidelity .tt2-chapter-tab[aria-selected='true'] {color:white;font-weight:700;}
+html.tt2-fidelity .tt2-chapter-tab:focus-visible {outline:1px solid white;outline-offset:-3px;}
+html.tt2-fidelity #guide > details[data-tt2-panel] {display:none!important;}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > details[data-tt2-panel='city-walk'].tt2-panel-current,
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'].tt2-panel-current {
+  display:block!important;position:absolute!important;
+  top:85px;left:0;right:0;width:100%;
+  height:calc(100% - 141px)!important;
+  min-height:0!important;max-height:calc(100% - 141px)!important;
+  box-sizing:border-box;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;
+  overflow:hidden!important;box-shadow:none!important;
+  background:transparent!important;
+}
+html.tt2-fidelity #guide > details[data-tt2-panel] > summary {display:none!important;}
+html.tt2-fidelity #guide > details[data-tt2-panel] > .indented {
+  margin:0!important;padding:0!important;display:block!important;
+  height:100%!important;max-height:none!important;overflow:hidden!important;
+}
+/* The map is a native original SVG interaction surface with existing markers,
+   zoom/pan and location controls. Figma: x16..379 y189..797 rounded 16px. */
+html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section,
+html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-tabs,
+html.tt2-fidelity[data-tt-view='city-walk'] .nm-map {
+  border-radius:16px!important;
+}
+html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-tabs,
+html.tt2-fidelity[data-tt-view='city-walk'] .nm-map {
+  height:100%!important;max-height:100%!important;overflow:hidden!important;
+}
+html.tt2-fidelity[data-tt-view='city-walk'] .area-panel {
+  height:100%!important;max-height:100%!important;min-height:0!important;
+}
+html.tt2-fidelity[data-tt-view='city-walk'] .area-cat-panes {
+  overflow-y:auto!important;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-panels,
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-panel,
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .event-calendar-list {
+  max-height:100%!important;min-height:0;
+  overflow-y:auto!important;overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .venue-primary-links {
+  overflow-x:auto!important;overflow-y:hidden!important;-webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+/* More detailed sights typography and tagged cards will be calibrated only
+   after the original data lists load on-device; no fake data is introduced. */
+/* Side gradient: preserve Figma's vector color stops but fade the strip on
+   BOTH ends to prevent the hard cut at the panel's left/right edges. */
+html.tt2-fidelity .tt-side-shine {
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 12%,#000 88%,transparent 100%);
+}
+/* All side-menu movement and seven staggered fades run at 2× speed.
+   Letterforms, final positions and the original rightward-entering direction
+   do not change. */
+html.tt2-fidelity .tt-menu-strokes i {transition-duration:.22s;}
+html.tt2-fidelity .tt-menu-backdrop {transition-duration:.24s;}
+html.tt2-fidelity .tt-side-menu {transition-duration:.34s,0s;transition-delay:0s,.35s;}
+html.tt2-fidelity.tt-nav-open .tt-side-menu {transition-delay:0s;}
+html.tt2-fidelity.tt-nav-open .tt-side-title {animation-duration:.5s;animation-delay:calc(var(--i)*.15s);}
+html.tt2-fidelity.tt-nav-open .tt-side-index {animation-duration:.36s;animation-delay:calc(var(--i)*.15s + .06s);}
+html.tt2-fidelity.tt-nav-open .tt-side-line {animation-duration:.36s;animation-delay:calc(var(--i)*.15s + .14s);}
+html.tt2-fidelity .tt-side-extras {transition-duration:.275s;}
+html.tt2-fidelity.tt-nav-open .tt-side-extras {transition-delay:1.1s;}
+@media (prefers-reduced-motion:reduce) {
+ html.tt2-fidelity .tt-menu-strokes i,
+ html.tt2-fidelity .tt-menu-backdrop,
+ html.tt2-fidelity .tt-side-menu,
+ html.tt2-fidelity .tt-side-extras {transition:none!important;}
+ html.tt2-fidelity.tt-nav-open .tt-side-title,
+ html.tt2-fidelity.tt-nav-open .tt-side-index,
+ html.tt2-fidelity.tt-nav-open .tt-side-line {animation:none!important;opacity:1!important;}
+}
+/* Compatibility refinements validated in the actual 393×852 renderer. */
+html.tt2-fidelity .tt-sitebar {
+  width:100%;max-width:none;margin:0;box-sizing:border-box;
+}
+/* Exactly one travel-pane scroll viewport; legacy airport tool must not spill
+   below the Figma note list unless invoked from the original side-menu link. */
+html.tt2-fidelity[data-tt-view='travel'] #guide > .page-body > :not(.tt-chapter-heading):not(.tt-travel-tabs):not(.tt2-travel-pane) {
+  display:none!important;
+}
+html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane {
+  flex:0 0 auto;
+  height:calc(100% - 156px)!important;
+  max-height:calc(100% - 156px)!important;
+}
+/* `details > .indented` is wrapped in a browser native details box whose
+   percentage height resolves to zero in WebKit/Chromium. Use viewport units
+   instead: this equals 607 px on the 393×852 reference phone. */
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > details[data-tt2-panel] > .indented,
+html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-tabs,
+html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section .nm-stage,
+html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section .nm-map {
+  height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
+  max-height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
+  min-height:0!important;
+}
+/* The original airport-route controls have no approved replacement design.
+   Keep the original module fully functional when directly requested from
+   the already existing side link; do NOT invent a new airport interface. */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .airport-route-selector {
+  display:block!important;position:absolute!important;inset:80px 0 0!important;
+  height:calc(100% - 80px)!important;max-height:calc(100% - 80px)!important;
+  overflow-y:auto!important;overflow-x:hidden!important;
+  background:#000!important;z-index:10;
+  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .tt2-travel-pane,
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .tt-travel-tabs {
+  visibility:hidden!important;pointer-events:none;
+}
+/* Until their corresponding Figma screen structures have been calibrated,
+   preserve access to every original line, card, recommendation and route by
+   using a contained scroll surface, never unlocking the document itself. */
+html.tt2-fidelity.tt-route-chapter[data-tt-view='food'] #guide,
+html.tt2-fidelity.tt-route-chapter[data-tt-view='experiences'] #guide,
+html.tt2-fidelity.tt-route-chapter[data-tt-view='souvenirs'] #guide,
+html.tt2-fidelity.tt-route-chapter[data-tt-view='day-trips'] #guide,
+html.tt2-fidelity.tt-route-chapter[data-tt-view='emergency'] #guide {
+  overflow-y:auto!important;overflow-x:hidden!important;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;
+}
+html.tt2-fidelity.tt-route-chapter #guide::-webkit-scrollbar {display:none;}
+/* 散策 / 商圏 uses the ORIGINAL second interactive map. Its source list
+   is intentionally hidden by the legacy map module. Give the native map
+   the same 607px viewport as 夜市, without forcing source lists visible. */
+html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host,
+html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-map,
+html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host .nm-stage,
+html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host .nm-map {
+  height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
+  max-height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
+  min-height:0!important;border-radius:16px;
+}
+/* 観光 / 名所・博物館 (Figma 4-1-1): secondary classification is a
+   flat line-based horizontal strip, not the old rounded bubble buttons. */
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-pills {
+  display:flex!important;flex-wrap:nowrap!important;align-items:stretch!important;
+  gap:0!important;margin:0!important;padding:0!important;
+  min-height:40px!important;height:40px!important;
+  overflow-x:auto!important;overflow-y:hidden!important;
+  scrollbar-width:none;border:0!important;
+  border-bottom:1px solid rgba(210,210,210,.43)!important;
+  background:transparent!important;box-shadow:none!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-pills::-webkit-scrollbar {display:none;}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-pills > .tab-pill {
+  flex:1 0 auto!important;min-width:max-content!important;
+  height:39px!important;min-height:39px!important;
+  margin:0!important;padding:0 17px!important;
+  color:#9e9e9e!important;border:0!important;border-radius:0!important;
+  box-shadow:none!important;background:transparent!important;
+  font:400 12px/39px var(--tt2-ui)!important;
+  white-space:nowrap!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-pills > .tab-pill[aria-selected='true'] {
+  color:#fff!important;box-shadow:inset 0 -1px 0 #fff!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-pills .inline-category-icon {
+  display:none!important;
+}
