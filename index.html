@@ -336,4 +336,5 @@ html[data-theme="light"] #recommend-debug-diagnostics{background:#f3f8f4;color:#
    so it never slows the first view; then asks for the once-a-day re-check. */
 (function(){if(!("serviceWorker" in navigator))return;window.addEventListener("load",function(){setTimeout(function(){
   navigator.serviceWorker.register("sw.js").then(function(){return navigator.serviceWorker.ready;})
-  .then(function(r){if(r.active)r.active.postMessage("refresh");}).catch(function(){});},3000);});})();</script><script src="js/first-wave.js?v=1.0.0"></script><script src="js/view-router.js?v=1.1.0"></script></body></html>
+  .then(function(r){if(r.active)r.active.postMessage("refresh");}).catch(function(){});},3000);});})();</script><script src="js/first-wave.js?v=1.0.0"></script><script src="js/view-lifecycle.js?v=1.2.0"></script>
+<script src="js/view-router.js?v=1.2.0"></script></body></html>

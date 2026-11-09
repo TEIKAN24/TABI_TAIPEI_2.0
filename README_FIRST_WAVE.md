@@ -1,46 +1,39 @@
-# TABI TAIPEI — First-wave redesign (test build)
+# TABI TAIPEI — First-wave redesign, navigation compatibility v1.2
 
-Source baseline: user-provided `Tabi_Taipei-main(6).zip` (2026-11-09). This build is intended for a **new GitHub Pages test repository**, not for overwriting the production site.
+**Update package:** Apply this patch on top of `TABI_TAIPEI_first_wave_screen_navigation_v1_1.zip` (or a GitHub Pages test repository already deployed from that release). Overwrite the same paths; add `js/view-lifecycle.js`. Keep every other file as it is.
 
-## Changes in this build
+**Source baseline:** User-provided stable `Tabi_Taipei-main(6).zip` → first-wave UI v1.0 → screen-navigation v1.1 → this v1.2 compatibility update.
 
-- A new seven-chapter mobile home screen, header and off-canvas navigation inspired by the TABI-TAIPEI Figma screens.
-- Right-hand, 300 px sliding navigation. Hamburger lines transform in place. The backdrop dims 50% and blurs at 80 px. Seven chapter names start 0.3 s apart, with roughly 1 s fade/movement per item; their number and line animations are staggered separately.
-- A new common section-heading presentation, and three-tab Travel / `旅支度` interface built on the existing details markup. Existing accordion content and semantics remain in place.
-- CSS `prefers-reduced-motion` support, overlay keyboard Escape, and basic focus management.
-- Service worker cache version is isolated for this test build. Its precache includes the new CSS and JS files.
+## Changes in v1.2
 
-## New: view-based navigation (v1.1)
+1. `js/view-router.js`: Replaced brittle child-index screen routing with semantic chapter anchors and divider boundaries. Original DOM nodes, event handlers, and all original functional modules remain in place. Browser back/forward and `#view/*` continue to work.
+2. `js/view-lifecycle.js` **(new)**: After a screen is made visible, notifies original map and calendar layouts to remeasure. On leaving `day-trips`, clears the route timeline's played-once flag so the existing animation can run again on a later visit. Original route code is untouched.
+3. `index.html`: Loads `view-lifecycle.js` before `view-router.js`, and bumps the router cache-busting query parameter.
+4. `sw.js`: Adds new lifecycle file to offline precache and changes the test cache version to prevent stale scripts after deploying.
+5. Existing `data/`, `food/`, `assets/`, `js/night-markets.js`, `js/area-map.js`, `js/events.js`, `js/guide.js`, and other stable feature code are **unchanged**.
 
-The former continuous long-scroll navigation is replaced with a **single-document screen router**. Home and all seven chapters display as separate screens via `#view/home`, `#view/travel`, `#view/food`, `#view/city-walk`, `#view/sights`, `#view/experiences`, `#view/day-trips`, and `#view/souvenirs`. Browser back/forward and direct hash links are supported. The original HTML, dataset, event handlers and map/calendar/route engine objects stay in memory; the router toggles visibility on their existing blocks rather than cloning or fetching entire page documents. This is intentionally more conservative than physically splitting the app into eight HTML files.
+## Verified in offline Chromium simulation
 
-`js/view-router.js` is a new additional file. It intercepts the redesigned home and side-menu navigation in capture phase before legacy one-page scroll handlers; the original JavaScript modules are **unchanged**. `css/first-wave.css` adds screen-level visibility and a restrained chapter entrance transition. Service Worker precache and cache ID have been updated for the new router. Legacy direct anchors (#travel, #city-walk etc.) are accepted when opening a link, while new links are `#view/*`.
+- 393 px: Home → `観光`; event calendar creates 11 month cards and 85 list rows, and its month scroller moves on interaction.
+- 393 px: Home → `散策`; night-market map creates 32 pins and has a measured viewport of 359 × 618 px. Native city-walk tabs switch the **same map instance** from `夜市` to `街歩きエリア` and back, retaining its measured geometry.
+- Leaving and re-entering the city-walk screen while the area map is active retains the map at 359 × 618 px, without reinitializing its data.
+- `遠出`: 10 route timeline elements remain present; selecting a destination triggers the pre-existing route timeline animation (`data-daytrip-played=true`). Leaving the screen resets this marker, so a later visit can play the animation again.
+- Screen view switching and no horizontal overflow checked at 320 px dark, 393 px dark, and 430 px light. Browser back/forward also verified.
+- No JavaScript page errors in the scenarios above.
 
-**Testing status:** Browser-based simulated interactions verified homepage → travel → sights, back to travel, night-market map DOM, experiences, souvenirs, day trips and food. Offline Chromium confirmed no new JavaScript errors after fixing numeric-leading IDs in the router. This is not a Safari real-device test. Modules which measure hidden containers may need an iPhone reflow/timing check when opening their screen, despite the router dispatching resize events.
+**Limitations:** Tests execute the original code/data in an offline Chromium environment, with local map and CSV/JSON assets supplied. Not a GitHub Pages deployment or a real iPhone Safari test. GPS location, live network URLs, Google Maps navigation, service-worker installation in the browser, and touch/pinch/route performance still need real-device verification. Do not assume Safari rendering is approved.
 
-## Function preservation policy
+## Deploy only the modified files
 
-All pre-existing data files, maps, calendars, route visuals and original JavaScript/CSS modules are byte-identical to those in the supplied baseline. The new interface lives in `css/first-wave.css`, `js/first-wave.js` and `js/view-router.js`; the original code is still included and executed. The `index.html` adds wrappers, nav controls and stylesheet/script references without removing old functional sections.
+Upload these four production files to the root of the existing **v1.1 test repository**, preserving their relative folders:
 
-No visual redesign was attempted for the restaurant recommender, food search tool or airport-access content. They continue to use their original modules/UI.
+- `index.html` (overwrite)
+- `sw.js` (overwrite)
+- `js/view-router.js` (overwrite)
+- `js/view-lifecycle.js` (new)
 
-## Test results and limitations
+This update package intentionally does not include old assets, data, or fonts. For a fresh repository, first install the full v1.1 release, then apply this v1.2 patch. On the test site, reload once after GitHub Pages deployment so the new service worker/cache can take effect.
 
-Offline Chromium DOM-based smoke tests (393 px viewport) confirmed: pages parsed without JS errors; 62 sight list entries loaded in the selected directory test; the event calendar displayed 11 event cards when opened; night-market maps created SVG paths; route structures remained available; six chapter navigation actions were exercised. See below for limitations.
+## Next design work
 
-- The test harness injects local CSS/JS and data into an offline Chromium page because local file/URL loading is blocked in the testing environment. These are **simulation checks**, not a published GitHub Pages or real iPhone Safari acceptance test.
-- Location permissions, third-party Google Maps links, live external data, offline Service Worker installation, and all map/route interaction timing were **not** tested in a real deployment.
-- **Known review item:** later sections (especially `体験` and `おみやげ`) can settle at an imperfect scroll offset when an older expansion animation concurrently changes document height. Function links are wired, but final scroll positioning needs Safari testing / further refinement.
-- The original Adobe/A-SK fonts used in Figma are **not embedded** in this build. Site typography uses a legally safer platform/Japanese serif fallback. Exact fidelity requires the user's appropriate licensed web-font assets.
-- The 80 px large-area blur is intentionally retained from the Figma specification but may need reducing on older phones after performance testing.
-
-## Deploy to a fresh GitHub repository
-
-1. Create a new GitHub repository. Upload the **contents inside this ZIP directly to the repository root**, including `index.html`, `css/`, `js/`, `data/`, `food/`, `assets/`, and `sw.js`. Do not nest all files under a second `Tabi_Taipei-main` directory.
-2. In repository Settings → Pages, set Source to `Deploy from a branch`, choose `main` and `/ (root)` (or your preferred deployment workflow).
-3. Open the new Pages URL on iPhone Safari, test night-market/city-walk maps, calendar month changes, route drawing, and seven chapter links in both dark/light modes.
-4. Do not point existing production Pages to this test repository before approval.
-
-## Next step
-
-Use the new repository URL to compare actual Safari behavior against the Figma prototype and fix any differences, before replacing additional chapters. The functional modules may be refactored later, but their existing data interfaces should first be regression-tested.
+After iPhone Safari verifies the menu, maps, calendar, and route animation across navigation changes, proceed with the visual replacement of `観光` and `散策` subsections against the Figma screens. Keep the unredesigned restaurant search and airport access components unchanged.

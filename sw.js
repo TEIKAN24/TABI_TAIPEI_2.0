@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-first-wave-v1-views';
+const CACHE = 'tabi-taipei-first-wave-v1.2-views';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   './',
@@ -101,6 +101,7 @@ const PRECACHE = [
   'js/guide.js',
   'js/first-wave.js',
   'js/view-router.js',
+  'js/view-lifecycle.js',
   'js/hero-intro.js',
   'js/night-markets.js',
   'js/recommend.js'
