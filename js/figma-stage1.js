@@ -141,8 +141,8 @@
   // Side-menu order is read from the Figma `side` frame, distinct from Title.
   // Reorder existing native links in place; preserve all original event handlers.
   const menu=document.querySelector('.tt-side-chapters');
-  const targets=['travel','food','sights','city-walk','experiences','day-trips','souvenirs'];
-  // The visual order is independent from semantic numbering (観光 04 / 散策 03).
+  const targets=['travel','food','city-walk','sights','experiences','day-trips','souvenirs'];
+  // The visible order is 01/02/03 散策/04 観光/05/06/07; keep stable chapter numbers and destinations.
   const numbers={travel:1,food:2,'city-walk':3,sights:4,experiences:5,'day-trips':6,souvenirs:7};
   if (menu) targets.forEach((target,i)=>{
     const link=menu.querySelector(`[data-tt-target=\"${target}\"]`);
