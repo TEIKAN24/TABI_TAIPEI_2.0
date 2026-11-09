@@ -1,0 +1,10 @@
+ROUTE travel {'view': 'travel', 'hash': '#view/travel', 'notesDisplay': 'block', 'sw': 393}
+ROUTE food {'view': 'food', 'hash': '#view/food', 'notesDisplay': 'none', 'sw': 393}
+ROUTE city-walk {'view': 'city-walk', 'hash': '#view/city-walk', 'notesDisplay': 'none', 'sw': 393}
+ROUTE sights {'view': 'sights', 'hash': '#view/sights', 'notesDisplay': 'none', 'sw': 393}
+ROUTE experiences {'view': 'experiences', 'hash': '#view/experiences', 'notesDisplay': 'none', 'sw': 393}
+ROUTE day-trips {'view': 'day-trips', 'hash': '#view/day-trips', 'notesDisplay': 'none', 'sw': 393}
+ROUTE souvenirs {'view': 'souvenirs', 'hash': '#view/souvenirs', 'notesDisplay': 'none', 'sw': 393}
+SIDEMENU {'open': True, 'menuLeft': 93, 'iconLeft': 345, 'chapters': ['01 旅支度', '02 味わい', '03 観光', '04 散策', '05 体験', '06 遠出', '07 おみやげ']}
+SIDE_NAVIGATE {'view': 'travel', 'open': False, 'notesDisplay': 'block'}
+ERRORS []
