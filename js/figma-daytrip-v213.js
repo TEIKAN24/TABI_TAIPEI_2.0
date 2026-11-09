@@ -210,3 +210,113 @@
   });
   sync();
 })();
+
+
+/* TABI TAIPEI 2.0.14 / shared submode shelf for Jiufen + Shifen */
+(() => {
+  'use strict';
+  const section = document.querySelector('#guide .sights-day-trips');
+  if (!section) return;
+  const destRow = section.querySelector('.daytrip-destination-buttons');
+  const destButtons = [...destRow?.querySelectorAll(':scope > .daytrip-destination-button') || []];
+  const stage = section.querySelector('.tt2-trip-stage');
+  const jiufenButtons = [...stage?.querySelectorAll('.tt2-trip-modes > .tt2-trip-mode') || []];
+  const shifenPanel = document.getElementById('daytrip-destination-panel-2');
+  const shifenButtons = [...shifenPanel?.querySelectorAll(':scope > .destination-body > .tab > .daytrip-transport > .daytrip-transport-tab') || []];
+  if (destButtons.length < 2 || !destRow || !stage || jiufenButtons.length !== 3 || shifenButtons.length !== 2) return;
+
+  shifenPanel.dataset.tt2Submode = 'true';
+  const shelf = document.createElement('div');
+  shelf.className = 'tt2-submode-shelf';
+  shelf.setAttribute('aria-hidden', 'true');
+  shelf.innerHTML = '<nav class="tt2-submode-nav" aria-label="交通手段"></nav>';
+  destRow.after(shelf);
+  const nav = shelf.querySelector('.tt2-submode-nav');
+  let activeDestination = -1;
+  let activeButtons = [];
+  let openTimer = 0;
+
+  const viewIsDayTrips = () => document.documentElement.dataset.ttView === 'day-trips';
+  const selectedIndex = buttons => Math.max(0, buttons.findIndex(b => (b.getAttribute('aria-selected') || b.getAttribute('aria-pressed')) === 'true'));
+  const labelText = button => button.textContent.replace(/\s+/g, ' ').trim();
+
+  function modeConfig(destIndex) {
+    if (destIndex === 0) return {
+      key: 'jiufen',
+      labels: jiufenButtons.map(labelText),
+      selected: selectedIndex(jiufenButtons),
+      click: index => jiufenButtons[index]?.click()
+    };
+    if (destIndex === 1) return {
+      key: 'shifen',
+      labels: shifenButtons.map(labelText),
+      selected: selectedIndex(shifenButtons),
+      click: index => shifenButtons[index]?.click()
+    };
+    return null;
+  }
+
+  function syncButtonState() {
+    const config = modeConfig(activeDestination);
+    if (!config || !activeButtons.length) return;
+    activeButtons.forEach((button, index) => {
+      button.setAttribute('aria-selected', String(index === config.selected));
+    });
+  }
+
+  function buildShelf(destIndex) {
+    const config = modeConfig(destIndex);
+    if (!config) return hideShelf();
+    activeDestination = destIndex;
+    section.dataset.tt2Submode = config.key;
+    nav.style.setProperty('--tt2-submode-cols', String(config.labels.length));
+    nav.innerHTML = '';
+    activeButtons = config.labels.map((label, index) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'tt2-submode-button';
+      button.setAttribute('aria-selected', String(index === config.selected));
+      button.innerHTML = `<span class="tt2-submode-button-label">${label}</span>`;
+      button.addEventListener('click', () => {
+        config.click(index);
+        requestAnimationFrame(syncButtonState);
+      });
+      nav.append(button);
+      return button;
+    });
+    shelf.setAttribute('aria-hidden', 'false');
+    clearTimeout(openTimer);
+    requestAnimationFrame(() => shelf.classList.add('is-open'));
+  }
+
+  function hideShelf() {
+    activeDestination = -1;
+    activeButtons = [];
+    delete section.dataset.tt2Submode;
+    shelf.classList.remove('is-open');
+    shelf.setAttribute('aria-hidden', 'true');
+    clearTimeout(openTimer);
+    openTimer = window.setTimeout(() => {
+      if (shelf.classList.contains('is-open')) return;
+      nav.innerHTML = '';
+    }, 260);
+  }
+
+  function syncShelf() {
+    if (!viewIsDayTrips()) return hideShelf();
+    const expanded = destButtons.findIndex(button => button.getAttribute('aria-expanded') === 'true');
+    if (expanded === 0 || expanded === 1) {
+      const needRebuild = expanded !== activeDestination || !activeButtons.length;
+      if (needRebuild) buildShelf(expanded);
+      else syncButtonState();
+      return;
+    }
+    hideShelf();
+  }
+
+  destButtons.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncShelf)));
+  jiufenButtons.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncButtonState)));
+  shifenButtons.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncButtonState)));
+  document.addEventListener('tt:viewchange', () => requestAnimationFrame(syncShelf));
+  syncShelf();
+})();

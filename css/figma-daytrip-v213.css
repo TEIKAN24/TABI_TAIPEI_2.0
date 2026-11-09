@@ -226,3 +226,37 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-route-stop-wrap {top:0;}
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-route-leg {top:108px;}
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage[data-trip-mode='1'] .tt2-route-leg-0 {top:36px;}
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage[data-trip-mode='1'] .tt2-route-leg-1 {top:174px;}
+
+
+/* TABI TAIPEI 2.0.14 / Jiufen + Shifen submode shelf */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-shelf{
+  width:calc(100% + 32px);margin:0 -16px;box-sizing:border-box;
+  padding:0 16px;max-height:0;opacity:0;overflow:hidden;pointer-events:none;
+  transform:translateY(-10px);transition:max-height .34s cubic-bezier(.2,.78,.22,1),opacity .18s ease,transform .34s cubic-bezier(.2,.78,.22,1),margin .34s cubic-bezier(.2,.78,.22,1);
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-shelf.is-open{
+  max-height:108px;opacity:1;pointer-events:auto;transform:translateY(0);margin:8px -16px 12px;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-nav{
+  --tt2-submode-cols:3;display:grid;grid-template-columns:repeat(var(--tt2-submode-cols),minmax(0,1fr));gap:8px;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-button{
+  appearance:none;-webkit-appearance:none;display:flex;align-items:center;justify-content:center;
+  min-height:58px;width:100%;margin:0;padding:10px 6px;border:1px solid #4B4B4B;border-radius:14px;
+  background:transparent;color:#D7D7D7;font:700 12px/1.35 var(--tt2-ui);text-align:center;
+  cursor:pointer;transition:background .16s,color .16s,border-color .16s,transform .16s ease;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-button:hover{border-color:#939393;color:#F5F5F5;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-button[aria-selected='true']{
+  background:#F5F5F5;color:#111;border-color:#F5F5F5;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-button:focus-visible{outline:1px solid #fff;outline-offset:2px;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-button-label{display:block;min-width:0;white-space:normal;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage .tt2-trip-modes{display:none!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide #daytrip-destination-panel-2[data-tt2-submode='true'] .daytrip-transport{display:none!important;}
+@media (max-width:365px){
+  html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-button{min-height:54px;padding:9px 4px;font-size:11.5px;border-radius:12px;}
+}
+@media (prefers-reduced-motion:reduce){
+  html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-submode-shelf{transition:none!important;transform:none!important;}
+}
