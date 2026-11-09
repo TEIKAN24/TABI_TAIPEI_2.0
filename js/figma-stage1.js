@@ -142,13 +142,15 @@
   // Reorder existing native links in place; preserve all original event handlers.
   const menu=document.querySelector('.tt-side-chapters');
   const targets=['travel','food','sights','city-walk','experiences','day-trips','souvenirs'];
+  // The visual order is independent from semantic numbering (観光 04 / 散策 03).
+  const numbers={travel:1,food:2,'city-walk':3,sights:4,experiences:5,'day-trips':6,souvenirs:7};
   if (menu) targets.forEach((target,i)=>{
     const link=menu.querySelector(`[data-tt-target=\"${target}\"]`);
     if (!link) return;
     link.style.setProperty('--i',String(i));
-    link.style.setProperty('--chapter-index',String(i+1));
+    link.style.setProperty('--chapter-index',String(numbers[target]));
     const number=link.querySelector('.tt-side-index');
-    if(number) number.textContent=String(i+1).padStart(2,'0');
+    if(number) number.textContent=String(numbers[target]).padStart(2,'0');
     menu.appendChild(link);
   });
 })();
