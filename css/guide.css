@@ -4768,26 +4768,7 @@ html body .food-drawer-backdrop{
 #guide .emergency-official-links{grid-column:1 / -1;}
 
 #guide .emergency-official-links{margin:4px 0 0!important;font-size:12px!important;}
-.food-edge-hint{
-  position:fixed;z-index:150;right:0;top:14vh;bottom:14vh;width:12.96px;pointer-events:none;
-  background:linear-gradient(to left,rgba(176,138,70,.558),rgba(176,138,70,.162) 45%,rgba(176,138,70,0));
-  -webkit-mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent);
-  mask-image:linear-gradient(to bottom,transparent,#000 22%,#000 78%,transparent);
-  opacity:0;animation:food-edge-breathe 7.5s linear infinite; /* v30.9.210: 1.5× slower (was 5s) */
-}
-@keyframes food-edge-breathe{
-  0%{opacity:0;animation-timing-function:ease-in-out;}
-  20%{opacity:1;}
-  90%{opacity:1;animation-timing-function:ease-in;}
-  100%{opacity:0;}
-}
-body.food-drawer-open .food-edge-hint,
-body.food-swipe-active .food-edge-hint,
-body.food-swipe-dragging .food-edge-hint{animation:none;opacity:0;transition:opacity .18s ease-out;}
-/* v30.9.188: light mode uses the same edge light as dark mode.
-   v30.9.189: in light mode its gold is 5 points more saturated (HSL S 43% → 48%). */
-html[data-theme="light"] .food-edge-hint{background:linear-gradient(to left,rgba(182,140,64,.558),rgba(182,140,64,.162) 45%,rgba(182,140,64,0));}
-@media (prefers-reduced-motion:reduce){.food-edge-hint{animation:none;opacity:.55;}}
+/* v2.0.8: removed obsolete right-edge gold breathing cue (food-edge-hint). */
 #guide .area-panel:not([hidden]){display:flex!important;flex-direction:column;overflow:hidden!important;}
 #guide .area-panel[hidden]{display:none!important;}
 #guide .area-panel > .area-intro{flex:none;}
