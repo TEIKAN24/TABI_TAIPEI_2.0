@@ -1,0 +1,76 @@
+/* TABI-TAIPEI 2.0.4 — mobile Safari viewport/height calibration.
+   Screenshot reference: Title.png (393×852), IMG_4459.PNG (mobile Safari).
+   Geometric target: Figma frame Title 1:408 and Travel 56:278 / 1:146 / 1:197.
+   Figma owns design. All content and controls remain live HTML, CSS and JS.
+   No SVG screenshots or duplicated text data. */
+
+/* Safari TAB: WebKit presents the document below the iPhone's status-bar
+   region. The Figma 852px frame includes that top region, so keeping the old
+   104px sitebar double-counts ~58 CSS px of space. Correct only the Safari
+   tab, not the Home Screen app (display-mode:standalone), desktop or Android.
+   This value is sourced from the user's actual phone screenshot, and requires
+   final iPhone Safari verification for other status bar variants. */
+html.tt2-fidelity.tt-ios-safari-tab {
+  --tt2-sitebar-height:46px;
+}
+html.tt2-fidelity:not(.tt-ios-safari-tab) {
+  --tt2-sitebar-height:104px;
+}
+html.tt2-fidelity.tt-ios-safari-tab .tt-sitebar {
+  height:var(--tt2-sitebar-height);
+}
+
+/* An overlay is positioned relative to the same Safari tab viewport. Align
+   its seven titles and diagonal rules with the original screen coordinates,
+   while leaving the hamburger inside the fixed masthead at its original spot. */
+html.tt2-fidelity.tt-ios-safari-tab .tt-side-menu,
+html.tt2-fidelity.tt-ios-safari-tab .tt-menu-backdrop {
+  top:-58px;
+}
+
+/* The old website credit remains in the DOM, but is not part of any of the
+   approved Figma chapter screens. Hide it; never delete the source text. */
+html.tt2-fidelity body > footer.wrapper {display:none!important;}
+
+/* No long one-page tail or blank credit space on the seven-chapter entrance.
+   Preserve 393px absolute element coordinates within the existing native
+   grid; only the viewport's usable height changes with Safari chrome. */
+html.tt2-fidelity.tt-route-home #top.hero {
+  padding:0!important;
+  box-sizing:border-box;
+  min-height:max(0px,calc(100svh - var(--tt2-sitebar-height)));
+}
+html.tt2-fidelity.tt-route-home .tt-home {
+  box-sizing:border-box;
+  min-height:max(0px,calc(100svh - var(--tt2-sitebar-height)));
+}
+@supports (height:100dvh) {
+  html.tt2-fidelity.tt-route-home #top.hero {
+    min-height:max(0px,calc(100dvh - var(--tt2-sitebar-height)));
+  }
+  html.tt2-fidelity.tt-route-home .tt-home {
+    min-height:max(0px,calc(100dvh - var(--tt2-sitebar-height)));
+  }
+}
+/* The site is screen-based; the home view must not scroll to an obsolete
+   footer, but chapter content and its maps remain naturally scrollable. */
+html.tt2-fidelity.tt-route-home body {min-height:100%;}
+
+/* Chapter 01 native accordion: one consistent 18px centered arrow pivot,
+   with a complete CSS chevron. The row's label stays actual selectable text. */
+html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow {
+  transform-origin:50% 50%;
+}
+html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow::before {
+  left:3px;top:8.5px;width:11px;height:1px;
+  background:currentColor;transform:none;
+}
+html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow::after {
+  left:8px;top:5px;width:6px;height:6px;
+  background:transparent;border-top:1px solid currentColor;
+  border-right:1px solid currentColor;
+  transform:rotate(45deg);transform-origin:center;
+}
+@media(prefers-reduced-motion:reduce) {
+  html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow {transition:none;}
+}
