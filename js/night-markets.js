@@ -484,6 +484,13 @@ function tabiSpotMap(cfg) {
   // Zoomed out every market or group is a number; zoomed in, markets closer than a
   // pill's height share a number. Markets that were together stay so a little longer.
   let prevGroup = new Map();
+  // Figma 3-1 depicts these adjacent city-centre markets as individually
+  // selectable labels. Give them precedence ONLY in the focused 夜市 view;
+  // outlying and zoomed-out maps retain the original clustering logic.
+  const isFigmaFocus = () => KEY === 'nm' && !interacted && W >= 340 && W <= 420 &&
+    kmAcross(view.s) >= 7 && kmAcross(view.s) <= 12;
+  const isFocusAnchor = item => isFigmaFocus() && item?.members?.some(
+    m => m.name === '公館夜市' || m.name === '師大夜市');
   function groupMarkets(s, simulate) {
     let items = markets.filter(m => m.placed).map(m => ({members: [m], x: m.x * s, y: m.y * s}));
     const far = kmAcross(s) > FAR_KM, limit = far ? 46 : 24;
@@ -494,11 +501,8 @@ function tabiSpotMap(cfg) {
         // The Figma city-centre framing shows 公館 and 師大 as separate,
         // clickable labels even when an earlier overview grouped them.
         // Only prevent this one presentation collision in the focused 夜市 view.
-        if (KEY === 'nm' && kmAcross(s) <= 12) {
-          const has = (it, title) => it.members.some(m => m.name === title);
-          if ((has(items[i], '公館夜市') && has(items[j], '師大夜市')) ||
-              (has(items[i], '師大夜市') && has(items[j], '公館夜市'))) continue;
-        }
+        if (KEY === 'nm' && kmAcross(s) <= 12 &&
+            (isFocusAnchor(items[i]) || isFocusAnchor(items[j]))) continue;
         if (Math.hypot(items[i].x - items[j].x, items[i].y - items[j].y) < limit * (together(items[i], items[j]) ? 1.3 : 1)) {
           items = items.filter((_, k) => k !== i && k !== j).concat(mergeItems(items[i], items[j], s)); joined = true; break;
         }
@@ -536,10 +540,20 @@ function tabiSpotMap(cfg) {
     if (userPos) fixed.push(box(userPos[0] * s + tx, userPos[1] * s + ty, 30, 30));
     const offList = it => { for (const m of it.members) off.push({m, sx: m.x * s + tx, sy: m.y * s + ty}); };
     let items = groups.map(it => ({...it, x: it.x + tx, y: it.y + ty}));
+    // Only at the calibrated 393px Figma framing, reserve these two real
+    // source pins outside the collision solver. The solver must keep placing
+    // every other night market, never combine unrelated items to make room.
+    // On different sizes/zoom levels the original fully dynamic solver runs.
+    const figmaFirstView = KEY === 'nm' && !interacted && W >= 340 && W <= 420 &&
+      kmAcross(s) >= 7 && kmAcross(s) <= 12;
+    const anchorItems = figmaFirstView ? items.filter(it =>
+      it.members.length === 1 && isFocusAnchor(it)) : [];
+    if (anchorItems.length) items = items.filter(it => !anchorItems.includes(it));
     // Markets that could not be placed apart last frame stay one number while still close.
     for (const ids of failGroups) {
       const parts = items.filter(it => it.members.length === 1 && !it.count && ids.has(it.members[0].id));
-      if (parts.length < 2 || parts.some(a => parts.some(b => Math.hypot(a.x - b.x, a.y - b.y) > 70))) continue;
+      if (parts.length < 2 || parts.some(isFocusAnchor) ||
+          parts.some(a => parts.some(b => Math.hypot(a.x - b.x, a.y - b.y) > 70))) continue;
       items = items.filter(it => !parts.includes(it));
       let g = parts[0]; for (const p of parts.slice(1)) g = mergeScreen(g, p);
       items.push(g);
@@ -638,6 +652,24 @@ function tabiSpotMap(cfg) {
       m.pin.tabIndex = on ? 0 : -1;
       if (!on) { m.leader.classList.remove('is-on'); m.cur = null; m.chasing = false; }
     });
+    // Preserve source data, existing clickable pin nodes and leader lines.
+    // Their anchors stay data-driven (lat/lng -> map transform) on every frame.
+    // These two gentle offsets match Figma 3-1's initial composition.
+    // After an actual user pan or zoom, the original solver takes over.
+    for (const it of anchorItems) {
+      const m = it.members[0], sx = it.x, sy = it.y;
+      if (sx < DOT_EDGE || sx > W - DOT_EDGE || sy < DOT_EDGE || sy > H - DOT_EDGE) {
+        offList(it); continue;
+      }
+      const w = labelWidth(m), h = LABEL_H;
+      const dx = m.name === '公館夜市' ? 55 : 12;
+      const dy = m.name === '公館夜市' ? -27 : 71;
+      const lx = clamp(sx + dx, area.x0 + w/2, area.x1 - w/2);
+      const ly = clamp(sy + dy, area.y0 + h/2, area.y1 - h/2);
+      m.cur = {x:lx,y:ly,sc:1};m.chasing = false;
+      placePin(m,sx,sy,lx,ly,1);
+      m.pin.classList.add('is-on');m.pin.tabIndex=0;
+    }
     placeEdges(off);
     return moving;
   }
@@ -944,6 +976,10 @@ function tabiSpotMap(cfg) {
   function beginPan(p, moved) { gesture = {type: 'pan', x0: p.x, y0: p.y, c0: {cx: view.cx, cy: view.cy}, moved, samples: [{t: performance.now(), x: p.x, y: p.y}]}; }
   mapEl.addEventListener('pointerdown', e => {
     if (e.pointerType === 'mouse' && e.button !== 0) return;
+    // A tap on an interactive marker is NOT a map-pan gesture. Let its
+    // original click handler open details/zoom without disabling the Figma
+    // first-view label layout until the visitor actually drags or zooms.
+    if (e.target.closest?.('.nm-pin, .nm-cluster, .nm-edge, .nm-locate')) return;
     stopMotion(); interacted = true;
     pointers.set(e.pointerId, local(e));
     if (pointers.size === 1) { dragged = false; beginPan(local(e), false); }
