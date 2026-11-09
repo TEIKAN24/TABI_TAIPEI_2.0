@@ -102,3 +102,138 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='ph
 html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] li.tt2-photo-film-row .tt2-photo-ja {
   max-width:calc(100% - 3px);overflow:hidden;text-overflow:ellipsis;
 }
+
+
+/* TAIPEI CITY GUIDE 2.0.10.2 — user-reported iPhone fixes only.
+   Inherited original map, calendar, databases, and cards are unchanged. */
+
+/* The prior two-column GRID + order moved the popular option into a separate
+   (clipped) row on mobile Safari. Flex order keeps both controls on ONE line.
+   393px reference: left 映えスポット and right ロケ地・聖地巡礼. */
+html.tt2-fidelity[data-tt-view="sights"] #guide > details[data-tt2-panel-key="photo"] .tab-pills {
+  display:flex!important;
+  flex-flow:row nowrap!important;
+  grid-template-columns:none!important;
+  align-items:stretch!important;
+  justify-content:stretch!important;
+  width:100%!important;
+  overflow-x:hidden!important;
+  overflow-y:hidden!important;
+}
+html.tt2-fidelity[data-tt-view="sights"] #guide > details[data-tt2-panel-key="photo"] .tab-pills > .tab-pill {
+  display:flex!important;
+  flex:0 0 50%!important;
+  width:50%!important;
+  min-width:0!important;
+  max-width:50%!important;
+  height:40px!important;
+  box-sizing:border-box!important;
+  order:0;
+  text-overflow:clip;
+  overflow:hidden;
+}
+html.tt2-fidelity[data-tt-view="sights"] #guide > details[data-tt2-panel-key="photo"] .tab-pills > .tab-pill[aria-controls="photo-spots-popular"] {
+  order:0!important;
+}
+html.tt2-fidelity[data-tt-view="sights"] #guide > details[data-tt2-panel-key="photo"] .tab-pills > .tab-pill[aria-controls="photo-spots-artist"] {
+  order:1!important;
+}
+
+/* Match the supplied Figma 4-3-2 / 4-3-3 WHITE condition capsules.
+   Reset iOS button appearance to prevent platform defaults from breaking text
+   centering, border, hit area, or the two side-by-side selected filters. */
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar button.ec-condition-open,
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chip {
+  -webkit-appearance:none!important;
+  appearance:none!important;
+  box-shadow:none!important;
+  background-color:#f7f7f7!important;
+  background-image:none!important;
+  color:#171717!important;
+  border:1px solid #f7f7f7!important;
+  border-radius:999px!important;
+  outline-offset:2px;
+  text-shadow:none!important;
+  -webkit-text-fill-color:#171717!important;
+  color-scheme:light;
+}
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chip {
+  flex:0 1 auto!important;
+  min-width:0!important;
+  height:18px!important;
+  padding:0 6px 0 8px!important;
+  font:400 8px/16px 'Noto Sans JP',sans-serif!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap!important;
+  gap:4px!important;
+}
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-label {
+  color:#171717!important;
+  -webkit-text-fill-color:#171717!important;
+}
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x {
+  flex:none!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:10px!important;
+  height:14px!important;
+  padding:0!important;
+  line-height:14px!important;
+  background:transparent!important;
+  border:0!important;
+  border-radius:0!important;
+  color:#171717!important;
+  -webkit-text-fill-color:#171717!important;
+  box-shadow:none!important;
+}
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar button.ec-condition-open {
+  height:18px!important;
+  min-width:72px!important;
+  padding:0 8px!important;
+  font:400 8px/16px 'Noto Sans JP',sans-serif!important;
+  align-items:center!important;
+  justify-content:center!important;
+}
+/* Keep the condition pills inside the 393px right safe margin. */
+html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips.is-open {
+  right:0!important;
+  max-width:calc(100% - 132px)!important;
+  gap:6px!important;
+}
+
+/* Food dictionary left-swipe drawer: keep native dimmer and interaction,
+   remove ONLY the expensive post-settle blur. */
+html body.food-drawer-settled .food-drawer-backdrop,
+html[data-theme="light"] body.food-drawer-settled .food-drawer-backdrop {
+  -webkit-backdrop-filter:brightness(.68)!important;
+  backdrop-filter:brightness(.68)!important;
+}
+html[data-theme="light"] body.food-drawer-settled .food-drawer-backdrop {
+  -webkit-backdrop-filter:brightness(.84)!important;
+  backdrop-filter:brightness(.84)!important;
+}
+
+/* Hamburger navigation: background is dimmed by only 20% (not 50%).
+   CSS blur is pixels, not percent: 40px is 50% of old 80px radius.
+   No brightness() filter may be added to the underlying site. The panel
+   itself is translucent so the blurred page is not hidden behind opaque black. */
+html.tt-fwave .tt-menu-backdrop,
+html.tt2-fidelity .tt-menu-backdrop {
+  background:rgba(0,0,0,.20)!important;
+  -webkit-backdrop-filter:blur(40px)!important;
+  backdrop-filter:blur(40px)!important;
+  filter:none!important;
+}
+
+/* Previously the side panel itself had an opaque #030303 surface, concealing
+   the blur almost entirely. Let the single full-screen backdrop own the
+   20%-black + 40px-blur treatment (no second dark/blur layer). */
+html.tt-fwave .tt-side-menu,
+html.tt2-fidelity .tt-side-menu {
+  background:transparent!important;
+  -webkit-backdrop-filter:none!important;
+  backdrop-filter:none!important;
+}
