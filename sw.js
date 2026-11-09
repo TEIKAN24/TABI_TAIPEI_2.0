@@ -18,13 +18,15 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.12';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.13';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   './',
   'index.html',
   'css/infinite-category-wheel.css',
+  'css/figma-daytrip-v213.css',
   'js/infinite-category-wheel.js',
+  'js/figma-daytrip-v213.js',
   'assets/apple-touch-icon.png',
   'assets/daytrips/jiufen.webp',
   'assets/daytrips/jiufen/10_lanterns_distant.webp',

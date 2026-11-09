@@ -60,3 +60,10 @@ html.tt2-fidelity #guide .tt2-wheel-announcement {
 }
 
 html.tt2-fidelity #guide .tt2-wheel:focus,html.tt2-fidelity #guide .tt2-wheel:focus-visible {outline:none!important;box-shadow:none!important;}
+
+/* v2.0.13 — the stationary reference needle meets the full-width horizontal
+   dividing rule, as in the user's approved Figma.  The rule never rotates. */
+html.tt2-fidelity #guide .tt2-wheel::after {
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:rgba(220,220,220,.46);z-index:3;pointer-events:none;
+}
