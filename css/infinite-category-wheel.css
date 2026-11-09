@@ -1,0 +1,62 @@
+/* TAIPEI CITY GUIDE 2.0.12 – Infinite, centered inertial category selector.
+ * Scoped to 3 deliberate areas only: Places secondary, Experience, Souvenir.
+ * Underlying original tabs/panels remain intact, only visual tab bar replaced.
+ */
+html.tt2-fidelity #guide .tab-pills.tt2-wheel-source {
+  visibility:hidden!important;
+  pointer-events:none!important;
+  opacity:0!important;
+  scroll-snap-type:none!important;
+  overscroll-behavior:none!important;
+}
+html.tt2-fidelity #guide .tt2-wheel {
+  position:absolute!important;top:0!important;left:0!important;right:0!important;
+  width:100%!important;height:46px!important;
+  overflow:hidden!important;z-index:9;touch-action:pan-y;
+  box-sizing:border-box!important;
+  user-select:none;-webkit-user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  outline:none!important;
+  cursor:grab;
+}
+html.tt2-fidelity #guide .tt2-wheel:active{cursor:grabbing}
+html.tt2-fidelity #guide .tt2-wheel-viewport{
+  position:absolute;inset:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 10%,#000 90%,transparent 100%);
+  mask-image:linear-gradient(to right,transparent 0,#000 10%,#000 90%,transparent 100%);
+}
+html.tt2-fidelity #guide .tt2-wheel-track {position:absolute;top:0;left:0;width:0;height:46px;will-change:transform;}
+html.tt2-fidelity #guide .tt2-wheel-item {
+  box-sizing:border-box!important;position:absolute!important;top:0;left:0;
+  display:flex;align-items:center;justify-content:center;
+  height:45px;padding:0 9px!important;margin:0!important;
+  white-space:nowrap;font:400 12px/1.2 -apple-system,BlinkMacSystemFont,'Noto Sans JP',sans-serif;
+  color:#929292;letter-spacing:0;
+  transition:font-size .22s ease,color .22s ease,font-weight .22s ease;
+  pointer-events:none;
+}
+html.tt2-fidelity #guide .tt2-wheel-item.tt2-wheel-active {
+  font-size:13.2px!important;font-weight:600!important;color:#fff!important;
+}
+/* Fixed reference needle: never translates with the text/track. */
+html.tt2-fidelity #guide .tt2-wheel-notch {
+  position:absolute;left:calc(50% - .5px);bottom:0;
+  height:10px;width:1px;background:#fff;z-index:4;pointer-events:none;
+}
+html.tt2-fidelity #guide .tt2-wheel-gauge {
+  position:absolute;left:-9999px;top:-9999px;width:auto;height:auto;
+  white-space:nowrap;visibility:hidden;pointer-events:none;
+}
+html.tt2-fidelity #guide .tt2-wheel-gauge>span {
+  display:inline-block;white-space:nowrap;
+  font:600 13.2px/1.2 -apple-system,BlinkMacSystemFont,'Noto Sans JP',sans-serif;
+}
+html.tt2-fidelity #guide .tt2-wheel-announcement {
+  position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);
+  white-space:nowrap;
+}
+@media(prefers-reduced-motion:reduce){
+ html.tt2-fidelity #guide .tt2-wheel-item {transition:none}
+}
+
+html.tt2-fidelity #guide .tt2-wheel:focus,html.tt2-fidelity #guide .tt2-wheel:focus-visible {outline:none!important;box-shadow:none!important;}

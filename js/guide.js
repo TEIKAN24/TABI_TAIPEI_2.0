@@ -2080,6 +2080,8 @@ loadData();
     // The content below bubble tabs owns horizontal swipes for category changes.
     // The document-level food drawer must never steal those gestures.
     if(target.closest('#guide .tab-panels, #guide .tab-pills'))return true;
+    // The infinite category wheel owns horizontal touch gestures, not the food drawer.
+    if(target.closest('#guide .tt2-wheel'))return true;
     // The reverse-side cuisine directory now owns its own horizontal swipes.
     if(target.closest('#food-directory-panel, #food-directory-tabs'))return true;
     // Interactive links should always receive taps; opening the food drawer must not cancel them.
