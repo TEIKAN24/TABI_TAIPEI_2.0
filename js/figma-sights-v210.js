@@ -1,4 +1,4 @@
-/* TABI-TAIPEI v2.0.10 — Shared, editable sightseeing list presentation.
+/* TABI-TAIPEI v2.0.10.1 — Shared, editable sightseeing list presentation.
    Figma 4-1-2 (アート・デザイン) supplies exact first-four display labels and
    geometry. Other categories inherit the established 4-1 list component;
    no fabricated translations or destination information.
@@ -8,7 +8,7 @@
   'use strict';
   const places = document.querySelector('[data-tt2-panel-key="places"]');
   const photo = document.querySelector('[data-tt2-panel-key="photo"]');
-  if ((!places && !photo) || !window.tabiDirectoryReady) return;
+  if (!places && !photo) return;
 
   const artAliases = new Map([
     ['松山文創園區', ['松山文創園区','松山文創園區']],
@@ -124,8 +124,7 @@
     }
   }
 
-  Promise.resolve(window.tabiDirectoryReady).then(() => {
-    enhancePlaces();
-    enhanceFilming();
-  });
+  const apply = () => { enhancePlaces(); enhanceFilming(); };
+  if (window.tabiDirectoryReady) Promise.resolve(window.tabiDirectoryReady).then(apply);
+  else window.addEventListener('load', apply, { once: true });
 })();

@@ -84,3 +84,21 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='pl
 html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='places'] .tab-panel li.tt2-sight-extra-row:nth-of-type(4) {
   padding-top:17.5px!important;
 }
+
+/* v2.0.10.1 — Filming cards share Figma 4-2 photo-list geometry.
+   Measured 393px target (4-2): title x=26.8/y=297.8, tag y=357.1;
+   actual v2.0.10 title x=19.8/y=295, tag y=352.
+   Do not invent subtitles: source sights.json has only place names and artist tags. */
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] li.tt2-photo-film-row {
+  padding:21px 11px 0 22px!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tt2-photo-film-row .venue-tag-list {
+  margin-top:39px!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] li.tt2-photo-film-row .venue-name-line,
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] li.tt2-photo-film-row .venue-row-body {
+  min-width:0!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] li.tt2-photo-film-row .tt2-photo-ja {
+  max-width:calc(100% - 3px);overflow:hidden;text-overflow:ellipsis;
+}
