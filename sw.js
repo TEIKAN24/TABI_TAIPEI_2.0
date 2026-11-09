@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.10.4';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.11';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   './',
@@ -104,9 +104,11 @@ const PRECACHE = [
   'css/figma-events-v209.css',
   'css/figma-sights-v210.css',
   'css/figma-events-tune-v2103.css',
+  'css/figma-directory-v211.css',
   'assets/figma/event-list-glow-v209.svg',
   'assets/figma/artwork/home-gradient.svg',
   'assets/figma/artwork/side-glow.svg',
+  'assets/figma/artwork/directory-glow-v211.svg',
   'css/recommend.css',
   'data/areas.js',
   'data/events.js',
@@ -139,6 +141,7 @@ const PRECACHE = [
   'js/figma-events-v207.js',
   'js/figma-events-v209.js',
   'js/figma-sights-v210.js',
+  'js/figma-directory-v211.js',
   'js/view-lifecycle.js',
   'js/hero-intro.js',
   'js/night-markets.js',
