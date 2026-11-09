@@ -1,0 +1,117 @@
+/* TABI TAIPEI 2.0.16 / 06 遠出 — fixed-height route screens.
+ * Shared visual hierarchy is established in 2.0.13 (Jiufen Figma 6-1).
+ * This layer extends that hierarchy to Shifen, Keelung and Yehliu, without
+ * moving, duplicating or altering the transport source data.
+ */
+html.tt2-fidelity.tt-route-chapter[data-tt-view='day-trips'] #guide {
+  overflow-y:hidden!important;overflow-x:hidden!important;overscroll-behavior-y:none!important;
+  touch-action:auto!important;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .sights-day-trips {
+  height:calc(100dvh - var(--tt2-trip-content-top, 138px))!important;
+  max-height:calc(100dvh - var(--tt2-trip-content-top, 138px))!important;
+  overflow:hidden!important;
+}
+/* The extended stage is an editable, semantic, source-driven route—not a
+   rasterized Figma frame. Disable the old source panel *visually* only. */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .sights-day-trips.tt2-trip-modern > .daytrip-destination-panels{
+  display:none!important;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage,
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended {
+  height:calc(100dvh - var(--tt2-trip-content-top, 138px) - 92px)!important;
+  min-height:0!important;max-height:none!important;
+  overflow:hidden!important;
+}
+/* Remove the ornamental line along the bottom of all route screens. Leave
+   the two actual navigation-level divider rules in place. */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage::after {
+  content:none!important;display:none!important;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended[hidden]{display:none!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-trip-body {
+  height:100%!important;min-height:0!important;
+}
+/* Apply exactly the same station / legend / route typographic hierarchy as
+   Jiufen. Three-stop connections use an equal middle stop and split line. */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended[data-tt2-stop-count='3'] .tt2-route-growline {
+  background:linear-gradient(to bottom,#4b9ac8 0%,#4b9ac8 49%,#c6c6c6 51%,#c6c6c6 100%);
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended[data-tt2-stop-count='3'] .tt2-route-leg-0 {top:37px!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended[data-tt2-stop-count='3'] .tt2-route-leg-1 {top:178px!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended[data-tt2-stop-count='2'] .tt2-route-leg-0 {top:108px!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-trip-warning {
+  max-width:calc(100% - 56px);color:#9a9a9a!important;
+  font:400 10.5px/1.35 var(--tt2-ui)!important;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+  overflow:hidden;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-trip-warning[hidden]{display:none!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-route-choices[hidden]{display:none!important;}
+/* Access to longer original notes and geolocated sightseeing / food links:
+   an overlay inside the fixed chapter frame (only this pane may scroll). */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-trigger {
+  position:absolute;top:min(440px,calc(100% - 74px));right:28px;
+  margin:0!important;padding:7px 10px!important;border:1px solid #777!important;
+  border-radius:20px!important;background:#000!important;
+  color:#d6d6d6!important;font:400 11px/1.4 var(--tt2-ui)!important;
+  white-space:nowrap;cursor:pointer;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-trigger span {padding-left:6px;color:#fff;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-trigger[hidden]{display:none!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-pane {
+  display:block;position:absolute;z-index:11;
+  left:16px;right:16px;top:calc(min(430px,100% - 188px));bottom:12px;
+  box-sizing:border-box;min-height:115px;
+  border:1px solid #555;border-radius:12px;background:#101010;
+  box-shadow:0 10px 35px #000b;
+  overflow:hidden;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-pane[hidden]{display:none!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-heading {
+  height:42px;padding:0 14px;border-bottom:1px solid #424242;
+  display:flex;justify-content:space-between;align-items:center;
+  color:#f4f4f4;font:500 12px var(--tt2-ui);
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-close {
+  display:block;width:36px;height:36px;padding:0;border:0;background:transparent;
+  color:#fff;font:300 25px var(--tt2-ui);cursor:pointer;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-content {
+  box-sizing:border-box;height:calc(100% - 42px);overflow:auto;overscroll-behavior:contain;
+  touch-action:pan-y;padding:8px 16px 16px;
+  scrollbar-width:thin;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-copy p {
+  font:400 11.5px/1.7 var(--tt2-ui);margin:7px 0;color:#bdbdbd;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-content details {
+  display:block;margin:10px 0;border-top:1px solid #373737;padding:8px 0;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-content summary {
+  font:600 12px/1.5 var(--tt2-ui);cursor:pointer;color:#eee;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-content a {
+  color:#ececec;text-decoration:underline;text-underline-offset:3px;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-detail-content li {
+  color:#c8c8c8;font:400 12px/1.6 var(--tt2-ui);margin:8px 0;
+}
+@media (max-height:720px){
+ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-route-track {
+   transform:scale(.86);transform-origin:top left;width:116.28%;
+ }
+ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-trip-detail-trigger {
+   top:min(402px,calc(100% - 52px));
+ }
+}
+@media (prefers-reduced-motion:reduce) {
+ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-route-growline,
+ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-route-stop-wrap,
+ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt2-trip-stage--extended .tt2-route-leg {
+   animation:none!important;opacity:1!important;transform:none!important;
+ }
+}
+
+/* Avoid legacy focus scrolling the 16px overhanging edge of the stage. */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .sights-day-trips {scroll-behavior:auto!important;}

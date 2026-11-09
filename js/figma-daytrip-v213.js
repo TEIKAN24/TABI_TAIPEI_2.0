@@ -223,7 +223,9 @@
   const jiufenButtons = [...stage?.querySelectorAll('.tt2-trip-modes > .tt2-trip-mode') || []];
   const shifenPanel = document.getElementById('daytrip-destination-panel-2');
   const shifenButtons = [...shifenPanel?.querySelectorAll(':scope > .destination-body > .tab > .daytrip-transport > .daytrip-transport-tab') || []];
-  if (destButtons.length < 2 || !destRow || !stage || jiufenButtons.length !== 3 || shifenButtons.length !== 2) return;
+  const yehliuPanel = document.getElementById('daytrip-destination-panel-4');
+  const yehliuChoices = [...yehliuPanel?.querySelectorAll('.daytrip-bus-route-choice') || []];
+  if (destButtons.length !== 4 || !destRow || !stage || jiufenButtons.length !== 3 || shifenButtons.length !== 2 || yehliuChoices.length !== 2) return;
 
   shifenPanel.dataset.tt2Submode = 'true';
   const shelf = document.createElement('div');
@@ -253,6 +255,16 @@
       labels: shifenButtons.map(labelText),
       selected: selectedIndex(shifenButtons),
       click: index => shifenButtons[index]?.click()
+    };
+    // These labels come from the actual existing routes, not generated transport data.
+    if (destIndex === 2) return {
+      key: 'keelung', labels: ['台鉄'], selected: 0, click: () => {}
+    };
+    if (destIndex === 3) return {
+      key: 'yehliu',
+      labels: yehliuChoices.map(x => x.dataset.route + '番'),
+      selected: selectedIndex(yehliuChoices),
+      click: index => yehliuChoices[index]?.click()
     };
     return null;
   }
@@ -318,7 +330,7 @@
   function syncShelf() {
     if (!viewIsDayTrips()) return hideShelf();
     const expanded = destButtons.findIndex(button => button.getAttribute('aria-expanded') === 'true');
-    if (expanded === 0 || expanded === 1) {
+    if (expanded >= 0 && expanded <= 3) {
       const needRebuild = expanded !== activeDestination || !activeButtons.length;
       if (needRebuild) buildShelf(expanded);
       else syncButtonState();
@@ -330,6 +342,7 @@
   destButtons.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncShelf)));
   jiufenButtons.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncButtonState)));
   shifenButtons.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncButtonState)));
+  yehliuChoices.forEach(button => button.addEventListener('click', () => requestAnimationFrame(syncButtonState)));
   document.addEventListener('tt:viewchange', () => requestAnimationFrame(syncShelf));
   syncShelf();
 })();
