@@ -491,6 +491,14 @@ function tabiSpotMap(cfg) {
     for (let joined = true; joined;) {
       joined = false;
       for (let i = 0; i < items.length && !joined; i++) for (let j = i + 1; j < items.length; j++) {
+        // The Figma city-centre framing shows 公館 and 師大 as separate,
+        // clickable labels even when an earlier overview grouped them.
+        // Only prevent this one presentation collision in the focused 夜市 view.
+        if (KEY === 'nm' && kmAcross(s) <= 12) {
+          const has = (it, title) => it.members.some(m => m.name === title);
+          if ((has(items[i], '公館夜市') && has(items[j], '師大夜市')) ||
+              (has(items[i], '師大夜市') && has(items[j], '公館夜市'))) continue;
+        }
         if (Math.hypot(items[i].x - items[j].x, items[i].y - items[j].y) < limit * (together(items[i], items[j]) ? 1.3 : 1)) {
           items = items.filter((_, k) => k !== i && k !== j).concat(mergeItems(items[i], items[j], s)); joined = true; break;
         }
@@ -1122,8 +1130,13 @@ function tabiSpotMap(cfg) {
   function intro() {
     const token = ++introToken;
     interacted = false; userPos = null;
-    const [ox, oy] = project(...OVERVIEW);
-    Object.assign(view, {cx: ox, cy: oy, s: sMin}); clampView(); lastScale = NaN; render();
+    // Figma 3-1: render the Taipei-focused first frame immediately for 夜市.
+    // Preserve the existing GPS/fallback glide, map bounds, pin interactions and
+    // the wider overview used by the 街歩きエリア map (the same map engine).
+    const startAtTaipei = KEY === 'nm';
+    const [ox, oy] = project(...(startAtTaipei ? FALLBACK : OVERVIEW));
+    Object.assign(view, {cx: ox, cy: oy, s: startAtTaipei ? sFocus : sMin});
+    clampView(); lastScale = NaN; render();
     const opened = performance.now();
     let settled = false, fellBack = false;
     const glideTo = (pos, duration) => {
