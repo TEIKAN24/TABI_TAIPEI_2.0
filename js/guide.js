@@ -2104,6 +2104,11 @@ loadData();
     return false;
   }
   function start(x,y,target,kind){
+    // v2.0.20: the modern seven-chapter UI does not use a page-wide swipe
+    // to reveal the legacy right-hand food index. Keep explicit open/close
+    // actions (tabi:open-food-search, backdrop, Escape) fully functional.
+    // In particular, do not steal iOS Safari's native edge navigation.
+    if(html.classList.contains('tt2-fidelity'))return;
     if(drag || !target || body.classList.contains('recommend-drawer-open') || body.classList.contains('recommend-swipe-active'))return;
     if(blockTarget(target))return;
     drag={x,y,prevX:x,prevT:performance.now(),velocity:0,p0:opened?1:0,

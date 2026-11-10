@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.19';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.20';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   './',
@@ -28,6 +28,7 @@ const PRECACHE = [
   'css/figma-daytrip-v216.css',
   'css/figma-standalone-safe-area-v218.css',
   'css/figma-daytrip-fidelity-v219.css',
+  'css/figma-daytrip-safari-v220.css',
   'js/infinite-category-wheel.js',
   'js/figma-daytrip-v213.js',
   'js/figma-daytrip-v216.js',
