@@ -1,4 +1,4 @@
-/* TAIPEI CITY GUIDE v2.0.27 — close-only swipe for full-screen side menu.
+/* TAIPEI CITY GUIDE v2.0.28 — close-only swipe for full-screen side menu.
    The original hamburger and view-router own opening, closing and navigation.
    We do not install any closed-state or document-wide open-swipe listeners. */
 (() => {
@@ -12,12 +12,16 @@
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   function opened(){return root.classList.contains('tt-nav-open');}
   function updateFit(){
-    // The user's 393x852 drawing has a 104px masthead and a 682px artwork including touch targets
-    // footprint. In Safari, the page is already below the native status bar.
+    // v2.0.28: fit to the menu's real content, not the full 748px drawing below the masthead.
+    // The last item (About, incl. its touch target) ends at stage y=676; the rest is empty
+    // background. Fitting to 748 shrank the menu to ~0.92 on every iPhone Safari, so it looked
+    // narrower than Figma. Now it stays 1:1 whenever the content fits; only very short screens
+    // scale down (still no scrolling).
+    const CONTENT_H=676;
     const masthead=document.getElementById('tt-sitebar');
     const h=masthead?.getBoundingClientRect().height||104;
     const available=Math.max(0,panel.clientHeight-h);
-    const fit=Math.max(.48,Math.min(1,innerWidth/393,available/748));
+    const fit=Math.max(.48,Math.min(1,innerWidth/393,available/CONTENT_H));
     root.style.setProperty('--tt227-fit',String(Number(fit.toFixed(4))));
   }
   updateFit();
