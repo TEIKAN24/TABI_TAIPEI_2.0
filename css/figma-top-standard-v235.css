@@ -76,3 +76,12 @@ html.tt2-fidelity #guide .tt2-wheel .tt2-wheel-item.tt2-wheel-active {color:#fff
 /* The hidden gauge measures label widths in the same face, so spacing stays right. */
 html.tt2-fidelity #guide .tt2-wheel .tt2-wheel-gauge > span {font-family:var(--tt2-std-ui)!important;}
 html.tt2-fidelity #guide .tt2-wheel::after {background:var(--tt2-std-rule)!important;}
+
+/* v2.0.37: the masthead as a real top bar. iOS 26 adds its own soft "scroll edge" blur and
+   dim under the status bar when the top of the page is ordinary content; it left the logo
+   and the menu icon fading downward in the home-screen app. A sticky, opaque masthead is
+   recognised as the page's top bar instead. The page itself never scrolls, so nothing moves. */
+html.tt2-fidelity .tt-sitebar {
+  position:sticky!important;top:0!important;
+  background-color:#000!important;
+}
