@@ -244,7 +244,8 @@
     if (selDay === null) lead.append(el('span', 'ec-sum-month', mo.y + '／' + mo.m + '月'), big);
     else {
       const sd = ymd(selDay);
-      lead.append(el('span', 'ec-sum-month', sd.m + '/' + sd.d + '（' + WEEK[sd.w] + '）'), big);
+      // v2.0.29 (Figma 4-3-3): 「11月／11日（水）」
+      lead.append(el('span', 'ec-sum-month', sd.m + '月／' + sd.d + '日（' + WEEK[sd.w] + '）'), big);
     }
     renderChips(mo);
     const stat = (label, v, cls) => { const s = el('div', 'ec-stat ' + cls); s.append(el('span', '', label), el('strong', '', String(v))); return s; };
@@ -389,7 +390,12 @@
       const body = el('div', 'ec-body');
       const meta = el('div', 'ec-meta');
       meta.append(el('span', 'ec-meta-text', [r.city, r.category].filter(Boolean).join('・')));
-      if (BADGE[r.status]) meta.append(el('span', 'ec-badge', BADGE[r.status]));
+      // v2.0.29: one badge per row — 開催終了 > 開催予定 > 初日 / 最終日. 初日・最終日 use the
+      // same rule as the gold dates: the picked day if there is one, otherwise today.
+      const ref = selDay !== null ? selDay : today;
+      const badge = BADGE[r.status] ? [BADGE[r.status], 'is-' + r.status]
+        : r.tbd ? null : r.start === ref ? ['初日', 'is-first'] : r.end === ref ? ['最終日', 'is-last'] : null;
+      if (badge) meta.append(el('span', 'ec-badge ' + badge[1], badge[0]));
       body.append(meta);
       if (r.url) {
         const a = el('a', 'ec-name', r.name); a.href = r.url; a.target = '_blank'; a.rel = 'noopener noreferrer';
@@ -462,7 +468,9 @@
       const left = centre[i] - w[i] / 2 + shift;
       if (left > C + 20 || left + w[i] < -20) { card.style.visibility = 'hidden'; return; }
       const h = lerp(fullH[i], miniH, d) * (picking && i === current ? PICK_TALL : 1);
-      const top = PADV + (stageH - h) / 2 + (picking && i !== current ? SIDE_DROP : 0);
+      // v2.0.29 (Figma 4-3-1): cards share one bottom line, so the side months sit low
+      // beside the wide card and the summary below never meets a card.
+      const top = PADV + stageH - 2 - h + (picking && i !== current ? SIDE_DROP : 0);
       card.style.visibility = '';
       card.style.width = w[i] + 'px';
       card.style.height = h + 'px';

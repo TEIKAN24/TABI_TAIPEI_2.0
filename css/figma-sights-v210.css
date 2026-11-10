@@ -139,70 +139,7 @@ html.tt2-fidelity[data-tt-view="sights"] #guide > details[data-tt2-panel-key="ph
   order:1!important;
 }
 
-/* Match the supplied Figma 4-3-2 / 4-3-3 WHITE condition capsules.
-   Reset iOS button appearance to prevent platform defaults from breaking text
-   centering, border, hit area, or the two side-by-side selected filters. */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar button.ec-condition-open,
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chip {
-  -webkit-appearance:none!important;
-  appearance:none!important;
-  box-shadow:none!important;
-  background-color:#f7f7f7!important;
-  background-image:none!important;
-  color:#171717!important;
-  border:1px solid #f7f7f7!important;
-  border-radius:999px!important;
-  outline-offset:2px;
-  text-shadow:none!important;
-  -webkit-text-fill-color:#171717!important;
-  color-scheme:light;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chip {
-  flex:0 1 auto!important;
-  min-width:0!important;
-  height:18px!important;
-  padding:0 6px 0 8px!important;
-  font:400 8px/16px 'Noto Sans JP',sans-serif!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  white-space:nowrap!important;
-  gap:4px!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-label {
-  color:#171717!important;
-  -webkit-text-fill-color:#171717!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x {
-  flex:none!important;
-  display:inline-flex!important;
-  align-items:center!important;
-  justify-content:center!important;
-  width:10px!important;
-  height:14px!important;
-  padding:0!important;
-  line-height:14px!important;
-  background:transparent!important;
-  border:0!important;
-  border-radius:0!important;
-  color:#171717!important;
-  -webkit-text-fill-color:#171717!important;
-  box-shadow:none!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar button.ec-condition-open {
-  height:18px!important;
-  min-width:72px!important;
-  padding:0 8px!important;
-  font:400 8px/16px 'Noto Sans JP',sans-serif!important;
-  align-items:center!important;
-  justify-content:center!important;
-}
-/* Keep the condition pills inside the 393px right safe margin. */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips.is-open {
-  right:0!important;
-  max-width:calc(100% - 132px)!important;
-  gap:6px!important;
-}
+/* (v2.0.29: the イベント chip/condition rules that were here moved to figma-events-v229.css.) */
 
 /* Food dictionary left-swipe drawer: keep native dimmer and interaction,
    remove ONLY the expensive post-settle blur. */
