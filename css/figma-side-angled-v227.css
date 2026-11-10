@@ -179,3 +179,17 @@ html.tt2-fidelity .tt226-about-close {
  html.tt2-fidelity.tt-nav-open .tt227-rule,
  html.tt2-fidelity.tt-nav-open .tt227-num {animation:none!important;opacity:1!important;transform:none!important;}
 }
+
+/* v2.0.34: the full-screen 40px backdrop blur stayed on top of every page while the menu
+   was closed (opacity 0 only). In the home-screen app iOS leaked that blur into the
+   status-bar area as a haze above the logo. Closed = not rendered at all; it is hidden
+   only after its fade-out, so opening and closing look exactly as before. */
+html.tt2-fidelity:not(.tt-nav-open) .tt-menu-backdrop {
+  visibility:hidden!important;
+  transition:opacity .33s ease,visibility 0s linear .33s!important;
+}
+html.tt2-fidelity.tt-nav-open .tt-menu-backdrop {
+  visibility:visible!important;
+  transition:opacity .45s ease,visibility 0s linear 0s!important;
+}
+html.tt2-fidelity.tt227-dragging .tt-menu-backdrop {visibility:visible!important;transition:none!important;}
