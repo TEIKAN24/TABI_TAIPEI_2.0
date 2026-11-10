@@ -466,7 +466,8 @@
     if(!intervals)return {code:'unknown'};
     const now=clock.minute;
     const current=intervals.find(x=>x.start<=now&&now<x.end);
-    if(current)return {code:current.end-now-walk<=closeSoonMinutes(item)?'soon':'open'};
+    // v2.0.32: `until` (closing minute) is display-only (「00:00まで」); codes are unchanged.
+    if(current)return {code:current.end-now-walk<=closeSoonMinutes(item)?'soon':'open',until:current.end-current.start>=1440?null:current.end};
     const next=intervals.find(x=>x.start>now);
     if(next&&next.start-now<=OPEN_SOON_MINUTES)return {code:'opening',at:next.start};
     return {code:'closed'};
@@ -520,6 +521,9 @@
     const t=cardTiming(item);
     node.className='recommend-opening-status recommend-opening-'+t.code;
     node.textContent=timingLabel(t);
+    // v2.0.32 (Figma 2-1): closing time beside 営業中, shown by CSS from this attribute.
+    if(Number.isFinite(t.until)){const v=((t.until%1440)+1440)%1440;node.dataset.until=`${String(Math.floor(v/60)).padStart(2,'0')}:${String(v%60).padStart(2,'0')}まで`;}
+    else delete node.dataset.until;
     node.title=t.code==='unknown'?'店舗別の営業時間を確認できません':t.code==='irregular'?'不定期営業のため、訪問前に最新情報をご確認ください':
       t.code==='opening'?'30分以内に営業開始予定です（通常営業時間による目安）':t.code==='soon'?`${closeSoonMinutes(item)===60?'1時間':'35分'}以内に閉店予定です（${Number.isFinite(item.distanceMeters)?'徒歩での到着を含む、':''}通常営業時間による目安）`:
       t.code==='next'?'次の営業開始（通常営業時間による目安）':'登録された通常営業時間による目安です';
@@ -1608,6 +1612,10 @@ ${GEO_MAX_METERS}m 內：${near} 筆
         pin.setAttribute('aria-hidden','true');
         pin.innerHTML='<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z"/><circle cx="12" cy="10" r="2.7"/></svg>';
         badge.append(pin,el('span','recommend-distance-pill-label',distanceText));
+        // v2.0.32 (Figma 2-1): walking time, same 80 m/min estimate the closing check uses.
+        const walk=el('span','recommend-walk',`${walkMinutes(item.distanceMeters)}分`);
+        walk.setAttribute('aria-label',`徒歩約${walkMinutes(item.distanceMeters)}分`);
+        badge.append(walk);
         side.append(badge);
       }else side.append(el('span','recommend-distance-pill recommend-distance-pill-empty',''));
       const opening=el('span','recommend-opening-status');
@@ -1838,6 +1846,9 @@ ${GEO_MAX_METERS}m 內：${near} 筆
       const li=directoryNode('li','food-directory-row');
       li.append(directoryNode('span','food-directory-number',String(index+1).padStart(2,'0')));
       const body=directoryNode('div','food-directory-row-main');
+      // v2.0.32 (Figma 2-3): the kind above the name, the same label the cards use.
+      const kind=cardCuisine(v);
+      if(kind)body.append(directoryNode('span','food-directory-kind',kind));
       const top=directoryNode('div','food-directory-name-line');
       const anchor=directoryNode('a','food-directory-link',v.name);
       anchor.href=directoryMapUrl(v);anchor.target='_blank';anchor.rel='noopener noreferrer';
@@ -1953,6 +1964,9 @@ ${GEO_MAX_METERS}m 內：${near} 筆
       away.oncancel=()=>{if(turning)settleTurn(name,focus);};
     }
     flip.querySelectorAll('.food-flip-toggle').forEach(button=>button.addEventListener('click',()=>turnTo(button.dataset.to)));
+    // v2.0.32: the 2.0 tab bar (js/figma-food-v232.js) switches faces without the 3D turn.
+    window.tabiFoodTurnTo=(name,opts)=>turnTo(name,{animate:false,focus:false,...opts});
+    window.tabiFoodFace=()=>face;
     // Links to an item of the list (#…) open the list side directly.
     const revealTarget=()=>{
       const id=decodeURIComponent(location.hash.slice(1));

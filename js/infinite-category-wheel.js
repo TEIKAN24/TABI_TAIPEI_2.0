@@ -9,7 +9,10 @@
   const SOURCES = [
     {view:'sights', root:'details[data-tt2-panel-key="places"]'},
     {view:'experiences', root:'details[id="3f76bda0-4caa-80d2-8841-c76e1f8f749a"]'},
-    {view:'souvenirs', root:'details[id="3f66bda0-4caa-8038-8328-e8b12e95336f"]'}
+    {view:'souvenirs', root:'details[id="3f66bda0-4caa-8038-8328-e8b12e95336f"]'},
+    // v2.0.32: 味わい 一覧. Its tabs are built (and rebuilt on every choice) by
+    // js/recommend.js, so it is mounted later via window.tt2WheelMount('food').
+    {view:'food', original:'#food-directory-tabs', button:'button.food-directory-tab', lazy:true}
   ];
   const GAP = 25;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -18,10 +21,14 @@
   const now = () => performance.now();
   const instances = [];
   function mount(source) {
-    const root = document.querySelector('#guide > '+source.root);
-    const tab = root?.querySelector('.tab');
-    const original = tab?.querySelector(':scope > .tab-pills');
-    const buttons = original ? [...original.querySelectorAll(':scope > button.tab-pill')] : [];
+    const original = source.original ? document.querySelector(source.original)
+      : document.querySelector('#guide > '+source.root)?.querySelector('.tab')?.querySelector(':scope > .tab-pills');
+    const root = source.original ? original?.parentElement : document.querySelector('#guide > '+source.root);
+    const tab = source.original ? original?.parentElement : root?.querySelector('.tab');
+    const selector = ':scope > ' + (source.button || 'button.tab-pill');
+    // Fresh lookup each time: the food tabs are replaced whenever one is chosen.
+    const liveButtons = () => original ? [...original.querySelectorAll(selector)] : [];
+    const buttons = liveButtons();
     if (!root || !tab || buttons.length < 2 || original.dataset.tt2WheelMounted === '1') return;
     original.dataset.tt2WheelMounted = '1';
     original.classList.add('tt2-wheel-source');
@@ -110,7 +117,8 @@
       current=index;
       // The original tab button click updates selected state, data panel,
       // scrolling, venue count, all related source-side listeners.
-      if(buttons[index].getAttribute('aria-selected')!=='true') buttons[index].click();
+      const live=liveButtons()[index]||buttons[index];
+      if(live.getAttribute('aria-selected')!=='true') live.click();
       announcer.textContent=labels[index];
       wheel.setAttribute('aria-valuetext',labels[index]);
       wheel.dataset.selectedLabel=labels[index];
@@ -218,8 +226,9 @@
     instances.push({source,root,wheel,buttons,layout,snapTo,nearest,get selected(){return current}});
     layout();
   }
-  function start(){ SOURCES.forEach(mount); }
+  function start(){ SOURCES.filter(s=>!s.lazy).forEach(mount); }
   window.tt2WheelInstances=instances; // design QA only; no data writes
+  window.tt2WheelMount=view=>{const s=SOURCES.find(x=>x.view===view);if(s)mount(s);};
   if(window.tabiDirectoryReady)Promise.resolve(window.tabiDirectoryReady).then(start);
   else if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
   else start();
