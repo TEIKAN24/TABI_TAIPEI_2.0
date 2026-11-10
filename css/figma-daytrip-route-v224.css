@@ -220,3 +220,18 @@ html.tt2-fidelity.tt-ios-safari-tab[data-tt-view='day-trips'] #guide .sights-day
    display:none!important;
  }
 }
+
+/* v2.0.33: the note sat at a viewport-height offset from the stage bottom, while the route
+   is laid out by the track's own height. In the home-screen app the stage ends higher, so
+   the note ran into 到着. Anchor it below the track instead: track top 101px + track height
+   (same formula as .tt221-track) + 67px — exactly where it was on a 393×852 Safari screen. */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-warning,
+html.tt2-fidelity.tt-ios-safari-tab[data-tt-view='day-trips'] #guide .tt221-warning {
+  top:calc(101px + min(322px, max(150px, calc(100% - 245px))) + 67px)!important;
+  bottom:auto!important;
+}
+@media(max-height:700px){
+  html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-warning {
+    top:calc(101px + min(322px, max(150px, calc(100% - 245px))) + 40px)!important;bottom:auto!important;
+  }
+}

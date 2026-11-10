@@ -115,3 +115,14 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='ph
 @media(max-width:350px){
  html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tt2-photo-row .venue-tag-list {gap:5px!important;}
 }
+
+/* v2.0.33: the sub-tab row starts at the panel top (y189), 6px below the chapter tabs'
+   rule (y183), so its centre divider stopped short. Figma 4-2: the row is y183–229
+   (divider x196.5 runs the full 45.4px). Pull it up 6px and make it 46px tall; the
+   bottom rule stays at y229 and nothing below moves. */
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab-pills {
+ margin-top:-6px!important;flex-basis:46px!important;height:46px!important;min-height:46px!important;
+}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab > .tab-pills > .tab-pill.tab-pill {
+ height:46px!important;max-height:none!important;padding-top:0!important;
+}

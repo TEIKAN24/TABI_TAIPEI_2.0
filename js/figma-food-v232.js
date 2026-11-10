@@ -4,7 +4,7 @@
  *  - three tabs replace the front/back flip (no 3D turn)
  *  - one row shows the place (district or station) and the time band; tapping a side opens
  *    the original picker (GPS refresh, line → station menus, time options)
- *  - 注意事項 opens the original disclaimer and status messages in place
+ *  - 注意事項: the original disclaimer and status messages, written out in place
  *  - 一覧 uses the shared infinite category wheel (js/infinite-category-wheel.js)
  */
 (() => {
@@ -100,25 +100,21 @@
   });
 
   /* ---------- 注意事項 ---------- */
+  // v2.0.33: written out in place (no button): the original disclaimer, plus the GPS /
+  // relaxed-condition messages when there are any. Updated whenever they change.
   const notesWrap = el('div', 'tt2-food-notes');
-  const notesBtn = el('button', 'tt2-food-notes-toggle', '注意事項');
-  notesBtn.type = 'button';
-  notesBtn.setAttribute('aria-expanded', 'false');
-  const notesBody = el('div', 'tt2-food-notes-body');
-  notesBody.id = 'tt2-food-notes-body';
-  notesBody.hidden = true;
-  notesBody.setAttribute('role', 'note');
-  notesBtn.setAttribute('aria-controls', notesBody.id);
-  notesWrap.append(notesBody, notesBtn);
+  notesWrap.setAttribute('role', 'note');
+  notesWrap.setAttribute('aria-live', 'polite');
   disclaimer?.after(notesWrap);
-  const setNotes = open => { notesBody.hidden = !open; notesBtn.setAttribute('aria-expanded', String(open)); if (open) fillNotes(); };
+  const setNotes = () => {};
   function fillNotes() {
     const lines = [disclaimer?.textContent, statusLine && !statusLine.hidden ? statusLine.textContent : '', relaxed && !relaxed.hidden ? relaxed.textContent : '']
       .map(t => String(t || '').trim()).filter(Boolean);
-    notesBody.replaceChildren(...lines.map(t => el('p', '', t)));
+    const next = lines.join('\n');
+    if (notesWrap.dataset.text === next) return;
+    notesWrap.dataset.text = next;
+    notesWrap.replaceChildren(...lines.map(t => el('p', '', t)));
   }
-  notesBtn.addEventListener('click', event => { event.stopPropagation(); setNotes(notesBody.hidden); });
-  document.addEventListener('pointerdown', event => { if (!notesBody.hidden && !notesWrap.contains(event.target)) setNotes(false); }, true);
 
   /* ---------- mirror the original state ---------- */
   function sync() {
@@ -158,7 +154,7 @@
     timeValue.textContent = band?.textContent.trim() || '';
     timeValue.classList.toggle('is-breathing', !!band?.classList.contains('is-breathing'));
     timeBtn.setAttribute('aria-label', `時間帯：${timeValue.textContent}（タップして変更）`);
-    if (!notesBody.hidden) fillNotes();
+    fillNotes();
   }
   let queued = false;
   const later = () => { if (queued) return; queued = true; queueMicrotask(() => { queued = false; sync(); }); };
