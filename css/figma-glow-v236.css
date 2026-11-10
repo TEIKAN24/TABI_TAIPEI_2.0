@@ -1,0 +1,37 @@
+/* TABI TAIPEI v2.0.36 — one glow for every list top: the 見所 (名所・博物館 / 撮影スポット)
+   style from 1.0 (guide.css, details.venue-tone-sights .tab-panels::before):
+   a 56px green fade (rgb 138,158,122: .92 → .5 → .18 → 0), side edges masked, 2px blur,
+   and the same short entrance (fade in while widening from 55%).
+   It replaces the Figma SVG glows and the 遠出 radial glow. The side menu keeps its own
+   artwork (user's choice). Each glow keeps the y where its old one started. */
+html.tt2-fidelity {
+  --tt2-glow:linear-gradient(to bottom,rgba(138,158,122,.92) 0,rgba(138,158,122,.5) 22%,rgba(138,158,122,.18) 52%,rgba(138,158,122,0) 100%);
+  --tt2-glow-mask:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
+}
+html.tt2-fidelity.tt-route-home .tt-home::before,
+html.tt2-fidelity .tt-home::before,
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #recommend-results::before,
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #food-flip-back .food-directory-summary::after,
+html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box::before,
+html.tt2-fidelity[data-tt-view='experiences'] #guide .tt2-directory-section .tab::before,
+html.tt2-fidelity[data-tt-view='souvenirs'] #guide .tt2-directory-section .tab::before,
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-glow {
+  content:''!important;
+  left:0!important;right:0!important;width:auto!important;height:56px!important;
+  background:var(--tt2-glow)!important;
+  -webkit-mask-image:var(--tt2-glow-mask)!important;mask-image:var(--tt2-glow-mask)!important;
+  filter:blur(2px)!important;opacity:1!important;
+  transform:none;transform-origin:50% 0;
+  animation:tt2-glow-in .7s cubic-bezier(.2,.7,.3,1) both!important;
+  pointer-events:none!important;
+}
+/* 遠出's glow is an element inside a stage that runs 16px past both edges. */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-glow {left:16px!important;right:16px!important;}
+/* イベント: the list box starts 10px left of the content edge. */
+html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box::before {left:10px!important;}
+@keyframes tt2-glow-in {from{opacity:0;transform:scaleX(.55)}to{opacity:1;transform:scaleX(1)}}
+@media(prefers-reduced-motion:reduce){
+  html.tt2-fidelity :is(.tt-home,#recommend-results,.food-directory-summary,.ec-list-box,.tt2-directory-section .tab)::before,
+  html.tt2-fidelity .food-directory-summary::after,
+  html.tt2-fidelity .tt221-glow {animation:none!important;}
+}

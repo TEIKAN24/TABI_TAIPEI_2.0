@@ -1,0 +1,38 @@
+/* TABI TAIPEI v2.0.36 — 01 旅支度 / 注意事項, Figma 1-1 (393×852).
+   Rows every 42px; label x45.5. Body: x63, 295px, 12px serif, 19px lines, 12px between
+   paragraphs, starting 36px below the label and 48px above the next label.
+   Arrow: the user's Arrow.svg, turned 45° (↘) when open. No rule under the list. */
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane {border-bottom:0!important;}
+
+/* Arrow (12×10 glyph centred in the 18px pivot). Colour follows the label. */
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-arrow {
+  width:18px!important;height:18px!important;
+  transition:transform .3s cubic-bezier(.22,1,.36,1)!important;
+}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-arrow::before {
+  content:''!important;position:absolute!important;left:3px!important;top:4px!important;
+  width:12px!important;height:10px!important;transform:none!important;
+  background:currentColor!important;
+  -webkit-mask:url('../assets/figma/icons/note-arrow.svg') center/12px 10px no-repeat!important;
+          mask:url('../assets/figma/icons/note-arrow.svg') center/12px 10px no-repeat!important;
+}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-arrow::after {content:none!important;display:none!important;}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note[open]:not(.is-closing) .tt2-note-arrow {
+  transform:translateY(-50%) rotate(45deg)!important;
+}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note.is-closing .tt2-note-arrow {transform:translateY(-50%)!important;}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note.is-closing > .tt2-note-summary {color:#9e9e9e!important;font-weight:400!important;}
+
+/* Body text. The open/close itself is animated by js/figma-travel-notes-v236.js. */
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-content {
+  padding:6.5px 0 35.5px 23.3px!important;margin:0 -3px 0 0!important;
+  animation:none!important;box-sizing:border-box;
+}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-copy {
+  max-width:295px!important;margin:0 0 12px!important;
+  font:400 12px/19px var(--tt2-serif)!important;letter-spacing:0!important;color:#d3d3d3!important;
+}
+html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-copy:last-child {margin-bottom:0!important;}
+@media(prefers-reduced-motion:reduce){
+  html.tt2-fidelity[data-tt-view='travel'] #tt2-notes-pane .tt2-note-arrow {transition:none!important;}
+}
