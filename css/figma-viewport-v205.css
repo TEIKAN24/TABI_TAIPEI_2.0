@@ -59,7 +59,9 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > .tt-chapter-heading[data-tt-ch
   width:100%;height:34px;min-height:34px;box-sizing:border-box;
   margin:0!important;padding:0 0 1px;
   gap:17px;align-items:center;
-  border-top:1px solid rgba(239,239,239,.43);
+  /* v2.0.31: transparent — the sitebar line above (y103) is the only rule here; a second
+     visible line at y104 made it look doubled. The 1px box keeps the layout unchanged. */
+  border-top:1px solid transparent;
   border-bottom:1px solid rgba(239,239,239,.43);
   z-index:3;
 }

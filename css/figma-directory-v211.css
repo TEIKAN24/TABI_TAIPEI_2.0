@@ -16,7 +16,8 @@ html.tt2-fidelity[data-tt-view='souvenirs'] #guide > .tt-chapter-heading[data-tt
   display:flex!important;position:absolute!important;top:0;left:0;right:0;
   box-sizing:border-box;width:100%;height:34px;min-height:34px;
   padding:0 0 1px!important;margin:0!important;align-items:center;gap:17px;
-  border-top:1px solid rgba(239,239,239,.43);
+  /* v2.0.31: transparent (sitebar line is the only rule; layout unchanged). */
+  border-top:1px solid transparent;
   border-bottom:1px solid rgba(239,239,239,.43);z-index:3;
 }
 html.tt2-fidelity[data-tt-view='experiences'] #guide > .tt-chapter-heading .tt-chapter-number,

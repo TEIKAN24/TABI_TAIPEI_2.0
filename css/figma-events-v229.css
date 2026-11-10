@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.29 — イベント (chapter 04) visual layer, merged.
+/* TABI TAIPEI v2.0.30 — イベント (chapter 04) visual layer, merged.
    Replaces figma-events-v208.css, figma-events-v209.css, figma-events-tune-v2103.css
    and the event block of figma-sights-v210.css. Declarations that were always
    overridden by a later layer were dropped; the computed result is unchanged.
@@ -24,11 +24,16 @@ html.tt2-fidelity[data-tt-view='sights'] #event-calendar {
    panel of fixed height, so when the card switches bars ⇄ heatmap the summary and list
    glide with the stage's own height transition and the list absorbs the difference;
    nothing below the panel moves. (Before: two hard-coded top values per face.) */
+/* v2.0.30: exactly the height of the panel box that holds it (figma-viewport-v205.css:
+   #guide = 100dvh − sitebar, panel = #guide − 141px). The sitebar is taller on iPhone
+   (status-bar safe area), so a fixed 104px here made the calendar taller than its box
+   and its bottom was clipped. No bottom padding: the list ends on the box's edge. */
 html.tt2-fidelity[data-tt-view='sights'] #event-calendar.ec {
   display:flex!important;flex-direction:column!important;
   box-sizing:border-box;
-  height:max(420px, calc(100dvh - 233px));
+  height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px);
   min-height:0!important;
+  padding-bottom:0;
 }
 html.tt2-fidelity[data-tt-view='sights'] #event-calendar.ec > * {flex:none;}
 /* Heatmap card: trim the empty top/bottom margin inside the card (grid unchanged). */
@@ -230,9 +235,14 @@ html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::a
 html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::before {transform:rotate(45deg);}
 html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::after {transform:rotate(-45deg);}
 
-/* ---------- filter panel ---------- */
+/* ---------- filter panel ----------
+   v2.0.30: floats over the top of the list (as in 1.0), never below the screen: it was
+   204px down from the list's top and ran off the bottom. If the list is very short the
+   panel scrolls inside itself. */
 html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-filter-panel {
-  top:204px;
+  top:4px;
+  max-height:calc(100% - 8px);
+  overflow-y:auto;overscroll-behavior:contain;
   left:15px;right:4px;
   border:1px solid #636363;
   border-radius:12px;
