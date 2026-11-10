@@ -26,7 +26,7 @@
     }
     const bar = document.createElement('nav');
     bar.className='tt2-chapter-tabs';
-    bar.setAttribute('aria-label', chapter==='sights'?'観光の分類':'散策の分類');
+    bar.setAttribute('aria-label', chapter==='sights'?'見所の分類':'散策の分類');
     bar.dataset.tt2Chapter=chapter;
     items.forEach((item,index)=>{
       item.node.dataset.tt2Panel=chapter;

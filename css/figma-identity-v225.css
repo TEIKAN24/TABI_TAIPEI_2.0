@@ -1,0 +1,37 @@
+/* TAIPEI CITY GUIDE v2.0.25 — name and TRA asset only.
+   Original SVG outlines retain their authored 67×63 and 92×41 proportions.
+   No global font, margin or layout changes. */
+/* Figma Title fix.png increases the size of the original six outlined titles.
+   The replaced 「見所」 title uses its native 67×63 artwork box. */
+html.tt2-fidelity .tt-home-item .tt-home-label .tt-outline-glyph {
+ display:block;max-width:none;object-fit:contain;
+}
+html.tt2-fidelity .tt-home-item:nth-child(1) .tt-outline-glyph {width:66px;height:96px;}
+html.tt2-fidelity .tt-home-item:nth-child(2) .tt-outline-glyph {width:63px;height:90px;}
+html.tt2-fidelity .tt-home-item:nth-child(3) .tt-outline-glyph {width:66px;height:65px;}
+html.tt2-fidelity .tt-home-item:nth-child(4) .tt-outline-glyph {width:67px;height:63px;}
+html.tt2-fidelity .tt-home-item:nth-child(5) .tt-outline-glyph {width:68px;height:64px;}
+html.tt2-fidelity .tt-home-item:nth-child(6) .tt-outline-glyph {width:66px;height:64px;}
+html.tt2-fidelity .tt-home-item:nth-child(7) .tt-outline-glyph {width:57px;height:120px;}
+/* Residual sub-pixel alignment measured against Title fix.png (393×852). */
+html.tt2-fidelity .tt-home-item:nth-child(1) .tt-outline-glyph {transform:translate(1.47px,-.76px);}
+html.tt2-fidelity .tt-home-item:nth-child(2) .tt-outline-glyph {transform:translate(2.65px,.94px);}
+html.tt2-fidelity .tt-home-item:nth-child(3) .tt-outline-glyph {transform:translate(-4.17px,1.08px);}
+html.tt2-fidelity .tt-home-item:nth-child(5) .tt-outline-glyph {transform:translate(0px,.42px);}
+html.tt2-fidelity .tt-home-item:nth-child(6) .tt-outline-glyph {transform:translate(-3.38px,0);}
+html.tt2-fidelity .tt-home-item:nth-child(7) .tt-outline-glyph {transform:translate(6.03px,0);}
+
+@media(max-width:355px){
+ html.tt2-fidelity .tt-home-item .tt-home-label .tt-outline-glyph {
+  max-width:min(100%, calc(100vw / 3 - 40px));height:auto;
+ }
+}
+/* The uploaded TRA mark is authored white, so do not invert it a second time. */
+html.tt2-fidelity[data-tt-view="day-trips"] #guide .tt221-rail-logo {
+  filter:none!important;-webkit-filter:none!important;
+  object-fit:contain;aspect-ratio:1/1;
+}
+html.tt2-fidelity #guide .sights-day-trips .daytrip-tra-mark .daytrip-tra-logo {
+  filter:none!important;-webkit-filter:none!important;
+  object-fit:contain;aspect-ratio:1/1;
+}

@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.24';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.25';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   './',
@@ -29,8 +29,9 @@ const PRECACHE = [
   'css/figma-standalone-safe-area-v218.css',
   'css/figma-daytrip-fidelity-v219.css',
   'css/figma-daytrip-route-v224.css',
+  'css/figma-identity-v225.css',
   'js/infinite-category-wheel.js',
-  'js/figma-daytrip-route-v224.js',
+  'js/figma-daytrip-route-v225.js',
   'assets/apple-touch-icon.png',
   'assets/daytrips/jiufen.webp',
   'assets/daytrips/jiufen/10_lanterns_distant.webp',
@@ -72,9 +73,9 @@ const PRECACHE = [
   'assets/icons/jade-cabbage.webp',
   'assets/icons/sky-lantern.webp',
   'assets/icons/taiwan-railways.webp',
-  'assets/icons/tra-emblem.svg',
+  'assets/icons/tra-logo-white-v225.svg',
   'assets/figma/outlines/home/souvenirs.svg',
-  'assets/figma/outlines/home/sights.svg',
+  'assets/figma/outlines/home/midokoro-v225.svg',
   'assets/figma/outlines/home/city-walk.svg',
   'assets/figma/outlines/home/food.svg',
   'assets/figma/outlines/home/travel.svg',
@@ -83,7 +84,7 @@ const PRECACHE = [
   'assets/figma/outlines/brand/main-tabi-taipei.svg',
   'assets/figma/outlines/brand/subtitle-taipei-city-guide.svg',
   'assets/figma/outlines/side/souvenirs.svg',
-  'assets/figma/outlines/side/sights.svg',
+  'assets/figma/outlines/side/midokoro-v225.svg',
   'assets/figma/outlines/side/city-walk.svg',
   'assets/figma/outlines/side/food-search.svg',
   'assets/figma/outlines/side/food.svg',
