@@ -1,0 +1,179 @@
+/* TAIPEI CITY GUIDE v2.0.26 — Side Page Renew, 393×852 design coordinates.
+   Seven live HTML links and independent SVG outlines; never a rasterized screenshot.
+   Right-in full-width drawer, 20%-black overlay + 56px blur (70% of legacy 80px).
+   Only the full-screen menu is affected. */
+html.tt2-fidelity .tt-menu-backdrop {
+  position:fixed!important;inset:0!important;
+  background:rgba(0,0,0,.20)!important;
+  -webkit-backdrop-filter:blur(56px)!important;
+  backdrop-filter:blur(56px)!important;
+  filter:none!important;
+  transition:opacity .33s ease!important;
+}
+html.tt2-fidelity .tt-side-menu {
+  position:fixed!important;inset:0!important;
+  top:0!important;right:0!important;bottom:0!important;left:0!important;
+  width:100vw!important;height:100dvh!important;max-width:none!important;
+  box-sizing:border-box!important;
+  overflow:hidden!important;overscroll-behavior:none!important;
+  background:transparent!important;color:#fff!important;
+  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
+  transform:translate3d(100%,0,0);
+  transition:transform .33s cubic-bezier(.22,1,.36,1),visibility 0s linear .33s!important;
+  transition-delay:0s,.33s!important;
+  will-change:transform;
+  touch-action:pan-y;
+}
+html.tt2-fidelity.tt-nav-open .tt-side-menu {
+  visibility:visible!important;transform:translate3d(0,0,0);
+  transition-duration:.45s,0s!important;
+  transition-delay:0s,0s!important;
+}
+html.tt2-fidelity.tt-nav-open .tt-menu-backdrop {
+  transition-duration:.45s!important;
+}
+/* Restore the designer's masthead while navigation is open. All other
+   chapters retain their previous masthead color and behavior. */
+html.tt2-fidelity.tt-nav-open .tt-brand {
+  opacity:1!important;pointer-events:auto!important;
+}
+html.tt2-fidelity.tt-nav-open .tt-sitebar {
+  color:#fff!important;background:transparent!important;
+}
+html.tt2-fidelity.tt-nav-open .tt-sitebar::after {opacity:0!important;}
+html.tt2-fidelity .tt-side-shine {
+  left:0!important;right:0!important;
+  top:var(--tt2-sitebar-height,104px)!important;height:48px!important;
+  background:radial-gradient(ellipse 68% 65% at 50% 0%,rgba(170,179,163,.20) 0%,rgba(134,143,124,.085) 52%,transparent 100%)!important;
+  opacity:1!important;
+  pointer-events:none;
+}
+/* The masthead owns the upper 104px in standalone and 46px in Safari tab.
+   The 393-wide authored graphic begins another 51px below that boundary. */
+html.tt2-fidelity .tt226-stage-holder {
+  position:absolute;top:var(--tt2-sitebar-height,104px);left:0;right:0;
+  display:flex;justify-content:center;align-items:flex-start;
+  pointer-events:none;
+}
+html.tt2-fidelity .tt226-stage {
+  position:relative;box-sizing:border-box;flex:0 0 393px;
+  width:393px;height:665px;
+  transform:scale(var(--tt226-fit,1));transform-origin:top center;
+  margin-top:calc(51px * var(--tt226-fit,1));
+  pointer-events:none;
+}
+html.tt2-fidelity .tt-side-chapters {
+  position:absolute!important;top:0!important;left:0!important;
+  width:393px!important;height:290px!important;
+  padding:0!important;overflow:visible!important;
+  pointer-events:none;
+}
+/* Every 49px-wide vertical column is one semantic link: title and
+   decorative description have exactly the same click/tap target. */
+html.tt2-fidelity .tt-side-link.tt226-col {
+  position:absolute!important;top:0!important;right:auto!important;bottom:auto!important;
+  height:288px!important;width:49px!important;
+  display:flex!important;flex-direction:column;align-items:center;
+  justify-content:flex-start;overflow:visible!important;
+  text-decoration:none!important;color:#fff!important;
+  cursor:pointer;pointer-events:auto;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:pan-y;
+}
+html.tt2-fidelity .tt226-col:nth-child(1){left:22px!important;}
+html.tt2-fidelity .tt226-col:nth-child(2){left:71px!important;}
+html.tt2-fidelity .tt226-col:nth-child(3){left:122px!important;}
+html.tt2-fidelity .tt226-col:nth-child(4){left:173px!important;}
+html.tt2-fidelity .tt226-col:nth-child(5){left:224px!important;}
+html.tt2-fidelity .tt226-col:nth-child(6){left:275px!important;}
+html.tt2-fidelity .tt226-col:nth-child(7){left:326px!important;}
+html.tt2-fidelity .tt226-title,
+html.tt2-fidelity .tt226-caption {
+  display:block!important;flex:0 0 auto;
+  width:auto!important;max-width:none!important;
+  height:auto!important;object-fit:contain;
+  pointer-events:none;user-select:none;
+  -webkit-user-drag:none;
+}
+html.tt2-fidelity .tt226-title {margin:0 auto;}
+html.tt2-fidelity .tt226-caption {
+  position:absolute;top:86px;left:50%;transform:translateX(-50%);
+  opacity:1;
+}
+html.tt2-fidelity .tt226-col:focus-visible {outline:1px solid rgba(255,255,255,.75)!important;outline-offset:-2px!important;}
+html.tt2-fidelity .tt226-col:hover .tt226-title,
+html.tt2-fidelity .tt226-col:active .tt226-title {opacity:.72;}
+/* Start text fade after the panel has begun entering: 180ms then +35ms
+   per column, with a restrained 3px vertical settle. Closing never reverses
+   the stagger; text stays visible while the whole drawer moves to the right. */
+@keyframes tt226-title-reveal {
+  from{opacity:0;transform:translateY(3px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes tt226-caption-reveal {
+  from{opacity:0;transform:translate(-50%,3px)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
+html.tt2-fidelity.tt-nav-open .tt226-col .tt226-title {
+  animation:tt226-title-reveal .32s ease-out both;
+  animation-delay:calc(180ms + var(--i) * 35ms);
+}
+html.tt2-fidelity.tt-nav-open .tt226-col .tt226-caption {
+  animation:tt226-caption-reveal .36s ease-out both;
+  animation-delay:calc(215ms + var(--i) * 35ms);
+}
+/* Bottom functions, same 393x852 vector reference. Their full text rows
+   have generous invisible touch areas; no legacy diagonal rules remain. */
+html.tt2-fidelity .tt-side-extras.tt226-extras {
+  position:absolute!important;left:0!important;top:0!important;right:auto!important;
+  width:393px!important;height:665px!important;
+  padding:0!important;margin:0!important;gap:0!important;
+  display:block!important;opacity:1!important;transform:none!important;
+  transition:none!important;pointer-events:none;
+}
+html.tt2-fidelity .tt226-extra {
+  position:absolute;left:35px;display:flex;align-items:flex-start;
+  justify-content:flex-start;width:168px;height:28px;
+  box-sizing:border-box;padding:0 8px;
+  margin:0;border:0;border-radius:0;background:transparent;
+  cursor:pointer;color:#fff;text-decoration:none!important;
+  opacity:1!important;transform:none!important;
+  pointer-events:auto;touch-action:pan-y;
+}
+html.tt2-fidelity .tt226-extra:nth-child(1) {top:482px;}
+html.tt2-fidelity .tt226-extra:nth-child(2) {top:509px;}
+html.tt2-fidelity .tt226-extra:nth-child(3) {top:556px;}
+html.tt2-fidelity .tt226-extra:nth-child(4) {top:603px;}
+html.tt2-fidelity .tt226-extra::after,
+html.tt2-fidelity .tt226-extra::before {content:none!important;display:none!important;}
+html.tt2-fidelity .tt226-extra img {
+  position:static!important;display:block;width:auto;height:auto;
+  max-width:none!important;opacity:1!important;
+  pointer-events:none;user-select:none;-webkit-user-drag:none;
+}
+html.tt2-fidelity .tt226-extra:hover img,
+html.tt2-fidelity .tt226-extra:active img {opacity:.72!important;}
+html.tt2-fidelity .tt226-extra:focus-visible {outline:1px solid #fff!important;outline-offset:0!important;}
+/* The existing side title/line/index animation rules don't apply because
+   new columns use independently exported SVGs rather than those old nodes. */
+html.tt2-fidelity.tt226-dragging .tt-side-menu {transition:none!important;}
+html.tt2-fidelity.tt226-dragging .tt-menu-backdrop {transition:none!important;}
+/* About uses only the existing site's published description + copyright. */
+html.tt2-fidelity .tt226-about[hidden] {display:none!important;}
+html.tt2-fidelity .tt226-about {
+  position:absolute;z-index:1;left:24px;right:24px;
+  top:clamp(180px,32dvh,310px);padding:22px 22px 30px;
+  color:#fff;background:rgba(5,5,5,.93);border:1px solid rgba(230,230,230,.3);
+  font-family:'Noto Sans JP',system-ui,sans-serif;
+}
+html.tt2-fidelity .tt226-about h2 {font:400 18px/1.4 Georgia,serif;letter-spacing:.015em;margin:0 0 22px;}
+html.tt2-fidelity .tt226-about p {font-size:11px;line-height:1.8;color:#bbb;margin:0 0 12px;}
+html.tt2-fidelity .tt226-about-close {
+  position:absolute;right:8px;top:6px;border:0;background:none;color:white;
+  width:42px;height:42px;font-size:26px;cursor:pointer;
+}
+@media (prefers-reduced-motion: reduce) {
+  html.tt2-fidelity .tt-side-menu,html.tt2-fidelity .tt-menu-backdrop {transition:none!important;}
+  html.tt2-fidelity.tt-nav-open .tt226-col .tt226-title,
+  html.tt2-fidelity.tt-nav-open .tt226-col .tt226-caption {animation:none!important;opacity:1!important;}
+}
