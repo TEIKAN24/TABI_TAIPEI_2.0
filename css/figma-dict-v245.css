@@ -1,0 +1,205 @@
+/* TABI TAIPEI v2.0.45 — 料理辞典 V4 (Figma 「料理辞典 V4-a / b / c」, 2026-11-11). Loaded last.
+   The drawer is a bottom sheet from y150 (852px tall screens), full width, #111 with a 16px top
+   radius; it slides up instead of in from the right and can be dragged down by its head.
+   Content: 17px sides. Text: Noto Sans for labels, the serif for descriptions and the card name;
+   gold #cca46e only on characters that match the search. States come from js/figma-dict-v245.js
+   (data-tt2d-mode = list | single | multi). */
+/* #guide keeps the end of its tt-view-appear animation (fill-mode both), an identity
+   transform that makes it the box of every position:fixed child: the sheet was placed
+   against the page instead of the screen. While the dictionary is shown the animation
+   keeps no end state (it ends at transform:none anyway); it does not restart. */
+html.tt-fwave.tt-route-chapter body.food-swipe-active #guide:not(.tt-view-hidden) {animation-fill-mode:backwards!important;}
+html.tt2-fidelity {--tt2d-serif:'Noto Serif JP','Noto Serif CJK JP','Hiragino Mincho ProN','Yu Mincho',serif;}
+html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
+  position:fixed!important;inset:auto 0 0 0!important;top:min(150px, 17.6dvh)!important;
+  width:min(100vw, 480px)!important;height:auto!important;max-height:none!important;margin:0 auto!important;
+  border:0!important;border-top:1px solid #636363!important;border-radius:16px 16px 0 0!important;
+  background:#111!important;box-shadow:none!important;
+  transform:translate3d(0, calc((1 - var(--food-swipe-progress, 0)) * 105% + var(--tt2d-drag, 0px)), 0)!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d.is-floating.tt2d-dragging:not(#_a) {transition:none!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-drawer-scroll {
+  padding:0 17px!important;height:100%!important;box-sizing:border-box!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(#food-explorer,.food-panel) {display:flex!important;flex-direction:column!important;flex:1 1 auto!important;min-height:0!important;margin:0!important;padding:0!important;}
+
+/* head */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-grab {
+  flex:none;height:27px;margin:0 -17px;touch-action:none;cursor:grab;position:relative;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-grab::before {
+  content:'';position:absolute;left:50%;top:11px;width:36px;height:4px;margin-left:-18px;border-radius:2px;background:#4a4a4a;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-head {
+  flex:none;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;
+  height:48px;box-sizing:border-box;padding:0 4px;touch-action:none;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-titles {min-width:0;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-title {
+  margin:0!important;font:500 14px/20px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-sub {
+  margin:2px 0 0!important;font:400 10px/14px var(--tt2-ui)!important;letter-spacing:0!important;color:#8a8a8a!important;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-close {
+  flex:none;margin:0;padding:0 0 8px 8px;border:0;background:none;
+  font:400 12px/17px var(--tt2-ui);color:#9e9e9e;cursor:pointer;
+}
+
+/* search */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .search-shell {
+  flex:none;display:flex!important;align-items:center!important;gap:9px!important;
+  height:38px!important;min-height:0!important;margin:0!important;padding:0 8px 0 13px!important;box-sizing:border-box!important;
+  border:1px solid #363636!important;border-radius:100px!important;background:transparent!important;box-shadow:none!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .search-shell:focus-within,
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .search-shell:has(.clear.visible) {border-color:#8a8a8a!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .search-shell .search-svg {width:15px!important;height:15px!important;color:#8a8a8a!important;stroke-width:1.6;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #search {
+  height:36px!important;font:400 16px/20px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #search::placeholder {color:#6f6f6f!important;opacity:1;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .clear {
+  width:22px!important;height:22px!important;border-radius:50%!important;background:#2e2e2e!important;
+  font:300 15px/22px var(--tt2-ui)!important;color:#bdbdbd!important;
+}
+
+/* shortcuts: one row that scrolls sideways, hidden while a typed word is searched */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-tools {display:none!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-short {flex:none;}
+html.tt2-fidelity #guide #food-search.tt2d.tt2d-searching:not(#_a) .tt2d-short {display:none;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-label {
+  margin:0;padding:14px 4px 6px;font:400 10px/14px var(--tt2-ui);color:#8a8a8a;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pills {
+  display:flex;gap:6px;margin:0 -17px;padding:0 17px;overflow-x:auto;scrollbar-width:none;overscroll-behavior-x:contain;
+  -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 57px),transparent calc(100% - 17px));
+          mask-image:linear-gradient(to right,#000 calc(100% - 57px),transparent calc(100% - 17px));
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pills::-webkit-scrollbar {display:none;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pills::after {content:'';flex:0 0 24px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(.tt2d-pill,.tt2d-chip) {
+  flex:none;height:30px;margin:0;padding:0 13px;box-sizing:border-box;border:1px solid #363636;border-radius:100px;background:none;
+  font:400 12px/18px var(--tt2-ui);letter-spacing:0;color:#cfcfcf;white-space:nowrap;cursor:pointer;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pill.is-char {width:30px;padding:0;font:400 13px/18px var(--tt2d-serif);}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pill[aria-pressed='true'] {border-color:#cfcfcf;background:#cfcfcf;color:#111;}
+
+/* list frame: count line, then the list or the V4 view; a 90px fade at the bottom */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-list {
+  position:relative!important;flex:1 1 auto!important;min-height:0!important;margin:0 -17px!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-list::before {content:none!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-list::after {
+  content:'';position:absolute;left:0;right:0;bottom:0;height:90px;pointer-events:none;z-index:3;
+  background:linear-gradient(to bottom,rgba(17,17,17,0),#111);
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .results-head {
+  display:flex!important;justify-content:flex-start!important;align-items:baseline!important;gap:8px!important;
+  margin:0!important;padding:16px 21px 2px!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not([data-tt2d-mode='list']):not(#_a) .results-head {display:none!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .results-head :is(h3,.result-count) {
+  margin:0!important;font:400 10px/14px var(--tt2-ui)!important;letter-spacing:0!important;color:#8a8a8a!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .results-head h3:empty {display:none!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results,
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-view {
+  flex:1 1 auto!important;min-height:0!important;margin:0!important;overflow-y:auto!important;overscroll-behavior:contain;
+  padding:0 17px calc(90px + env(safe-area-inset-bottom, 0px))!important;box-sizing:border-box;
+  -webkit-mask-image:none!important;mask-image:none!important;scrollbar-width:none;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(#results,.tt2d-view)::-webkit-scrollbar {display:none;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(#results,.tt2d-view)[hidden] {display:none!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-view {padding-top:14px!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(#results,.tt2d-view) mark {
+  background:none!important;color:#cca46e!important;-webkit-text-fill-color:#cca46e!important;font-weight:inherit!important;padding:0!important;
+}
+
+/* a: list rows — name 15 Medium, Japanese name 11, description in the serif, two lines */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .result {
+  display:block!important;margin:0!important;padding:13px 4px 14px!important;min-height:0!important;
+  border:0!important;border-bottom:1px solid rgba(220,220,220,.34)!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .food-entry-toggle {
+  display:flex!important;align-items:flex-start!important;justify-content:space-between!important;gap:10px!important;
+  width:100%!important;margin:0!important;padding:0!important;border:0!important;background:none!important;text-align:left!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .food-entry-left {display:block!important;min-width:0!important;flex:1 1 auto!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .dish {
+  margin:0!important;font:500 15px/22px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .desc {
+  display:block!important;margin:2px 0 0!important;font:400 11px/16px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .food-desc-preview {
+  display:block!important;max-height:none!important;opacity:1!important;transform:none!important;visibility:visible!important;
+  font:inherit!important;color:inherit!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .food-desc-full {
+  display:-webkit-box!important;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden!important;
+  width:auto!important;max-width:none!important;max-height:none!important;height:auto!important;
+  margin:2px 0 0!important;padding:0!important;opacity:1!important;transform:none!important;visibility:visible!important;
+  white-space:normal!important;font:400 11px/17px var(--tt2d-serif)!important;letter-spacing:0!important;color:#8a8a8a!important;
+  transition:none!important;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .result.is-expanded .food-desc-full {-webkit-line-clamp:unset;display:block!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results .result-meta {flex:none!important;margin:2px 0 0!important;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) #results :is(.empty,.food-suggest) {color:#9e9e9e!important;font-size:12px!important;}
+
+/* b: one word */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card {
+  margin:0;padding:15px 17px 17px;border:1px solid #2e2e2e;border-radius:12px;background:#161616;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card-label {margin:0;font:400 10px/14px var(--tt2-ui);color:#8a8a8a;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card-name {margin:4px 0 0;font:400 24px/32px var(--tt2d-serif);letter-spacing:0;color:#fff;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card-ja {margin:4px 0 0;font:400 11px/16px var(--tt2-ui);color:#bdbdbd;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card-ja-key {margin-right:8px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card-desc {margin:4px 0 0;font:400 12px/19px var(--tt2d-serif);color:#bdbdbd;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(.tt2d-section,.tt2d-summary) {
+  margin:0;padding:16px 4px 8px;font:400 10px/14px var(--tt2-ui);color:#8a8a8a;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-summary {padding:0 4px 4px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-chips {display:flex;flex-wrap:wrap;gap:6px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-chip {height:28px;line-height:17px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-chip-more {height:28px;padding:0 6px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-cands {display:flex;flex-direction:column;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-cands[hidden] {display:none;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-cand {
+  display:flex;align-items:baseline;gap:10px;min-height:43px;box-sizing:border-box;margin:0;padding:11px 4px;
+  border:0;border-bottom:1px solid #262626;background:none;text-align:left;cursor:pointer;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-cand-name {flex:none;max-width:62%;font:400 14px/20px var(--tt2-ui);color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-cand-ja {min-width:0;font:400 11px/16px var(--tt2-ui);color:#9e9e9e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-all {
+  margin:12px 0 0;padding:6px 4px;border:0;background:none;text-align:left;font:400 11px/15px var(--tt2-ui);color:#9e9e9e;cursor:pointer;
+}
+
+/* c: several words */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-group-head {
+  display:flex;align-items:flex-start;justify-content:space-between;gap:12px;padding:14px 2px 7px 4px;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-group-title {margin:0;font:400 10px/14px var(--tt2-ui);color:#8a8a8a;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-more {
+  display:inline-flex;align-items:center;gap:5px;flex:none;margin:0;padding:0;border:0;background:none;
+  font:400 11px/15px var(--tt2-ui);color:#9e9e9e;cursor:pointer;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-more-icon {flex:none;transition:transform .2s ease;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-more[aria-expanded='true'] .tt2d-more-icon {transform:scaleY(-1);}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-mini {
+  margin:0;padding:13px 15px 14px;border:1px solid #2e2e2e;border-radius:12px;background:#161616;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-mini-line {display:flex;align-items:baseline;gap:10px;min-width:0;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-mini-name {flex:none;max-width:70%;margin:0;font:400 17px/24px var(--tt2d-serif);letter-spacing:0;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-mini-ja {min-width:0;font:400 11px/16px var(--tt2-ui);color:#bdbdbd;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-mini-desc {
+  display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;
+  margin:3px 0 0;font:400 11.5px/18px var(--tt2d-serif);color:#9e9e9e;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-group .tt2d-cands {margin-top:4px;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none {
+  padding:13px 15px 14px;border:1px dashed #2e2e2e;border-radius:12px;
+}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none-title {margin:0;font:400 12px/17px var(--tt2-ui);color:#bdbdbd;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none-hint {margin:3px 0 0;font:400 11px/16px var(--tt2-ui);color:#8a8a8a;}

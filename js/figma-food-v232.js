@@ -82,114 +82,151 @@
   where.append(placeBtn, timeBtn);
   drawer.querySelector('.recommend-controls')?.before(where);
 
-placeBtn.addEventListener('click', event => {
-  event.stopPropagation();
-  if (isStation()) stationPicker.toggle();
-  else currentLocation?.click();
-});
-timeBtn.addEventListener('click', event => { event.stopPropagation(); stationPicker.close(); timeButton?.click(); });
+  placeBtn.addEventListener('click', event => {
+    event.stopPropagation();
+    if (isStation()) stationPicker.toggle();
+    else currentLocation?.click();
+  });
+  timeBtn.addEventListener('click', event => { event.stopPropagation(); stationPicker.close(); timeButton?.click(); });
 
-/* ---------- v2.0.43: 駅検索 A — one panel under the row (Figma 定案) ----------
-   search field · a row of line chips · the chosen line's stations in two columns. Typing
-   shows recommend.js's own search results instead. Every tap clicks the original (hidden)
-   line / station option, so recommend.js still owns the choice; the panel only reads. */
-const stationMenu = $('recommend-station-menu');
-const stationPicker = (() => {
-  const panel = el('div', 'tt2-station-picker');
-  panel.id = 'tt2-station-picker';
-  panel.hidden = true;
-  panel.setAttribute('role', 'dialog');
-  panel.setAttribute('aria-label', '駅を選ぶ');
-  const lineTitle = el('p', 'tt2-sp-title', '路線');
-  const chips = el('div', 'tt2-sp-chips');
-  const lineName = el('p', 'tt2-sp-line');
-  const stationTitle = el('p', 'tt2-sp-title', '駅');
-  const grid = el('div', 'tt2-sp-grid');
-  const searchWrap = lineMenu?.querySelector('.recommend-station-search');
-  const results = lineMenu?.querySelector('.recommend-native-list');
-  if (searchWrap) panel.append(searchWrap);
-  panel.append(lineTitle, chips, lineName, stationTitle, grid);
-  if (results) { results.classList.add('tt2-sp-results'); panel.append(results); }
-  where.after(panel);
-  let line = '';
-  let lines = [];
-  const input = searchWrap?.querySelector('input');
-  const searching = () => !!input?.value.trim();
-  function readLines() {
-    const found = [...(results?.querySelectorAll('.recommend-native-option-line') || [])].map(b => {
-      const badge = b.querySelector('.recommend-native-option-code');
-      return {id: b.dataset.value, color: badge?.style.backgroundColor || '#4288c9',
-        name: b.querySelector('strong')?.textContent || '', en: b.querySelector('small')?.textContent || ''};
-    });
-    if (found.length) lines = found;
-  }
-  function lineButton(id) {
-    if (searching()) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
-    return results?.querySelector(`.recommend-native-option-line[data-value="${id}"]`);
-  }
-  function paint() {
-    readLines();
-    const query = searching();
-    panel.classList.toggle('is-searching', query);
-    line = line || $('recommend-line-code')?.textContent.trim() || lines[0]?.id || '';
-    chips.replaceChildren(...lines.map(l => {
-      const b = el('button', 'tt2-sp-chip', l.id);
-      b.type = 'button';
-      b.style.backgroundColor = l.color;
-      b.setAttribute('aria-label', l.name);
-      b.setAttribute('aria-pressed', String(l.id === line));
-      b.addEventListener('click', () => {
-        const original = lineButton(l.id);
-        line = l.id;
-        original?.click();          // recommend.js: state.line, station options, closes its menus
-        paint();
-      });
-      return b;
-    }));
-    const current = lines.find(l => l.id === line);
-    const options = [...(stationMenu?.querySelectorAll('.recommend-native-option-station') || [])];
-    lineName.replaceChildren(el('b', '', current?.name || ''), document.createTextNode(current ? `  ${current.en}  ·  ${options.length}駅` : ''));
-    grid.replaceChildren(...options.map(o => {
-      const cell = el('button', 'tt2-sp-cell');
-      cell.type = 'button';
-      cell.setAttribute('aria-pressed', String(o.getAttribute('aria-selected') === 'true'));
-      const badge = o.querySelector('.recommend-native-option-code')?.cloneNode(true);
-      if (badge) { badge.className = 'tt2-sp-badge'; badge.dataset.line = line; cell.append(badge); }
-      cell.append(el('span', 'tt2-sp-name', o.querySelector('strong')?.textContent || ''));
-      cell.addEventListener('click', () => { o.click(); close(); });
-      return cell;
-    }));
-    if (!options.length) grid.append(el('p', 'tt2-sp-hint', '路線を選ぶと駅が表示されます'));
-  }
-  function open() {
-    readLines();
-    if (!lines.length) return;           // stations not loaded yet
-    line = $('recommend-line-code')?.textContent.trim() || line;
-    if (line && !stationMenu?.querySelector('.recommend-native-option-station')) lineButton(line)?.click();
-    paint();
-    panel.hidden = false;
-    placeBtn.setAttribute('aria-expanded', 'true');
-    later();
-  }
-  function close() {
-    if (panel.hidden) return;
+  /* ---------- 駅検索: one panel under the station row ----------
+     v2.0.43 (Figma 定案 A), v2.0.44 restyled to Figma 「Station Picker Renew」 (310×470, top-left
+     where the A panel was): search · 路線 wheel (the centred chip is the line, a white mark under
+     it) · line name · the line's stations one per row (badge, name, English name, ✓ on the chosen
+     one). Typing shows recommend.js's own search results instead. Every tap clicks the original
+     (hidden) line / station option, so recommend.js still owns the choice; the panel only reads. */
+  const stationMenu = $('recommend-station-menu');
+  const stationPicker = (() => {
+    const panel = el('div', 'tt2-station-picker');
+    panel.id = 'tt2-station-picker';
     panel.hidden = true;
-    placeBtn.setAttribute('aria-expanded', 'false');
-    if (input?.value) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
-    later();
-  }
-  input?.addEventListener('input', () => { if (!panel.hidden) panel.classList.toggle('is-searching', searching()); });
-  // A search result (click or Enter) chooses a station: recommend.js handles it, then close.
-  results?.addEventListener('click', event => { if (event.target.closest('.recommend-station-result')) setTimeout(close, 0); });
-  input?.addEventListener('keydown', event => {
-    if (event.key === 'Enter') setTimeout(() => { if (!searching()) close(); }, 0);
-    if (event.key === 'Escape') { event.stopPropagation(); close(); placeBtn.focus({preventScroll: true}); }
-  }, true);
-  panel.addEventListener('click', event => event.stopPropagation());
-  document.addEventListener('click', event => { if (!panel.hidden && !panel.contains(event.target) && !placeBtn.contains(event.target)) close(); });
-  document.addEventListener('tt:viewchange', close);
-  return {open, close, toggle: () => (panel.hidden ? open() : close()), isOpen: () => !panel.hidden, panel};
-})();
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-label', '駅を選ぶ');
+    const lineTitle = el('p', 'tt2-sp-title', '路線');
+    const wheel = el('div', 'tt2-sp-wheel');
+    wheel.setAttribute('role', 'listbox');
+    wheel.setAttribute('aria-label', '路線');
+    const lineName = el('p', 'tt2-sp-line');
+    const listBox = el('div', 'tt2-sp-listbox');
+    const list = el('div', 'tt2-sp-list');
+    list.setAttribute('role', 'listbox');
+    list.setAttribute('aria-label', '駅');
+    listBox.append(list);
+    const searchWrap = lineMenu?.querySelector('.recommend-station-search');
+    const results = lineMenu?.querySelector('.recommend-native-list');
+    if (searchWrap) panel.append(searchWrap);
+    panel.append(lineTitle, wheel, el('span', 'tt2-sp-mark'), lineName, listBox);
+    if (results) { results.classList.add('tt2-sp-results'); panel.append(results); }
+    where.after(panel);
+    let line = '';
+    let lines = [];
+    const input = searchWrap?.querySelector('input');
+    const searching = () => !!input?.value.trim();
+    function readLines() {
+      const found = [...(results?.querySelectorAll('.recommend-native-option-line') || [])].map(b => {
+        const badge = b.querySelector('.recommend-native-option-code');
+        return {id: b.dataset.value, color: badge?.style.backgroundColor || '#4288c9',
+          name: b.querySelector('strong')?.textContent || '', en: b.querySelector('small')?.textContent || ''};
+      });
+      if (found.length) lines = found;
+    }
+    function lineButton(id) {
+      if (searching()) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
+      return results?.querySelector(`.recommend-native-option-line[data-value="${id}"]`);
+    }
+    function buildWheel() {
+      wheel.replaceChildren(...lines.map(l => {
+        const b = el('button', 'tt2-sp-chip', l.id);
+        b.type = 'button';
+        b.dataset.id = l.id;
+        b.style.backgroundColor = l.color;
+        b.setAttribute('role', 'option');
+        b.setAttribute('aria-label', l.name);
+        b.addEventListener('click', () => { center(b, true); choose(l.id); });
+        return b;
+      }));
+    }
+    function center(chip, smooth) {
+      if (!chip) return;
+      const left = chip.offsetLeft + chip.offsetWidth / 2 - wheel.clientWidth / 2;
+      wheel.scrollTo({left, behavior: smooth && !matchMedia('(prefers-reduced-motion: reduce)').matches ? 'smooth' : 'auto'});
+    }
+    function choose(id) {
+      if (!id || id === line) return;
+      line = id;
+      lineButton(id)?.click();     // recommend.js: state.line, station options, closes its menus
+      paintList();
+    }
+    // After a swipe, the chip nearest the middle becomes the line.
+    let settle = 0, quiet = false;
+    wheel.addEventListener('scroll', () => {
+      if (quiet) return;
+      clearTimeout(settle);
+      settle = setTimeout(() => {
+        const mid = wheel.scrollLeft + wheel.clientWidth / 2;
+        let best = null, dist = Infinity;
+        for (const c of wheel.children) { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < dist) { dist = d; best = c; } }
+        if (best) choose(best.dataset.id);
+      }, 140);
+    }, {passive: true});
+    function paintList() {
+      for (const c of wheel.children) c.setAttribute('aria-selected', String(c.dataset.id === line));
+      const current = lines.find(l => l.id === line);
+      const options = [...(stationMenu?.querySelectorAll('.recommend-native-option-station') || [])];
+      lineName.replaceChildren(el('b', '', current?.name || ''), document.createTextNode(current ? `  ${current.en}  ·  ${options.length}駅` : ''));
+      list.replaceChildren(...options.map(o => {
+        const chosen = o.getAttribute('aria-selected') === 'true';
+        const row = el('button', 'tt2-sp-row');
+        row.type = 'button';
+        row.setAttribute('role', 'option');
+        row.setAttribute('aria-selected', String(chosen));
+        const badge = o.querySelector('.recommend-native-option-code')?.cloneNode(true);
+        if (badge) { badge.className = 'tt2-sp-badge'; badge.dataset.line = line; row.append(badge); }
+        row.append(el('span', 'tt2-sp-name', o.querySelector('strong')?.textContent || ''),
+          el('span', 'tt2-sp-en', o.querySelector('small')?.textContent || ''));
+        if (chosen) row.append(el('span', 'tt2-sp-check'));
+        row.addEventListener('click', () => { o.click(); close(); });
+        return row;
+      }));
+      if (!options.length) list.append(el('p', 'tt2-sp-hint', '路線を選ぶと駅が表示されます'));
+      list.scrollTop = 0;
+      const chosen = list.querySelector('.tt2-sp-row[aria-selected="true"]');
+      if (chosen) list.scrollTop = chosen.offsetTop - list.clientHeight / 2 + chosen.offsetHeight / 2;
+    }
+    function open() {
+      readLines();
+      if (!lines.length) return;           // stations not loaded yet
+      if (!wheel.children.length) buildWheel();
+      line = $('recommend-line-code')?.textContent.trim() || line;
+      if (line && !stationMenu?.querySelector('.recommend-native-option-station')) lineButton(line)?.click();
+      panel.hidden = false;
+      panel.classList.toggle('is-searching', searching());
+      paintList();
+      quiet = true;
+      center([...wheel.children].find(c => c.dataset.id === line) || wheel.children[Math.floor(wheel.children.length / 2)], false);
+      requestAnimationFrame(() => { quiet = false; });
+      placeBtn.setAttribute('aria-expanded', 'true');
+      later();
+    }
+    function close() {
+      if (panel.hidden) return;
+      panel.hidden = true;
+      placeBtn.setAttribute('aria-expanded', 'false');
+      if (input?.value) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
+      later();
+    }
+    input?.addEventListener('input', () => { if (!panel.hidden) panel.classList.toggle('is-searching', searching()); });
+    // A search result (click or Enter) chooses a station: recommend.js handles it, then close.
+    results?.addEventListener('click', event => { if (event.target.closest('.recommend-station-result')) setTimeout(close, 0); });
+    input?.addEventListener('keydown', event => {
+      if (event.key === 'Enter') setTimeout(() => { if (!searching()) close(); }, 0);
+      if (event.key === 'Escape') { event.stopPropagation(); close(); placeBtn.focus({preventScroll: true}); }
+    }, true);
+    panel.addEventListener('click', event => event.stopPropagation());
+    document.addEventListener('click', event => { if (!panel.hidden && !panel.contains(event.target) && !placeBtn.contains(event.target)) close(); });
+    document.addEventListener('tt:viewchange', close);
+    return {open, close, toggle: () => (panel.hidden ? open() : close()), isOpen: () => !panel.hidden, panel};
+  })();
 
   /* ---------- 注意事項 ---------- */
   // v2.0.33: written out in place (no button): the original disclaimer, plus the GPS /

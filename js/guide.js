@@ -574,27 +574,39 @@ function searchTextOf(food) {
   }
   return food.searchText;
 }
+// v2.0.45: one typed word → its test (was inline in currentMatches), so the
+// 料理辞典 V4 layer can look each word up on its own.
+function termCheck(term) {
+  // One pepper (or 辛い) finds all marked spicy dishes, including "maybe".
+  // Two/three peppers require at least that numerical spice level.
+  const peppers = term.match(/🌶️/gu) || [];
+  if (peppers.length && peppers.join("") === term) {
+    return peppers.length === 1
+      ? food => Boolean(food.spice)
+      : food => peppers.length <= 3 && Number(food.spice) >= peppers.length;
+  }
+  if (term === "辛い") return food => Boolean(food.spice);
+  // Preserve the existing traditional/simplified/Japanese synonym groups.
+  const aliases = variantsFor(term);
+  return food => {
+    const text = searchTextOf(food);
+    return aliases.some(alias => text.includes(alias));
+  };
+}
 function currentMatches() {
-  const checks = searchTerms().map(term => {
-    // One pepper (or 辛い) finds all marked spicy dishes, including "maybe".
-    // Two/three peppers require at least that numerical spice level.
-    const peppers = term.match(/🌶️/gu) || [];
-    if (peppers.length && peppers.join("") === term) {
-      return peppers.length === 1
-        ? food => Boolean(food.spice)
-        : food => peppers.length <= 3 && Number(food.spice) >= peppers.length;
-    }
-    if (term === "辛い") return food => Boolean(food.spice);
-    // Preserve the existing traditional/simplified/Japanese synonym groups.
-    const aliases = variantsFor(term);
-    return food => {
-      const text = searchTextOf(food);
-      return aliases.some(alias => text.includes(alias));
-    };
-  });
+  const checks = searchTerms().map(termCheck);
   if (!checks.length) return foods.slice();
   return foods.filter(food => checks.every(check => check(food)));
 }
+// v2.0.45: read-only access for js/figma-dict-v245.js (料理辞典 V4).
+window.tabiFoodDict = {
+  foods: () => foods,
+  normalized,
+  variants: term => variantsFor(term),
+  matcher: termCheck,
+  highlight: addHighlightedText,
+  graphemes: value => descriptionGraphemes(value)
+};
 
 function addHighlightedText(parent, value, terms) {
   // Uses DOM text nodes, not HTML interpolation, to keep all inputs safe.

@@ -387,13 +387,7 @@
                   "tone": "auto"
                 }
               ],
-              "links": [
-                {
-                  "type": "official",
-                  "label": "公式",
-                  "url": "http://www.tpecitygod.org/"
-                }
-              ],
+              "links": [],
               "mapUrl": "https://maps.app.goo.gl/tKTV19Rrw1rYRxuMA"
             },
             {

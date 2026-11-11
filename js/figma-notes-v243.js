@@ -24,6 +24,8 @@
   const el = (tag, cls, text) => { const n = document.createElement(tag); n.className = cls; if (text) n.textContent = text; return n; };
   const notes = [...list.querySelectorAll(':scope > .tt2-note')];
   list.before(el('p', 'tt2n-intro', `旅行前に知っておきたい ${notes.length}項目`));
+  // v2.0.44: the bottom fade is a sticky strip at the end of the pane (no mask while animating).
+  pane.append(el('div', 'tt2n-fade'));
   notes.forEach((note, i) => {
     if (i === 0) note.before(el('p', 'tt2n-group', '滞在'));
     if (i === 4) note.before(el('p', 'tt2n-group', '移動・お金'));
