@@ -1573,7 +1573,7 @@ ${GEO_MAX_METERS}m 內：${near} 筆
         (useDistance?`いま営業中の掲載店は、直線${GEO_MAX_METERS}m以内にありません。時間帯を指定するとご覧いただけます。`:'いま営業中の掲載店はありません。時間帯を指定してご覧ください。'):
         (useDistance?`選択地点から直線${GEO_MAX_METERS}m以内に該当する掲載店はありません。`:'この時間帯に合う掲載店は、まだありません。時間帯を変更してご覧ください。')):'該当店が見つかりません。';
       results.append(el('p','recommend-no-data','おすすめ情報を準備中です。'));
-      count.textContent='0軒';reportDebug(0);return;
+      count.textContent='0軒';more.dataset.total='0';more.dataset.page='0';reportDebug(0);return;
     }
     const pages=Math.ceil(ordered.length/3);
     state.page=((state.page%pages)+pages)%pages;
@@ -1661,6 +1661,8 @@ ${GEO_MAX_METERS}m 內：${near} 筆
       alignCards();
     });
     more.hidden=ordered.length<=3;
+    // v2.0.43 (display only): the 2.0 pager shows 「N軒中 a–b軒目」 from these.
+    more.dataset.total=String(ordered.length);more.dataset.page=String(state.page);
     disclaimer.textContent=`※ ${state.timeMode==='current'?'台北時刻 '+taipeiTimeLabel()+'。':''}距離は直線です。営業時間は目安です。`;
   }
   more.addEventListener('click',()=>{state.page++;renderResults();});

@@ -82,22 +82,114 @@
   where.append(placeBtn, timeBtn);
   drawer.querySelector('.recommend-controls')?.before(where);
 
-  placeBtn.addEventListener('click', event => {
-    event.stopPropagation();
-    if (isStation()) {
-      // Line first (with search); once a line is chosen the station list follows.
-      lineTrigger?.click();
-    } else currentLocation?.click();
-  });
-  timeBtn.addEventListener('click', event => { event.stopPropagation(); timeButton?.click(); });
-  // After a line is picked without a station, open the station list straight away.
-  lineMenu?.addEventListener('click', event => {
-    if (!event.target.closest('.recommend-native-option-line')) return;
-    setTimeout(() => {
-      if (isStation() && !$('recommend-station-code')?.classList.contains('is-empty')) return;
-      if (isStation() && !stationTrigger?.disabled) stationTrigger.click();
-    }, 0);
-  });
+placeBtn.addEventListener('click', event => {
+  event.stopPropagation();
+  if (isStation()) stationPicker.toggle();
+  else currentLocation?.click();
+});
+timeBtn.addEventListener('click', event => { event.stopPropagation(); stationPicker.close(); timeButton?.click(); });
+
+/* ---------- v2.0.43: 駅検索 A — one panel under the row (Figma 定案) ----------
+   search field · a row of line chips · the chosen line's stations in two columns. Typing
+   shows recommend.js's own search results instead. Every tap clicks the original (hidden)
+   line / station option, so recommend.js still owns the choice; the panel only reads. */
+const stationMenu = $('recommend-station-menu');
+const stationPicker = (() => {
+  const panel = el('div', 'tt2-station-picker');
+  panel.id = 'tt2-station-picker';
+  panel.hidden = true;
+  panel.setAttribute('role', 'dialog');
+  panel.setAttribute('aria-label', '駅を選ぶ');
+  const lineTitle = el('p', 'tt2-sp-title', '路線');
+  const chips = el('div', 'tt2-sp-chips');
+  const lineName = el('p', 'tt2-sp-line');
+  const stationTitle = el('p', 'tt2-sp-title', '駅');
+  const grid = el('div', 'tt2-sp-grid');
+  const searchWrap = lineMenu?.querySelector('.recommend-station-search');
+  const results = lineMenu?.querySelector('.recommend-native-list');
+  if (searchWrap) panel.append(searchWrap);
+  panel.append(lineTitle, chips, lineName, stationTitle, grid);
+  if (results) { results.classList.add('tt2-sp-results'); panel.append(results); }
+  where.after(panel);
+  let line = '';
+  let lines = [];
+  const input = searchWrap?.querySelector('input');
+  const searching = () => !!input?.value.trim();
+  function readLines() {
+    const found = [...(results?.querySelectorAll('.recommend-native-option-line') || [])].map(b => {
+      const badge = b.querySelector('.recommend-native-option-code');
+      return {id: b.dataset.value, color: badge?.style.backgroundColor || '#4288c9',
+        name: b.querySelector('strong')?.textContent || '', en: b.querySelector('small')?.textContent || ''};
+    });
+    if (found.length) lines = found;
+  }
+  function lineButton(id) {
+    if (searching()) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
+    return results?.querySelector(`.recommend-native-option-line[data-value="${id}"]`);
+  }
+  function paint() {
+    readLines();
+    const query = searching();
+    panel.classList.toggle('is-searching', query);
+    line = line || $('recommend-line-code')?.textContent.trim() || lines[0]?.id || '';
+    chips.replaceChildren(...lines.map(l => {
+      const b = el('button', 'tt2-sp-chip', l.id);
+      b.type = 'button';
+      b.style.backgroundColor = l.color;
+      b.setAttribute('aria-label', l.name);
+      b.setAttribute('aria-pressed', String(l.id === line));
+      b.addEventListener('click', () => {
+        const original = lineButton(l.id);
+        line = l.id;
+        original?.click();          // recommend.js: state.line, station options, closes its menus
+        paint();
+      });
+      return b;
+    }));
+    const current = lines.find(l => l.id === line);
+    const options = [...(stationMenu?.querySelectorAll('.recommend-native-option-station') || [])];
+    lineName.replaceChildren(el('b', '', current?.name || ''), document.createTextNode(current ? `  ${current.en}  ·  ${options.length}駅` : ''));
+    grid.replaceChildren(...options.map(o => {
+      const cell = el('button', 'tt2-sp-cell');
+      cell.type = 'button';
+      cell.setAttribute('aria-pressed', String(o.getAttribute('aria-selected') === 'true'));
+      const badge = o.querySelector('.recommend-native-option-code')?.cloneNode(true);
+      if (badge) { badge.className = 'tt2-sp-badge'; badge.dataset.line = line; cell.append(badge); }
+      cell.append(el('span', 'tt2-sp-name', o.querySelector('strong')?.textContent || ''));
+      cell.addEventListener('click', () => { o.click(); close(); });
+      return cell;
+    }));
+    if (!options.length) grid.append(el('p', 'tt2-sp-hint', '路線を選ぶと駅が表示されます'));
+  }
+  function open() {
+    readLines();
+    if (!lines.length) return;           // stations not loaded yet
+    line = $('recommend-line-code')?.textContent.trim() || line;
+    if (line && !stationMenu?.querySelector('.recommend-native-option-station')) lineButton(line)?.click();
+    paint();
+    panel.hidden = false;
+    placeBtn.setAttribute('aria-expanded', 'true');
+    later();
+  }
+  function close() {
+    if (panel.hidden) return;
+    panel.hidden = true;
+    placeBtn.setAttribute('aria-expanded', 'false');
+    if (input?.value) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
+    later();
+  }
+  input?.addEventListener('input', () => { if (!panel.hidden) panel.classList.toggle('is-searching', searching()); });
+  // A search result (click or Enter) chooses a station: recommend.js handles it, then close.
+  results?.addEventListener('click', event => { if (event.target.closest('.recommend-station-result')) setTimeout(close, 0); });
+  input?.addEventListener('keydown', event => {
+    if (event.key === 'Enter') setTimeout(() => { if (!searching()) close(); }, 0);
+    if (event.key === 'Escape') { event.stopPropagation(); close(); placeBtn.focus({preventScroll: true}); }
+  }, true);
+  panel.addEventListener('click', event => event.stopPropagation());
+  document.addEventListener('click', event => { if (!panel.hidden && !panel.contains(event.target) && !placeBtn.contains(event.target)) close(); });
+  document.addEventListener('tt:viewchange', close);
+  return {open, close, toggle: () => (panel.hidden ? open() : close()), isOpen: () => !panel.hidden, panel};
+})();
 
   /* ---------- 注意事項 ---------- */
   // v2.0.33: written out in place (no button): the original disclaimer, plus the GPS /
@@ -190,15 +282,42 @@
     mountWheel();
   }
 
+  /* ---------- v2.0.43: pager instead of 「ほかの3軒を見る」 ---------- */
+  // 「17軒中 1–3軒目」 on the left, the original button (same click: next three, wrapping
+  // to the start) as the white 「次の3軒 ›」 capsule on the right. recommend.js writes the
+  // total and the page onto the button as data-total / data-page.
+  const moreBtn = $('recommend-more');
+  if (moreBtn) {
+    const pager = el('div', 'tt2-food-pager');
+    const pos = el('span', 'tt2-food-pager-pos');
+    pos.setAttribute('aria-live', 'polite');
+    moreBtn.before(pager);
+    pager.append(pos, moreBtn);
+    const label = el('span', 'tt2-food-pager-label', '次の3軒');
+    moreBtn.append(label);
+    const paint = () => {
+      const total = +moreBtn.dataset.total || 0, page = +moreBtn.dataset.page || 0;
+      pager.hidden = !total;
+      if (!total) return;
+      const a = page * 3 + 1, b = Math.min(total, page * 3 + 3);
+      pos.replaceChildren(document.createTextNode(`${total}軒中  `), el('b', '', a === b ? `${a}軒目` : `${a}–${b}軒目`));
+      const last = b >= total;
+      label.textContent = last ? '最初から' : '次の3軒';
+      moreBtn.setAttribute('aria-label', last ? '最初の3軒に戻る' : 'ほかの3軒を見る');
+    };
+    new MutationObserver(paint).observe(moreBtn, {attributes: true, attributeFilter: ['data-total', 'data-page', 'hidden']});
+    paint();
+  }
+
   /* ---------- v2.0.41: the station row previews the best search match ---------- */
   // While a station is being searched, the row above shows the first result live: its
   // badge (line colour, line letters, number) and its name. recommend.js re-renders the
   // results inside the picker, which the observer above already turns into a sync().
   // Closing the menu without choosing (the field is cleared or hidden) restores the row.
-  const searchInput = lineMenu?.querySelector('.recommend-station-search-input');
+  const searchInput = stationPicker.panel.querySelector('.recommend-station-search-input');
   function searchPreview() {
-    if (!searchInput || !lineMenu || lineMenu.hidden || !searchInput.value.trim()) return null;
-    const row = lineMenu.querySelector('.recommend-station-result');
+    if (!searchInput || !stationPicker.isOpen() || !searchInput.value.trim()) return null;
+    const row = stationPicker.panel.querySelector('.recommend-station-result');
     const code = row?.querySelector('.recommend-native-option-code');
     if (!row || !code) return null;
     return {code, line: row.dataset.line || (row.dataset.value || '').replace(/[^A-Z]/g, ''),
