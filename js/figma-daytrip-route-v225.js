@@ -36,8 +36,34 @@
       {label:'十分 → 九份',options:[D(panels[0],jiufenPages[2],0,'タクシー','taxi',true)]}
     ],
     [{label:'台鉄',options:[D(panels[2],panels[2],0,'台鉄','rail')]}],
-    [{label:'路線バス',options:[D(panels[3],panels[3],0,'國光客運 1815番','bus'),D(panels[3],panels[3],1,'基隆客運 790番','bus')]}]
+    // v2.0.41: 野柳 shows 國光客運 1815番 only (基隆客運 790番 removed by the user; its data stays in the panel).
+    [{label:'路線バス',options:[D(panels[3],panels[3],0,'國光客運 1815番','bus')]}]
   ];
+  // v2.0.41: every place name opens its own map position (checked by the user, 遠出_地点リンク一覧.csv).
+  // Key: destination-mode-option-stop (stop 0 = 出発, last = 到着, between = 乗換). sub = the grey line under the name.
+  const PLACES = {
+    '0-0-0-0':{name:"捷運西門站",sub:"バス停「MRT Ximen Sta.」",url:"https://www.google.com/maps/place/%E6%8D%B7%E9%81%8B%E8%A5%BF%E9%96%80%E7%AB%99/@25.0399791,121.5077809,21z/data=!4m18!1m11!4m10!1m6!1m2!1s0x3442a909804e4613:0x82ad6129e5d1e9b7!2z6KW_6ZaAIDEwMOWPsOeBo-iHuuWMl-W4guS4reato-WNgOilv-mWgOmHjOWvtuaFtui3rzMyLTHomZ8!2m2!1d121.5082995!2d25.0421884!1m2!1m1!2z5YWs6LuK56uZ!3m5!1s0x3442a909fb9c10af:0xf2ec706438a2fd45!8m2!3d25.040033!4d121.507934!16s%2Fg%2F11hzwbvhsb?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 台北客運 965番 出発
+    '0-0-0-1':{name:"九份",sub:"「九份老街」で降車",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1103418,121.8456348,21z/data=!4m6!3m5!1s0x345d451833cc9403:0x7c999c8da6bd4a23!8m2!3d25.110359!4d121.845726!16s%2Fg%2F11b62pdx0s?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 台北客運 965番 到着
+    '0-0-1-0':{name:"捷運忠孝復興站",sub:"バス停「MRT Zhongxiao Fuxing Sta.」",url:"https://www.google.com/maps/place/%E6%8D%B7%E9%81%8B%E5%BF%A0%E5%AD%9D%E5%BE%A9%E8%88%88%E7%AB%99/@25.040969,121.5432445,20.01z/data=!4m6!3m5!1s0x3442abd0b99c2483:0xe836455fbf5cf57b!8m2!3d25.04082!4d121.54357!16s%2Fg%2F1q67b4kwz?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 基隆客運 1062番 出発
+    '0-0-1-1':{name:"九份",sub:"「九份老街」で降車",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1101818,121.8456363,19.88z/data=!4m6!3m5!1s0x345d451831f09705:0x15229b5cbec753c8!8m2!3d25.110385!4d121.845794!16s%2Fg%2F11b62sc359?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 基隆客運 1062番 到着
+    '0-1-0-0':{name:"台北駅",sub:"松山駅などからも乗車可能",url:"https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E8%BB%8A%E7%AB%99"}, // 九份 路線バス 出発
+    '0-1-0-1':{name:"瑞芳駅",sub:"",url:"https://www.google.com/maps/search/?api=1&query=%E7%91%9E%E8%8A%B3%E8%BB%8A%E7%AB%99"}, // 九份 路線バス 乗換
+    '0-1-0-2':{name:"九份",sub:"",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1101628,121.8454099,20.07z/data=!4m6!3m5!1s0x345d451833cc9403:0x7c999c8da6bd4a23!8m2!3d25.110359!4d121.845726!16s%2Fg%2F11b62pdx0s?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 路線バス 到着
+    '0-1-1-0':{name:"台北駅",sub:"松山駅などからも乗車可能",url:"https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E8%BB%8A%E7%AB%99"}, // 九份 タクシー 出発
+    '0-1-1-1':{name:"瑞芳駅",sub:"",url:"https://www.google.com/maps/search/?api=1&query=%E7%91%9E%E8%8A%B3%E8%BB%8A%E7%AB%99"}, // 九份 タクシー 乗換
+    '0-1-1-2':{name:"九份",sub:"",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1099082,121.8439875,17z/data=!4m6!3m5!1s0x345d4517fafb9471:0x5f15825aa6a4a7d2!8m2!3d25.109806!4d121.845223!16s%2Fg%2F155q3rqr?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 タクシー 到着
+    '0-2-0-0':{name:"九份",sub:"",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1099082,121.8439875,17z/data=!4m6!3m5!1s0x345d4517fafb9471:0x5f15825aa6a4a7d2!8m2!3d25.109806!4d121.845223!16s%2Fg%2F155q3rqr?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 タクシー 出発
+    '0-2-0-1':{name:"十分",sub:"",url:"https://www.google.com/maps/place/%E5%8D%81%E5%88%86%E8%80%81%E8%A1%97/@25.0441024,121.774609,16.47z/data=!4m6!3m5!1s0x345d512fffffffff:0xf6dec4403a7273be!8m2!3d25.0423966!4d121.7763662!16s%2Fg%2F12m9dvn8b?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 タクシー 到着
+    '1-0-0-0':{name:"台北駅",sub:"松山駅などからも乗車可能",url:"https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E8%BB%8A%E7%AB%99"}, // 十分 台鉄 出発
+    '1-0-0-1':{name:"瑞芳駅",sub:"",url:"https://www.google.com/maps/search/?api=1&query=%E7%91%9E%E8%8A%B3%E8%BB%8A%E7%AB%99"}, // 十分 台鉄 乗換
+    '1-0-0-2':{name:"十分",sub:"",url:"https://www.google.com/maps/search/?api=1&query=%E5%8D%81%E5%88%86%E8%BB%8A%E7%AB%99"}, // 十分 台鉄 到着
+    '1-1-0-0':{name:"十分老街",sub:"",url:"https://www.google.com/maps/place/%E5%8D%81%E5%88%86%E8%80%81%E8%A1%97/@25.0441024,121.774609,16.47z/data=!4m6!3m5!1s0x345d512fffffffff:0xf6dec4403a7273be!8m2!3d25.0423966!4d121.7763662!16s%2Fg%2F12m9dvn8b?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 十分 タクシー 出発
+    '1-1-0-1':{name:"九份老街",sub:"",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1099082,121.8439875,17z/data=!4m6!3m5!1s0x345d4517fafb9471:0x5f15825aa6a4a7d2!8m2!3d25.109806!4d121.845223!16s%2Fg%2F155q3rqr?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 十分 タクシー 到着
+    '2-0-0-0':{name:"台北駅",sub:"松山駅などからも乗車可能",url:"https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E8%BB%8A%E7%AB%99"}, // 基隆 台鉄 出発
+    '2-0-0-1':{name:"基隆",sub:"",url:"https://www.google.com/maps/search/?api=1&query=%E5%9F%BA%E9%9A%86%E8%BB%8A%E7%AB%99"}, // 基隆 台鉄 到着
+    '3-0-0-0':{name:"台北駅",sub:"",url:"https://www.google.com/maps/place/%E8%87%BA%E5%8C%97%E8%BB%8A%E7%AB%99(%E6%9D%B1%E4%B8%89%E9%96%80)/@25.0474228,121.5178439,19.98z/data=!3m1!5s0x346811399ede8187:0xaaa69628b941c253!4m6!3m5!1s0x3442a97271c0a12b:0xaa9a33e4f2db8429!8m2!3d25.04731!4d121.51798!16s%2Fg%2F11ww89nc2x?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 野柳 國光客運 1815番 出発
+    '3-0-0-1':{name:"野柳",sub:"「野柳」で降車",url:"https://www.google.com/maps/place/%E9%87%8E%E6%9F%B3/@25.203512,121.6850601,21z/data=!4m6!3m5!1s0x345d4c7a09bde93d:0xf61f419b3f068b75!8m2!3d25.203657!4d121.685241!16s%2Fg%2F1tt1dzhn?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 野柳 國光客運 1815番 到着
+  };
   const names = ['九份','十分','基隆','野柳'];
   const nav = document.createElement('nav');
   nav.className='tt221-mode-nav';nav.setAttribute('aria-label','移動方法');
@@ -103,7 +129,7 @@
     if(dest===1 && mode===1) return 'タクシーの乗車場所・運賃を事前に確認。';
     if(dest===1) return '平渓線は約1時間に1本。\n時刻と復路の交通手段を事前に確認。';
     if(dest===2) return '基隆駅から港周辺へは徒歩でアクセスできます。\n運賃は乗車券・列車により異なります。';
-    if(dest===3) return '路線によって出発地と運賃が異なります。\n運行状況と復路の時刻も事前に確認。';
+    if(dest===3) return '運行状況と復路の時刻を事前に確認。'; // v2.0.41: one route only
     return notes[0]||'';
   }
   function segmentKind(leg, option, n) {
@@ -212,12 +238,17 @@
     }
     stops.forEach((stop,i)=>{
       const st=stationInfo(stop,i,stops.length,opt);
+      const place=PLACES[`${dest}-${mode}-${picks[dest][mode]}-${i}`];
+      if(place) st.sub=place.sub;
+      const nameHtml=place
+        ? `<a class="tt221-place" href="${safe(place.url)}" target="_blank" rel="noopener noreferrer" aria-label="${safe(st.name)}の場所を地図で見る">${safe(st.name)}</a>`
+        : safe(st.name);
       const dotKind=i===0?'start':i===stops.length-1?'end':'transfer';
       const dotTop=`${(i/(stops.length-1))*100}%`;
       const textMark=dotKind==='start'?'出発':dotKind==='end'?'到着':'乗換';
       parts.push(`<div class="tt221-stop tt221-stop--${dotKind}" style="top:${dotTop}">
          <span class="tt221-status">${textMark}</span><span class="tt221-dot" aria-hidden="true"></span>
-         <div class="tt221-station"><strong>${safe(st.name)}</strong>${st.sub?`<span class="tt221-station-sub">${safe(st.sub)}</span>`:''}</div></div>`);
+         <div class="tt221-station"><strong>${nameHtml}</strong>${st.sub?`<span class="tt221-station-sub">${safe(st.sub)}</span>`:''}</div></div>`);
     });
     legs.forEach((leg,i)=>{
       const l=legInfo(leg,opt,i);

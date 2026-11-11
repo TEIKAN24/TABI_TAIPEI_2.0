@@ -127,15 +127,22 @@
       const name = $('recommend-station-label')?.textContent.trim() || '';
       const code = $('recommend-station-code');
       const picked = code && !code.classList.contains('is-empty');
-      placeCode.hidden = !picked;
-      if (picked) {
+      const preview = searchPreview();
+      placeCode.hidden = !picked && !preview;
+      placeValue.classList.toggle('is-preview', !!preview);
+      if (preview) {
+        placeCode.innerHTML = preview.code.innerHTML;
+        placeCode.style.borderColor = preview.code.style.borderColor;
+        placeCode.dataset.line = preview.line;
+      } else if (picked) {
         placeCode.innerHTML = code.innerHTML;
         placeCode.style.borderColor = code.style.borderColor;
         const line = $('recommend-line-code')?.textContent.trim() || '';
         placeCode.dataset.line = line;
       }
       // Figma 2-2: 「府中駅」 (the station data holds 府中).
-      placeName.textContent = picked ? (/[駅站]$/.test(name) ? name : name + '駅') : '駅を選ぶ';
+      const shown = preview ? preview.name : picked ? name : '';
+      placeName.textContent = shown ? (/[駅站]$/.test(shown) ? shown : shown + '駅') : '駅を選ぶ';
       placeHint.textContent = '';
       placeBtn.setAttribute('aria-label', picked ? `駅周辺：${name}（タップして駅を変更）` : '駅を選ぶ');
     } else {
@@ -183,33 +190,23 @@
     mountWheel();
   }
 
-  /* ---------- v2.0.40: station search shows the best match's number while typing ---------- */
-  // The magnifier turns into the first result's station badge (line colour + number) and
-  // follows every keystroke. recommend.js renders the results in its own input listener,
-  // which was added before this one, so the first result is ready when this runs.
-  const searchWrap = lineMenu?.querySelector('.recommend-station-search');
-  const searchInput = searchWrap?.querySelector('input');
-  if (searchWrap && searchInput) {
-    const live = el('span', 'tt2-search-code');
-    live.hidden = true;
-    live.setAttribute('aria-hidden', 'true');
-    searchWrap.insertBefore(live, searchInput);
-    const updateLive = () => {
-      const first = searchInput.value.trim() ? lineMenu.querySelector('.recommend-station-result .recommend-native-option-code') : null;
-      live.hidden = !first;
-      searchWrap.classList.toggle('has-match', !!first);
-      if (!first) return;
-      live.className = first.className + ' tt2-search-code';
-      live.innerHTML = first.innerHTML;
-      live.style.cssText = first.style.cssText;
-      // line letters on top (BL / 06), as on the station row's badge
-      const row = first.closest('.recommend-station-result');
-      live.dataset.line = row?.dataset.line || (row?.dataset.value || '').replace(/[^A-Z]/g, '');
-    };
-    searchInput.addEventListener('input', updateLive);
-    // Choosing a station clears the field without an input event.
-    lineMenu.addEventListener('click', () => setTimeout(updateLive, 0));
+  /* ---------- v2.0.41: the station row previews the best search match ---------- */
+  // While a station is being searched, the row above shows the first result live: its
+  // badge (line colour, line letters, number) and its name. recommend.js re-renders the
+  // results inside the picker, which the observer above already turns into a sync().
+  // Closing the menu without choosing (the field is cleared or hidden) restores the row.
+  const searchInput = lineMenu?.querySelector('.recommend-station-search-input');
+  function searchPreview() {
+    if (!searchInput || !lineMenu || lineMenu.hidden || !searchInput.value.trim()) return null;
+    const row = lineMenu.querySelector('.recommend-station-result');
+    const code = row?.querySelector('.recommend-native-option-code');
+    if (!row || !code) return null;
+    return {code, line: row.dataset.line || (row.dataset.value || '').replace(/[^A-Z]/g, ''),
+      name: row.querySelector('.recommend-native-option-copy strong')?.textContent.trim() || ''};
   }
+  searchInput?.addEventListener('input', later);
+  // Closing the menu by tapping elsewhere only hides it; restore the row then too.
+  lineMenu && new MutationObserver(later).observe(lineMenu, {attributes: true, attributeFilter: ['hidden']});
 
   document.addEventListener('tt:viewchange', event => { if (event.detail?.view === 'food') sync(); setNotes(false); });
   sync();

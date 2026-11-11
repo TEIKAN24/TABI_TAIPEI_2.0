@@ -241,3 +241,13 @@ html.tt2-fidelity.tt-ios-safari-tab[data-tt-view='day-trips'] #guide .tt221-warn
     top:calc(101px + min(322px, max(150px, calc(100% - 245px))) + 40px)!important;bottom:auto!important;
   }
 }
+
+/* v2.0.41: place names open their map position. Same text, with a quiet underline so
+   they read as tappable (like the 料理辞典 links in 味わい). */
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-station a.tt221-place,
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-station a.tt221-place:visited {
+  color:inherit!important;-webkit-text-fill-color:currentColor!important;font:inherit!important;
+  text-decoration:underline!important;text-decoration-thickness:1px!important;text-underline-offset:4px!important;
+  text-decoration-color:rgba(255,255,255,.35)!important;-webkit-tap-highlight-color:transparent;
+}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-station a.tt221-place:focus-visible {outline:2px solid #ddd;outline-offset:2px;border-radius:2px;}
