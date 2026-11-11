@@ -419,9 +419,10 @@
   // v2.0.39: picking scales the card 1.2× from its top edge (10% wider on each side), so it
   // grows downward and, once a day is chosen, shrinks back upward. The scale already
   // enlarges the cells, so the extra row gaps are no longer opened (PICK_TALL = 1).
-  const GAP = 10, PICK_SCALE = 1.2, PICK_TALL = 1, SIDE_DROP = 7;
+  // v2.0.40: 12px between the month cards in every state (also while picking).
+  const GAP = 12, PICK_SCALE = 1.2, PICK_TALL = 1, SIDE_DROP = 7;
   const PADV = 16;                           // room above/below the cards so the grown card is never clipped
-  let C = 0, Wf = 0, Wm = 0, S = 1, fullH = [], miniH = 0, stageH = 0, current = -1, frame = 0;
+  let C = 0, Wf = 0, Wm = 0, S = 1, fullH = [], miniH = 0, stageH = 0, pickRoom = 0, current = -1, frame = 0;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
   const lerp = (a, b, t) => a + (b - a) * t;
   const isHeat = () => root.classList.contains('is-heat');
@@ -454,9 +455,10 @@
     miniH = Math.max(...cards.map(c => c.lastChild.offsetHeight));
     stageH = Math.max(...fullH) + 4;
     // v2.0.39: the heatmap grows downward while a day is picked; the month strip clips what
-    // leaves its box, so in heatmap mode it keeps that much room below the card.
-    const pickRoom = isHeat() ? Math.max(0, Math.ceil(Math.max(...fullH) * (PICK_SCALE * PICK_TALL - 1)) - PADV + 2) : 0;
-    stage.style.height = (stageH + PADV * 2 + pickRoom) + 'px';
+    // leaves its box, so it needs that much room below the card. v2.0.40: only while
+    // picking: the summary and list move down with the card and back up after the pick.
+    pickRoom = Math.max(0, Math.ceil(Math.max(...fullH) * (PICK_SCALE * PICK_TALL - 1)) - PADV + 2);
+    sizeStage();
     // While picking, the card grows 5% taller by opening the gaps between its weeks,
     // so the date and the bottom row move outward instead of being stretched.
     cards.forEach((c, i) => c.querySelector('.ec-grid')?.style.setProperty('--ec-gap-extra',
@@ -464,6 +466,8 @@
     if (selDay !== null) placeBox(selDay);
     return true;
   }
+
+  function sizeStage() { stage.style.height = (stageH + PADV * 2 + (picking ? pickRoom : 0)) + 'px'; }
 
   function place() {
     frame = 0;
@@ -477,7 +481,7 @@
     for (let i = k + 1; i < n; i++) centre[i] = centre[i - 1] + w[i - 1] / 2 + GAP + w[i] / 2;
     for (let i = k - 1; i >= 0; i--) centre[i] = centre[i + 1] - w[i + 1] / 2 - GAP - w[i] / 2;
     // While a day is being picked the wide card grows a little and its neighbours step aside.
-    const push = picking ? Wf * (PICK_SCALE - 1) / 2 + 8 : 0;   // neighbours also drop SIDE_DROP and dim
+    const push = picking ? Wf * (PICK_SCALE - 1) / 2 : 0;   // keeps GAP to the grown card; neighbours also drop SIDE_DROP and dim
     cards.forEach((card, i) => {
       const d = Math.min(1, Math.abs(i - p));
       const shift = picking && i !== current ? Math.sign(i - current) * push : 0;
@@ -624,6 +628,7 @@
     animate('is-switching', 280);
     root.classList.add('is-picking');
     setPickDay(day);
+    sizeStage();
     place();
   }
   function endPick(commit) {
@@ -633,6 +638,7 @@
     card.classList.remove('is-pick');
     animate('is-switching', 280);
     root.classList.remove('is-picking');
+    sizeStage();
     place();
     if (commit) {
       selDay = selDay === day ? null : day;          // long-pressing the picked day again clears it

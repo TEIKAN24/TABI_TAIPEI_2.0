@@ -183,6 +183,34 @@
     mountWheel();
   }
 
+  /* ---------- v2.0.40: station search shows the best match's number while typing ---------- */
+  // The magnifier turns into the first result's station badge (line colour + number) and
+  // follows every keystroke. recommend.js renders the results in its own input listener,
+  // which was added before this one, so the first result is ready when this runs.
+  const searchWrap = lineMenu?.querySelector('.recommend-station-search');
+  const searchInput = searchWrap?.querySelector('input');
+  if (searchWrap && searchInput) {
+    const live = el('span', 'tt2-search-code');
+    live.hidden = true;
+    live.setAttribute('aria-hidden', 'true');
+    searchWrap.insertBefore(live, searchInput);
+    const updateLive = () => {
+      const first = searchInput.value.trim() ? lineMenu.querySelector('.recommend-station-result .recommend-native-option-code') : null;
+      live.hidden = !first;
+      searchWrap.classList.toggle('has-match', !!first);
+      if (!first) return;
+      live.className = first.className + ' tt2-search-code';
+      live.innerHTML = first.innerHTML;
+      live.style.cssText = first.style.cssText;
+      // line letters on top (BL / 06), as on the station row's badge
+      const row = first.closest('.recommend-station-result');
+      live.dataset.line = row?.dataset.line || (row?.dataset.value || '').replace(/[^A-Z]/g, '');
+    };
+    searchInput.addEventListener('input', updateLive);
+    // Choosing a station clears the field without an input event.
+    lineMenu.addEventListener('click', () => setTimeout(updateLive, 0));
+  }
+
   document.addEventListener('tt:viewchange', event => { if (event.detail?.view === 'food') sync(); setNotes(false); });
   sync();
 })();
