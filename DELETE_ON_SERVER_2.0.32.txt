@@ -1,6 +1,0 @@
-v2.0.32 — these files are no longer used and can be deleted from the site (leaving them is harmless):
-css/figma-events-v208.css
-css/figma-events-v209.css
-css/figma-events-tune-v2103.css
-js/figma-events-v207.js
-js/figma-events-v209.js
