@@ -185,9 +185,22 @@
     if(!detail && kind==='taxi')detail='乗車場所・料金を事前に確認';
     return {head,dir,detail,kind};
   }
+  // v2.0.42: 「経路を見る」 runs from the start's map position to the end's (the !3d/!4d
+  // coordinates in the PLACES links; a link without them gives its search word instead),
+  // by public transport, or by car for the taxi routes. 台鉄＋タクシー stops at the transfer
+  // station: the train part is the one Google can plan; the taxi ride is on the spot.
+  function placeAt(i) { return PLACES[`${dest}-${mode}-${picks[dest][mode]}-${i}`]; }
+  function endpoint(place, fallback) {
+    const url = place?.url || '';
+    const at = [...url.matchAll(/!3d(-?\d+(?:\.\d+)?)!4d(-?\d+(?:\.\d+)?)/g)].pop();
+    if (at) return at[1] + ',' + at[2];
+    try { const q = new URL(url).searchParams.get('query'); if (q) return q; } catch (_) {}
+    return fallback;
+  }
   function routeURL(stops,option) {
-    const start=stationInfo(stops[0],0,stops.length,option).name;
-    const end=stationInfo(stops[stops.length-1],stops.length-1,stops.length,option).name;
+    const last = option.type==='railtaxi' ? 1 : stops.length-1;
+    const start = endpoint(placeAt(0), stationInfo(stops[0],0,stops.length,option).name);
+    const end = endpoint(placeAt(last), stationInfo(stops[last],last,stops.length,option).name);
     return 'https://www.google.com/maps/dir/?api=1&origin='+encodeURIComponent(start)
       +'&destination='+encodeURIComponent(end)+'&travelmode='+(option.type==='taxi'?'driving':'transit');
   }
