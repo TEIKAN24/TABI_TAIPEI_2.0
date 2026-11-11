@@ -416,7 +416,10 @@
 
   /* ---------- geometry ---------- */
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const GAP = 10, PICK_SCALE = 1.06, PICK_TALL = 1.05, SIDE_DROP = 7;
+  // v2.0.39: picking scales the card 1.2× from its top edge (10% wider on each side), so it
+  // grows downward and, once a day is chosen, shrinks back upward. The scale already
+  // enlarges the cells, so the extra row gaps are no longer opened (PICK_TALL = 1).
+  const GAP = 10, PICK_SCALE = 1.2, PICK_TALL = 1, SIDE_DROP = 7;
   const PADV = 16;                           // room above/below the cards so the grown card is never clipped
   let C = 0, Wf = 0, Wm = 0, S = 1, fullH = [], miniH = 0, stageH = 0, current = -1, frame = 0;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -438,9 +441,22 @@
     snaps.forEach((s, i) => { s.style.left = (i * S) + 'px'; });
     // Each wide card fits its own month; the stage keeps the tallest so nothing jumps while swiping.
     fullH = cards.map(c => c.firstChild.offsetHeight);
+    // v2.0.39: every heatmap holds six weeks, so a five-week month keeps one empty row at
+    // the bottom. All cards then share one height: the card keeps its top when it turns
+    // bars ⇄ heatmap (it only grows or shrinks at the bottom) and nothing jumps between months.
+    if (isHeat()) fullH = cards.map((c, i) => {
+      const grid = c.querySelector('.ec-grid'), cell = grid?.querySelector(':scope > i');
+      if (!cell) return fullH[i];
+      const rows = Math.ceil(grid.querySelectorAll(':scope > i').length / 7);
+      const pitch = cell.offsetHeight + (parseFloat(getComputedStyle(grid).rowGap) || 0);
+      return fullH[i] + Math.max(0, 6 - rows) * pitch;
+    });
     miniH = Math.max(...cards.map(c => c.lastChild.offsetHeight));
     stageH = Math.max(...fullH) + 4;
-    stage.style.height = (stageH + PADV * 2) + 'px';
+    // v2.0.39: the heatmap grows downward while a day is picked; the month strip clips what
+    // leaves its box, so in heatmap mode it keeps that much room below the card.
+    const pickRoom = isHeat() ? Math.max(0, Math.ceil(Math.max(...fullH) * (PICK_SCALE * PICK_TALL - 1)) - PADV + 2) : 0;
+    stage.style.height = (stageH + PADV * 2 + pickRoom) + 'px';
     // While picking, the card grows 5% taller by opening the gaps between its weeks,
     // so the date and the bottom row move outward instead of being stretched.
     cards.forEach((c, i) => c.querySelector('.ec-grid')?.style.setProperty('--ec-gap-extra',
@@ -481,9 +497,10 @@
       card.lastChild.style.opacity = clamp((d - .45) / .4, 0, 1).toFixed(3);
       if (i === current) {
         // Small month reminder outside the card's top-left corner, clear of the finger.
-        const sw = w[i] * (picking ? PICK_SCALE : 1), sh = h * (picking ? PICK_SCALE : 1);
+        // (the card scales from its top edge: wider on both sides, taller only downward)
+        const sw = w[i] * (picking ? PICK_SCALE : 1);
         const s = picking ? PICK_SCALE : 1;
-        pickMonth.style.transform = `translate3d(${(left - (sw - w[i]) / 2 - 8).toFixed(2)}px,${(top - (sh - h) / 2 + 8.5 * s + 1).toFixed(2)}px,0) translateX(-100%)`;
+        pickMonth.style.transform = `translate3d(${(left - (sw - w[i]) / 2 - 8).toFixed(2)}px,${(top + 8.5 * s + 1).toFixed(2)}px,0) translateX(-100%)`;
       }
     });
     const idx = Math.round(p);

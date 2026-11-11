@@ -56,7 +56,9 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='ev
   display:block;
   box-sizing:border-box;
   min-height:52px;
-  padding:0 0 19px 22px; /* v2.0.38: +8px for the 25px condition buttons */
+  /* v2.0.38: +8px for the 25px condition buttons. v2.0.39: month + count sit 4.5px lower,
+     so the count line ends on the buttons' bottom edge (height unchanged). */
+  padding:4.5px 0 14.5px 22px;
 }
 html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-summary {
   position:relative!important;
@@ -74,13 +76,13 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='ev
   color:var(--tt-event-detail);
 }
 html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-sum-total {
-  font:400 16px/18px 'Noto Sans JP',sans-serif; /* v2.0.38: 15 -> 16 */
+  font:500 17.5px/18px 'Noto Sans JP',sans-serif; /* v2.0.39: 17.5px, Medium */
   letter-spacing:0;
   align-items:baseline;
   color:var(--tt-event-content-ink);
 }
 html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-sum-total small {
-  font-size:16px;
+  font-size:17.5px;font-weight:inherit;
   margin-left:5px;
   letter-spacing:0;
 }
@@ -110,7 +112,7 @@ html.tt2-fidelity[data-tt-view="sights"] #event-calendar button.ec-condition-ope
   border:0!important;border-radius:100px!important;
   background:#fff!important;background-image:none!important;
   color:#000!important;-webkit-text-fill-color:#000!important;
-  font:500 12px/1 'Noto Sans JP',sans-serif!important;
+  font:600 12px/1 'Noto Sans JP',sans-serif!important; /* v2.0.39: SemiBold */
   letter-spacing:0!important;box-shadow:none!important;text-shadow:none!important;
   outline-offset:2px;color-scheme:light;
   white-space:nowrap;cursor:pointer;
@@ -142,7 +144,7 @@ html.tt2-fidelity[data-tt-view="sights"] #event-calendar:has(.ec-chips.is-open .
    top, and the negative margin-bottom gives the space back, so the summary starts
    --tt-ev-gap below the cards whether chips exist or not (nothing ever shifts). */
 html.tt2-fidelity[data-tt-view='sights'] #event-calendar {
-  --tt-ev-gap:14px;
+  --tt-ev-gap:19px; /* v2.0.39: everything under the cards 5px lower (was 14px) */
 }
 html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips,
 html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips.is-open {
@@ -157,11 +159,11 @@ html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips.is-open {
   align-items:center!important;
   justify-content:flex-end!important;
   flex-wrap:nowrap!important;
-  gap:9px!important;
+  gap:7px!important; /* v2.0.39: 9 -> 7 */
   padding:0!important;
   /* v2.0.38: 25px chips centred on the count line (12px below the summary's top).
-     right: 2px edge + 26px「＋」+ 9px gap */
-  margin:calc(var(--tt-ev-gap) + 12px) 37px -37px 0!important;
+     right: 2px edge + 26px「＋」+ 7px gap */
+  margin:calc(var(--tt-ev-gap) + 12px) 35px -37px 0!important;
   background:transparent!important;
   overflow:visible!important;
   transition:none;
@@ -201,7 +203,7 @@ html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chi
   color:#000!important;-webkit-text-fill-color:#000!important;
   border:0!important;border-radius:100px!important;
   box-shadow:none!important;text-shadow:none!important;
-  font:500 12px/1 'Noto Sans JP',sans-serif!important;
+  font:600 12px/1 'Noto Sans JP',sans-serif!important; /* v2.0.39: SemiBold */
   letter-spacing:0!important;white-space:nowrap!important;
   margin:0!important;
   outline-offset:2px;color-scheme:light;
@@ -413,3 +415,7 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='ev
 @media(prefers-reduced-motion:reduce) {
   html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-filter-panel {animation:none;}
 }
+
+/* v2.0.39: the month card scales from its top edge (js/events.js: picking = 1.2×), so the
+   heatmap grows downward from the card's top and shrinks back upward after a day is picked. */
+html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-card {transform-origin:50% 0;}

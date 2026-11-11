@@ -88,7 +88,7 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-map-link:visited {
   flex:0 0 89px;width:89px;height:28px;margin:0 0 2px;padding:0 12px;border:0;border-radius:100px;
   background:#fff;
   text-decoration:none!important;color:#000!important;-webkit-text-fill-color:#000!important;
-  font:500 13px/1 'Noto Sans JP',var(--tt2-ui)!important;letter-spacing:0;white-space:nowrap;
+  font:600 13px/1 'Noto Sans JP',var(--tt2-ui)!important; /* v2.0.39: SemiBold */letter-spacing:0;white-space:nowrap;
   -webkit-tap-highlight-color:transparent;
 }
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-map-link:focus-visible {outline:2px solid #ddd;outline-offset:2px;}
