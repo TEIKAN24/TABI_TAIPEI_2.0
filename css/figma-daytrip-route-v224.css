@@ -81,11 +81,17 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-menu-item {
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-menu-item[aria-selected='true'] {color:#fff!important;background:#292929!important;}
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-map-link,
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-map-link:visited {
+  /* v2.0.38: Figma「Route Button」89×28, white capsule, 13px Noto Sans JP Medium in black.
+     Right edge unchanged (x365); its bottom sits on the bottom of the route picker's
+     underline on the left (2px bottom margin in this centred row). */
   box-sizing:border-box;display:flex;align-items:center;justify-content:center;
-  flex:0 0 99px;width:99px;height:30px;margin:0;border:1px solid #ddd;border-radius:6px;
-  text-decoration:none!important;color:#fff!important;-webkit-text-fill-color:#fff!important;
-  font:600 12px/1 var(--tt2-ui)!important;white-space:nowrap;
+  flex:0 0 89px;width:89px;height:28px;margin:0 0 2px;padding:0 12px;border:0;border-radius:100px;
+  background:#fff;
+  text-decoration:none!important;color:#000!important;-webkit-text-fill-color:#000!important;
+  font:500 13px/1 'Noto Sans JP',var(--tt2-ui)!important;letter-spacing:0;white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
 }
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-map-link:focus-visible {outline:2px solid #ddd;outline-offset:2px;}
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-glow {
   position:absolute;top:61px;left:0;right:0;height:63px;pointer-events:none;
   /* Match the home/section divider glow rather than a separate olive tint. */
