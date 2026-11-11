@@ -576,3 +576,7 @@ html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommend
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .tt2-sp-en {font-size:12px;line-height:16px;}
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-option-copy strong {font-size:14.5px!important;line-height:20px!important;}
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-option-copy small {font-size:12px!important;line-height:16px!important;}
+/* v2.0.49 一覧: the 1.0 fade strip under the list (.food-directory::after) ends in #0d0d0d, not
+   the page black, so it showed as a lighter band with a hard bottom edge. The list already fades
+   out with its own mask. */
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section .food-directory::after {content:none!important;display:none!important;}
