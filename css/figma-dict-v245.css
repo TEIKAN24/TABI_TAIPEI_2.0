@@ -8,16 +8,16 @@
    transform that makes it the box of every position:fixed child: the sheet was placed
    against the page instead of the screen. While the dictionary is shown the animation
    keeps no end state (it ends at transform:none anyway); it does not restart. */
-html.tt-fwave.tt-route-chapter body.food-swipe-active #guide:not(.tt-view-hidden) {animation-fill-mode:backwards!important;}
+html.tt-fwave.tt-route-chapter body:is(.food-swipe-active,.tt2d-on) #guide:not(.tt-view-hidden) {animation-fill-mode:backwards!important;}
 /* v2.0.47: the dictionary opens on every page. Most chapter pages hide every other child of
    #guide (figma-viewport-v205 / figma-daytrip-v213), and on the home page #guide itself is
    hidden, so only the dim backdrop appeared (e.g. a 夜市 名物 tap in 散策). While the sheet is
    in use it is shown regardless; on the home page #guide is shown with nothing but the sheet. */
 html.tt2-fidelity #guide > #food-search.tt2d:not(#_a):not(#_b) {display:flex!important;}
-html.tt2-fidelity body.food-swipe-active #guide.tt-view-hidden:not(#_a) {
+html.tt2-fidelity body:is(.food-swipe-active,.tt2d-on) #guide.tt-view-hidden:not(#_a) {
   display:block!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;overflow:visible!important;
 }
-html.tt2-fidelity body.food-swipe-active #guide.tt-view-hidden:not(#_a) > :not(#food-search) {display:none!important;}
+html.tt2-fidelity body:is(.food-swipe-active,.tt2d-on) #guide.tt-view-hidden:not(#_a) > :not(#food-search) {display:none!important;}
 html.tt2-fidelity {--tt2d-serif:'Noto Serif JP','Noto Serif CJK JP','Hiragino Mincho ProN','Yu Mincho',serif;}
 html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
   position:fixed!important;inset:auto 0 0 0!important;top:min(150px, 17.6dvh)!important;
@@ -26,7 +26,21 @@ html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
   background:#111!important;box-shadow:none!important;
   transform:translate3d(0, calc((1 - var(--food-swipe-progress, 0)) * 105% + var(--tt2d-drag, 0px)), 0)!important;
 }
-html.tt2-fidelity #guide #food-search.tt2d.is-floating.tt2d-dragging:not(#_a) {transition:none!important;}
+/* v2.0.48: a slower, softer rise (0.62s, long ease-out); closing stays brisk (0.42s). The dim
+   follows the same timing. guide.js hides the page behind 0.36s after closing starts; body.tt2d-on
+   (js/figma-dict-v245.js) keeps it until the sheet has left the screen. */
+html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
+  transition:transform .42s cubic-bezier(.4,0,.2,1),visibility 0s linear .42s!important;
+}
+html.tt2-fidelity body.food-drawer-open #guide #food-search.tt2d.is-floating:not(#_a) {
+  transition:transform .62s cubic-bezier(.22,1,.36,1),visibility 0s!important;
+}
+html.tt2-fidelity body #guide #food-search.tt2d.is-floating.tt2d-dragging:not(#_a):not(#_b) {transition:none!important;}
+html.tt2-fidelity body:not(#_a) .food-drawer-backdrop {transition:opacity .42s ease,visibility 0s linear .43s!important;}
+html.tt2-fidelity body.food-drawer-open:not(#_a) .food-drawer-backdrop {transition:opacity .62s cubic-bezier(.22,1,.36,1),visibility 0s!important;}
+@media (prefers-reduced-motion: reduce) {
+  html.tt2-fidelity body #guide #food-search.tt2d.is-floating:not(#_a):not(#_b) {transition:none!important;}
+}
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-drawer-scroll {
   padding:0 17px!important;height:100%!important;box-sizing:border-box!important;
 }

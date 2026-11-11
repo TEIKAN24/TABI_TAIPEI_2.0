@@ -355,6 +355,16 @@
     requestAnimationFrame(() => document.dispatchEvent(new CustomEvent('tabi:open-food-search')));
   }, true);
 
+  /* ---------- v2.0.48: body.tt2d-on while the sheet is on screen ---------- */
+  // guide.js drops body.food-swipe-active 0.36s after closing starts; the sheet now takes 0.42s
+  // to leave, and on the home page #guide is only shown while one of these classes is set.
+  let offTimer = 0;
+  new MutationObserver(() => {
+    clearTimeout(offTimer);
+    if (drawer.getAttribute('aria-hidden') === 'false') document.body.classList.add('tt2d-on');
+    else offTimer = setTimeout(() => document.body.classList.remove('tt2d-on'), 480);
+  }).observe(drawer, {attributes: true, attributeFilter: ['aria-hidden']});
+
   /* ---------- keep the sheet's place ---------- */
   // guide.js (food-search keyboard) pins the open window's top and height inline, measured
   // with getBoundingClientRect. The old window slid sideways; this sheet slides up, so that

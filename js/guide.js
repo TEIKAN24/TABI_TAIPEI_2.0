@@ -3892,10 +3892,15 @@ update();
   // v30.9.174: all bubbles of one block keep the size of its tallest list (within
   // the screen), so switching bubbles never makes the page jump; short lists
   // simply leave room below.
+  // v2.0.48: the 2.0 list layer (js/figma-lists-v243.js) gives 名所・撮影・体験・おみやげ one fixed
+  // frame. Evening them out here measured every hidden category list and wrote heights it
+  // then overwrote (the bottom of the おみやげ list flickered while the two took turns).
+  const LAYERED='.tt2-directory-section,[data-tt2-panel-key="places"],[data-tt2-panel-key="photo"]';
   function evenOut(block){
     const group=[...block.querySelectorAll('.tab-panels > .tab-panel')];
     const shown=group.find(panel=>!panel.hidden);
     if(group.length<2||!block.open||!shown)return;
+    if(document.documentElement.classList.contains('tt2-fidelity')&&block.matches(LAYERED)){fade(shown);return;}
     // Content heights without touching the shown panel's current size (resetting it
     // would move everything below for a moment and make the page jump).
     const natural=panel=>{
@@ -3929,13 +3934,17 @@ update();
     // Measuring must never move the page.
     if(Math.abs(window.scrollY-keepY)>1)window.scrollTo({top:keepY,behavior:'instant'});
   }
+  // v2.0.48: nothing is fitted behind the open dictionary (on iPhone every keyboard and
+  // toolbar resize re-measured all lists and froze the page); it is done once on closing.
   const all=()=>requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    if(document.body.classList.contains('food-drawer-open'))return;
     guide.querySelectorAll('details.root-accordion[open]').forEach(block=>{
       if(block.querySelectorAll('.tab-panels > .tab-panel').length>1)evenOut(block);
       else block.querySelectorAll('.tab-panel').forEach(fit);
     });
   }));
   window.tabiFitLists=all;   // v30.9.278: chapter tabs re-fit the bubble lists
+  document.getElementById('food-search')?.addEventListener('food-search-closed',()=>setTimeout(all,400));
   panels().forEach(panel=>panel.addEventListener('scroll',()=>fade(panel),{passive:true}));
   guide.addEventListener('toggle',all,true);
   const observer=new MutationObserver(all);

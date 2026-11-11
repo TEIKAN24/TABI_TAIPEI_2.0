@@ -120,3 +120,7 @@ html.tt2-fidelity #guide > details:is(.tt2-directory-section,[data-tt2-panel-key
   -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 70px),transparent 100%)!important;
           mask-image:linear-gradient(to bottom,#000 calc(100% - 70px),transparent 100%)!important;
 }
+/* v2.0.48: guide.js no longer evens these lists out (it also set their overflow inline). */
+html.tt2-fidelity #guide > details:is(.tt2-directory-section,[data-tt2-panel-key='places'],[data-tt2-panel-key='photo']) .tab-panels > .tab-panel:not(#_a) {
+  overflow-y:auto!important;overscroll-behavior:contain;
+}
