@@ -1,0 +1,20 @@
+/* TABI TAIPEI v2.0.47 — home page: the seven chapters appear one after another (01 → 07),
+   each revealed from top to bottom, the way its vertical title reads. Runs whenever the home
+   page is shown (the hero is display:none on other pages, so the animation restarts). */
+@keyframes tt2-home-reveal {
+  from {clip-path:inset(-12px -12px 100% -12px);opacity:.2;}
+  to   {clip-path:inset(-12px -12px -12px -12px);opacity:1;}
+}
+html.tt2-fidelity .tt-home-grid > .tt-home-item {
+  animation:tt2-home-reveal .9s cubic-bezier(.33,0,.15,1) both;
+  animation-delay:calc(140ms + var(--tt2-home-i, 0) * 90ms);
+}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(2) {--tt2-home-i:1;}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(3) {--tt2-home-i:2;}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(4) {--tt2-home-i:3;}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(5) {--tt2-home-i:4;}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(6) {--tt2-home-i:5;}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(7) {--tt2-home-i:6;}
+@media (prefers-reduced-motion: reduce) {
+  html.tt2-fidelity .tt-home-grid > .tt-home-item {animation:none;}
+}

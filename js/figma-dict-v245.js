@@ -350,13 +350,9 @@
     event.stopPropagation();
     const root = document.documentElement;
     if (root.classList.contains('tt-nav-open')) document.getElementById('tt-menu-toggle')?.click();
-    const open = () => document.dispatchEvent(new CustomEvent('tabi:open-food-search'));
-    const guide = document.getElementById('guide');
-    const shown = () => guide && !guide.classList.contains('tt-view-hidden') && !drawer.classList.contains('tt-view-hidden')
-      && getComputedStyle(drawer).display !== 'none';
-    if (shown()) { requestAnimationFrame(open); return; }
-    location.hash = '#view/food';     // the page behind the dictionary (home and 遠出 have none)
-    setTimeout(open, 360);
+    // v2.0.47: opened over the page the visitor is on (css/figma-dict-v245.css lets the sheet
+    // show on every page, the home page included).
+    requestAnimationFrame(() => document.dispatchEvent(new CustomEvent('tabi:open-food-search')));
   }, true);
 
   /* ---------- keep the sheet's place ---------- */

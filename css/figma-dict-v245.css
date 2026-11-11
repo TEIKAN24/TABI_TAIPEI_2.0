@@ -9,6 +9,15 @@
    against the page instead of the screen. While the dictionary is shown the animation
    keeps no end state (it ends at transform:none anyway); it does not restart. */
 html.tt-fwave.tt-route-chapter body.food-swipe-active #guide:not(.tt-view-hidden) {animation-fill-mode:backwards!important;}
+/* v2.0.47: the dictionary opens on every page. Most chapter pages hide every other child of
+   #guide (figma-viewport-v205 / figma-daytrip-v213), and on the home page #guide itself is
+   hidden, so only the dim backdrop appeared (e.g. a 夜市 名物 tap in 散策). While the sheet is
+   in use it is shown regardless; on the home page #guide is shown with nothing but the sheet. */
+html.tt2-fidelity #guide > #food-search.tt2d:not(#_a):not(#_b) {display:flex!important;}
+html.tt2-fidelity body.food-swipe-active #guide.tt-view-hidden:not(#_a) {
+  display:block!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;overflow:visible!important;
+}
+html.tt2-fidelity body.food-swipe-active #guide.tt-view-hidden:not(#_a) > :not(#food-search) {display:none!important;}
 html.tt2-fidelity {--tt2d-serif:'Noto Serif JP','Noto Serif CJK JP','Hiragino Mincho ProN','Yu Mincho',serif;}
 html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
   position:fixed!important;inset:auto 0 0 0!important;top:min(150px, 17.6dvh)!important;
