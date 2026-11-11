@@ -134,17 +134,31 @@
       if (searching()) { input.value = ''; input.dispatchEvent(new Event('input', {bubbles: true})); }
       return results?.querySelector(`.recommend-native-option-line[data-value="${id}"]`);
     }
+    // v2.0.46: the wheel has no ends. The lines are laid out COPIES times; whenever it comes
+    // to rest outside the middle copy it is moved, unseen, to the same chip in the middle one.
+    const COPIES = 7, MID = 3;
     function buildWheel() {
-      wheel.replaceChildren(...lines.map(l => {
+      const chips = [];
+      for (let k = 0; k < COPIES; k++) for (const l of lines) {
         const b = el('button', 'tt2-sp-chip', l.id);
         b.type = 'button';
         b.dataset.id = l.id;
+        b.dataset.copy = String(k);
         b.style.backgroundColor = l.color;
         b.setAttribute('role', 'option');
         b.setAttribute('aria-label', l.name);
+        if (k !== MID) { b.setAttribute('aria-hidden', 'true'); b.tabIndex = -1; }
         b.addEventListener('click', () => { center(b, true); choose(l.id); });
-        return b;
-      }));
+        chips.push(b);
+      }
+      wheel.replaceChildren(...chips);
+    }
+    const midChip = id => [...wheel.children].find(c => c.dataset.copy === String(MID) && c.dataset.id === id);
+    function recentre(chip) {
+      if (!chip || chip.dataset.copy === String(MID)) return;
+      quiet = true;
+      center(midChip(chip.dataset.id), false);
+      requestAnimationFrame(() => { quiet = false; });
     }
     function center(chip, smooth) {
       if (!chip) return;
@@ -166,7 +180,7 @@
         const mid = wheel.scrollLeft + wheel.clientWidth / 2;
         let best = null, dist = Infinity;
         for (const c of wheel.children) { const d = Math.abs(c.offsetLeft + c.offsetWidth / 2 - mid); if (d < dist) { dist = d; best = c; } }
-        if (best) choose(best.dataset.id);
+        if (best) { choose(best.dataset.id); recentre(best); }
       }, 140);
     }, {passive: true});
     function paintList() {
@@ -203,7 +217,7 @@
       panel.classList.toggle('is-searching', searching());
       paintList();
       quiet = true;
-      center([...wheel.children].find(c => c.dataset.id === line) || wheel.children[Math.floor(wheel.children.length / 2)], false);
+      center(midChip(line) || wheel.children[Math.floor(wheel.children.length / 2)], false);
       requestAnimationFrame(() => { quiet = false; });
       placeBtn.setAttribute('aria-expanded', 'true');
       later();

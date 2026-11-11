@@ -569,3 +569,10 @@ html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommend
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-option-copy small {font:400 10.5px/15px var(--tt2-ui)!important;color:#8a8a8a!important;opacity:1!important;}
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-empty {padding:12px 0!important;border:0!important;background:transparent!important;font:400 12.5px/1.5 var(--tt2-ui)!important;color:#ededed!important;}
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-empty small {font:400 10.5px/1.4 var(--tt2-ui)!important;color:#8a8a8a!important;}
+/* v2.0.46 station picker: no glow strip over the list; station names / English +1.5px
+   (list and search results). */
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .tt2-sp-listbox::before {content:none;}
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .tt2-sp-name {font-size:14.5px;line-height:20px;}
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .tt2-sp-en {font-size:12px;line-height:16px;}
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-option-copy strong {font-size:14.5px!important;line-height:20px!important;}
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #tt2-station-picker .recommend-native-option-copy small {font-size:12px!important;line-height:16px!important;}

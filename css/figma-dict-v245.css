@@ -83,7 +83,7 @@ html.tt2-fidelity #guide #food-search.tt2d:not(#_a) :is(.tt2d-pill,.tt2d-chip) {
   flex:none;height:30px;margin:0;padding:0 13px;box-sizing:border-box;border:1px solid #363636;border-radius:100px;background:none;
   font:400 12px/18px var(--tt2-ui);letter-spacing:0;color:#cfcfcf;white-space:nowrap;cursor:pointer;
 }
-html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pill.is-char {width:30px;padding:0;font:400 13px/18px var(--tt2d-serif);}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pill.is-char {width:30px;padding:0;font:400 13px/18px var(--tt2-ui);}
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-pill[aria-pressed='true'] {border-color:#cfcfcf;background:#cfcfcf;color:#111;}
 
 /* list frame: count line, then the list or the V4 view; a 90px fade at the bottom */

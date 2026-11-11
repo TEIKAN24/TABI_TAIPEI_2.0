@@ -260,7 +260,7 @@
   }
 
   /* ---------- state ---------- */
-  let lastKey = '';
+  let lastKey = '', pendingPick = null;
   function render(pick) {
     const value = input.value.trim();
     const terms = N(value).split(/\s+/).filter(Boolean);
@@ -273,7 +273,7 @@
     if (loaded && terms.length > 1) {
       mode = 'multi';
       nodes = multi([...new Set(terms)].map(lookUp));
-    } else if (loaded && terms.length === 1) {
+    } else if (loaded && terms.length === 1 && !shortcut) {   // a shortcut always lists
       const hit = lookUp(terms[0]);
       const best = hit.found[0];
       const clear = best && (best.rank <= 1 || (best.rank === 2 && dict.graphemes(terms[0]).length >= 2 && hit.found.length <= 60));
@@ -300,10 +300,64 @@
   new MutationObserver(records => {
     for (const record of records) record.addedNodes.forEach(node => { if (node.nodeType === 1 && node.matches('.result')) unwrap(node); });
     const key = input.value.trim() + '|' + dict.foods().length;
-    if (key !== lastKey) { lastKey = key; picks.clear(); opened.clear(); render(); view.scrollTop = 0; }
+    if (key !== lastKey) { lastKey = key; picks.clear(); opened.clear(); render(pendingPick); pendingPick = null; view.scrollTop = 0; }
   }).observe(results, {childList: true});
   results.querySelectorAll('.result').forEach(unwrap);
   render();
+
+  /* ---------- v2.0.46: a dish in the list opens its card (a → b) ---------- */
+  // guide.js expands a row on pointerup (touch) or click; here the tap is taken first (window,
+  // capture) and the search is set to the dish, shown as 「いちばん近い候補」.
+  function openDish(row) {
+    const name = row.querySelector('.dish')?.textContent.trim();
+    const food = name && dict.foods().find(f => String(f.name).trim() === name);
+    if (!food) return;
+    pendingPick = food;
+    search(String(food.name).split(/[／/]/)[0].trim());
+    if (lastKey === input.value.trim() + '|' + dict.foods().length) { render(food); pendingPick = null; view.scrollTop = 0; }
+  }
+  const rowAt = target => target instanceof Element && drawer.dataset.tt2dMode === 'list' && target.closest('#results .result');
+  let touch = null, swallowClick = 0;
+  window.addEventListener('pointerdown', event => {
+    touch = event.pointerType === 'touch' && event.isPrimary && rowAt(event.target)
+      ? {id: event.pointerId, row: rowAt(event.target), x: event.clientX, y: event.clientY, scroll: results.scrollTop} : null;
+  }, {capture: true, passive: true});
+  window.addEventListener('pointerup', event => {
+    const tap = touch;
+    touch = null;
+    if (!tap || tap.id !== event.pointerId || !tap.row.isConnected) return;
+    event.stopPropagation();
+    if (Math.hypot(event.clientX - tap.x, event.clientY - tap.y) > 13 || Math.abs(results.scrollTop - tap.scroll) > 7) return;
+    swallowClick = performance.now();
+    openDish(tap.row);
+  }, true);
+  window.addEventListener('click', event => {
+    if (performance.now() - swallowClick < 450 && event.target instanceof Element && event.target.closest('#food-search')) {
+      swallowClick = 0; event.preventDefault(); event.stopPropagation(); return;
+    }
+    const row = rowAt(event.target);
+    if (!row) return;
+    event.preventDefault();
+    event.stopPropagation();
+    openDish(row);
+  }, true);
+
+  /* ---------- v2.0.46: the side menu's 料理検索 opens this dictionary ---------- */
+  document.addEventListener('click', event => {
+    const link = event.target instanceof Element && event.target.closest('[data-tt-dict]');
+    if (!link) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const root = document.documentElement;
+    if (root.classList.contains('tt-nav-open')) document.getElementById('tt-menu-toggle')?.click();
+    const open = () => document.dispatchEvent(new CustomEvent('tabi:open-food-search'));
+    const guide = document.getElementById('guide');
+    const shown = () => guide && !guide.classList.contains('tt-view-hidden') && !drawer.classList.contains('tt-view-hidden')
+      && getComputedStyle(drawer).display !== 'none';
+    if (shown()) { requestAnimationFrame(open); return; }
+    location.hash = '#view/food';     // the page behind the dictionary (home and 遠出 have none)
+    setTimeout(open, 360);
+  }, true);
 
   /* ---------- keep the sheet's place ---------- */
   // guide.js (food-search keyboard) pins the open window's top and height inline, measured

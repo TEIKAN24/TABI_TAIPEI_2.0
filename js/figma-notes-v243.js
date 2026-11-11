@@ -1,7 +1,7 @@
 /* TABI TAIPEI v2.0.43 — 01 旅支度 / 注意事項, as settled in Figma (1-1 更新案).
  * Presentation only; the notes stay native <details> and js/figma-travel-notes-v236.js keeps
  * animating them.
- *  - an intro line and two groups: 滞在 (01–04) and 移動・お金 (05–07)
+ *  - an intro line (v2.0.46: the group labels 滞在 / 移動・お金 are gone)
  *  - each title gets its number (01–07, grey) and, while closed, a one-line gist
  *  - inside, the key sentence is set in gold (wrapped in place, the text is unchanged)
  * Gists and key sentences are excerpts of each note's own text; a note whose title or text
@@ -27,8 +27,6 @@
   // v2.0.44: the bottom fade is a sticky strip at the end of the pane (no mask while animating).
   pane.append(el('div', 'tt2n-fade'));
   notes.forEach((note, i) => {
-    if (i === 0) note.before(el('p', 'tt2n-group', '滞在'));
-    if (i === 4) note.before(el('p', 'tt2n-group', '移動・お金'));
     const summary = note.querySelector(':scope > .tt2-note-summary');
     const title = summary?.querySelector('.tt2-note-title');
     if (!summary || !title) return;
