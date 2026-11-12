@@ -1,0 +1,211 @@
+/* TABI TAIPEI v2.0.55 — 空港アクセス, Figma 「空港アクセス 提案 1-B」 (user-adjusted, 393×852).
+   The original route module (guide.js: selects, swap, MRT/バス/タクシー tabs, train select, timeline,
+   facts, footnote) is kept and only restyled. Screen coordinates below; the section starts at y104.
+   heading 104–138 · 出発地 / 目的地 138–191 (round swap button x181 y154) · tabs 191–236 ·
+   train row: label y252, select y267, underline y294 (171px), おすすめ y254 right · timeline 出発 y326 …
+   到着 y575 (flex column: the legs share the room, so transfer routes fit) · rule y654 (x25, 342px) ·
+   所要時間 / 運賃 / 乗り換え y665 · note y738. Shorter screens compress the timeline first. */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > #airport-route-selector:not(#_a) {
+  inset:0!important;height:100%!important;max-height:100%!important;padding:0!important;margin:0!important;
+  overflow-x:hidden!important;overflow-y:auto!important;scrollbar-width:none;background:#000!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector::-webkit-scrollbar {display:none;}
+
+/* heading (the old 「出発地・目的地」 block title, now the page title) */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .section-top {
+  display:flex!important;align-items:center;box-sizing:border-box;height:34px;margin:0!important;padding:0 0 1px!important;
+  border:0!important;border-top:1px solid transparent!important;border-bottom:1px solid rgba(239,239,239,.43)!important;background:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .section-top h2 {
+  margin:0!important;padding:0!important;font:400 15px/1.1 var(--tt2-serif)!important;letter-spacing:0!important;color:#fff!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .section-top h2::before,
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .section-top h2::after {content:none!important;}
+
+/* 出発地 ⇄ 目的地 */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .selector {
+  position:relative!important;display:block!important;box-sizing:border-box;height:53px;margin:0!important;padding:0!important;
+  border:0!important;border-bottom:.67px solid #666464!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .selrow {
+  position:absolute!important;top:9px!important;margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .selrow--origin {left:7px!important;right:auto!important;width:124px!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .selrow--destination {left:222px!important;right:auto!important;width:128px!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector :is(.sel-field,.sel-choice-bubble) {
+  position:relative;display:block!important;width:100%!important;height:auto!important;min-height:0!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .sel-label {
+  display:block!important;margin:0 0 3px!important;padding:0!important;font:400 8.67px/13px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector select.sel-value {
+  -webkit-appearance:none;appearance:none;display:block!important;box-sizing:border-box;width:100%!important;height:23px!important;
+  margin:0!important;padding:0 18px 0 0!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  font:500 16px/23px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;text-overflow:ellipsis;cursor:pointer;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .selrow.is-empty select.sel-value {color:#9e9e9e!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .sel-choice-bubble .chev {
+  position:absolute!important;right:0;top:9px;width:8px!important;height:5px!important;margin:0!important;border:0!important;transform:none!important;
+  background:#fff!important;clip-path:polygon(0 0,100% 0,50% 100%);pointer-events:none;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .sel-choice-bubble .chev::before,
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .sel-choice-bubble .chev::after {content:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-swap {
+  position:absolute!important;left:165px!important;top:16px!important;right:auto!important;bottom:auto!important;display:flex!important;align-items:center;justify-content:center;
+  width:32px!important;height:32px!important;min-width:0!important;margin:0!important;padding:0!important;box-sizing:border-box;
+  border:1px solid #2e2e2e!important;border-radius:50%!important;background:transparent!important;box-shadow:none!important;color:#9e9e9e!important;transform:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-swap svg {width:14px!important;height:14px!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-swap:disabled {opacity:.35!important;}
+
+/* results are always shown once both points are chosen (the 「経路・運賃」 fold is not used) */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-route-disclosure {display:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector :is(.airsel-results-clip,.airsel-results-inner) {
+  margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;
+}
+
+/* MRT / バス / タクシー */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-transport {
+  position:relative!important;display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important;box-sizing:border-box;height:45px;
+  margin:0!important;padding:0!important;border:0!important;border-bottom:.67px solid #666464!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-transport-ink {display:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-transport-tab {
+  position:relative;display:flex!important;align-items:flex-start;justify-content:center;height:45px!important;min-height:0!important;margin:0!important;
+  padding:14px 0 0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+  font:400 12px/17px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-transport-tab[aria-selected='true'] {font-weight:700!important;color:#fff!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-transport-tab[aria-selected='true']::after {
+  content:''!important;display:block!important;position:absolute;left:50%;bottom:0;width:54px;height:2px;margin-left:-27px;background:#fff;
+}
+
+/* train row: label 「空港MRT」 (or the route name), the train select, おすすめ */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .route-panel {
+  display:flex!important;flex-direction:column!important;margin:0!important;padding:0!important;border:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .rail-title {
+  position:relative!important;display:block!important;box-sizing:border-box;height:58px;margin:0!important;padding:16px 0 0 11px!important;
+  border:0!important;background:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-company-mark {display:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-rail-head-name {
+  display:block!important;margin:0!important;font:400 10px/14px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+/* without a train choice (松山 routes, bus, taxi) the route name is the line itself */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .rail-title:has(> .airsel-tabs[hidden]) #airsel-rail-head-name {
+  margin-top:15px!important;font:500 15px/22px var(--tt2-ui)!important;color:#fff!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-recommend-badge {
+  position:absolute!important;right:11px;top:18px;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:none!important;
+  font:500 11px/15px var(--tt2-ui)!important;letter-spacing:0!important;color:#cca46e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-recommend-badge[hidden] {display:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-tabs {
+  position:relative!important;display:block!important;width:171px!important;margin:1px 0 0!important;padding:0!important;border:0!important;
+  border-bottom:.67px solid #9e9e9e!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-tabs[hidden] {display:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector #airsel-train-select {
+  -webkit-appearance:none;appearance:none;display:block!important;box-sizing:border-box;width:100%!important;height:27px!important;margin:0!important;
+  padding:0 0 5px!important;border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;
+  font:500 15px/22px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;cursor:pointer;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-train-chevron {
+  position:absolute!important;left:113px;right:auto!important;top:9px;width:8px!important;height:5px!important;margin:0!important;border:0!important;transform:none!important;
+  background:#fff!important;clip-path:polygon(0 0,100% 0,50% 100%);pointer-events:none;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-train-chevron::before,
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-train-chevron::after {content:none!important;}
+
+/* timeline: status x31 · node centre x75 · station x93 · leg text x101 */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline {
+  display:flex!important;flex-direction:column!important;box-sizing:border-box;
+  min-height:clamp(170px, calc(100dvh - 565px), 287px);margin:32px 0 0!important;padding:0!important;border:0!important;background:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline::before,
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline::after {content:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-stop {
+  position:relative!important;display:block!important;flex:none;box-sizing:border-box;min-height:38px;margin:0!important;padding:0 0 0 77px!important;
+  border:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-status {
+  position:absolute!important;left:15px;top:3px;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:none!important;
+  font:400 11px/16px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-stop .node {
+  position:absolute!important;left:53px;top:5px;box-sizing:border-box;width:12px!important;height:12px!important;margin:0!important;
+  border:2px solid #fff!important;border-radius:50%!important;background:#000!important;box-shadow:none!important;transform:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-stop.end .node {background:#fff!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-stop.transfer .node {
+  left:52px;top:4px;width:14px!important;height:14px!important;background:radial-gradient(circle,#fff 0 3px,#000 3.5px)!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-stop .node::before,
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-stop .node::after {content:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .stop-body {
+  display:flex!important;flex-wrap:wrap;align-items:center;gap:0 6px;margin:0!important;padding:0!important;border:0!important;background:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-station-label {display:contents!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .stop-name {
+  order:0;margin:0!important;font:500 15px/22px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .airsel-station-ja {
+  order:2;flex:0 0 100%;display:block!important;margin:0!important;font:400 11px/16px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .stop-body .code {
+  order:1;display:inline-flex!important;align-items:center;justify-content:center;box-sizing:border-box;height:16px!important;min-width:24px;margin:0!important;
+  padding:0 4px!important;border:1.5px solid var(--tt2a-code, #8246af)!important;border-radius:3px!important;background:#fff!important;box-shadow:none!important;
+  font:700 9px/14px 'Inter',var(--tt2-ui)!important;letter-spacing:0!important;color:#0d0d0d!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .stop-body .code--brown {--tt2a-code:#c48c31;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .stop-body .code--blue {--tt2a-code:#0070bd;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-leg {
+  position:relative!important;display:grid!important;grid-template-columns:1fr!important;grid-template-rows:1fr auto 1.9fr!important;flex:1 1 auto;min-height:58px;box-sizing:border-box;margin:0!important;padding:8px 0 8px 85px!important;
+  border:0!important;background:none!important;box-shadow:none!important;
+}
+/* the line runs from the node above to the node below in this leg's colour (空港MRT 直達車 = Figma purple) */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-leg::before {
+  content:''!important;display:block!important;position:absolute!important;left:57.5px;top:-21px;bottom:-5px;width:3px!important;height:auto!important;
+  margin:0!important;border:0!important;border-radius:0!important;background:var(--travel-color,#8246af)!important;transform:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-leg[style*='A978D5'] {--travel-color:#8246af;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline-leg::after {content:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .leg-content {grid-row:2!important;grid-column:1!important;justify-self:start!important;margin:0!important;padding:0!important;border:0!important;background:none!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .leg-meta {
+  display:block!important;margin:0!important;font:400 11px/16px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .leg-meta :is(.line-name,.separator,.station-count) {font:inherit!important;color:inherit!important;margin:0!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .leg-meta .separator {margin:0 2px!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .direction {
+  display:block!important;margin:2px 0 0!important;font:500 13px/19px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .direction-note {
+  display:block!important;margin:2px 0 0!important;font:400 10px/14px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+
+/* 所要時間 · 運賃 · 乗り換え */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .facts {
+  display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:0!important;box-sizing:border-box;
+  margin:clamp(20px, calc(100dvh - 811px), 41px) 10px 0 9px!important;padding:10px 0 0!important;
+  border:0!important;border-top:1px solid #9e9e9e!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .fact {
+  position:relative;display:flex!important;flex-direction:column;align-items:center;gap:0!important;min-height:0!important;margin:0!important;padding:0!important;
+  border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .fact + .fact::before {
+  content:'';position:absolute;left:0;top:0;width:.67px;height:38px;background:#666464;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .fact-label {
+  display:block!important;margin:0 0 2px!important;font:400 9px/13px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .fact-value {
+  display:block!important;margin:0!important;font:500 15px/22px var(--tt2-ui)!important;letter-spacing:0!important;color:#fff!important;text-align:center;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .footnote {
+  margin:clamp(16px, calc(100dvh - 816px), 36px) 0 24px!important;padding:0 8px!important;
+  font:400 10px/15px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;text-align:center!important;
+}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .footnote a {color:#bdbdbd!important;text-decoration:underline;text-underline-offset:2px;}

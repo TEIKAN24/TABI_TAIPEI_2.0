@@ -168,6 +168,11 @@ html.tt2-fidelity .tt226-about {
 }
 html.tt2-fidelity .tt226-about h2{font:400 18px/1.4 Georgia,serif;letter-spacing:.015em;margin:0 0 22px;}
 html.tt2-fidelity .tt226-about p{font-size:11px;line-height:1.8;color:#bbb;margin:0 0 12px;}
+/* v2.0.56: About is credits only (no title); the first line clears the × and the data credits form a second group. */
+html.tt2-fidelity .tt226-about p:first-of-type{padding-right:36px;}
+html.tt2-fidelity .tt226-about p:last-of-type{margin-bottom:0;}
+html.tt2-fidelity .tt226-about .tt226-about-gap{margin-top:26px;}
+html.tt2-fidelity .tt226-about a{color:inherit;text-decoration:underline;text-underline-offset:2px;}
 html.tt2-fidelity .tt226-about-close {
   position:absolute;right:8px;top:6px;border:0;background:none;color:#fff;
   width:42px;height:42px;font-size:26px;cursor:pointer;
