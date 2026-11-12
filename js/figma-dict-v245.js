@@ -161,11 +161,7 @@
     card.append(el('p', 'tt2d-card-label', 'いちばん近い候補'));
     card.append(el('h3', 'tt2d-card-name', best.food.name));
     const ja = jaName(best.food);
-    if (ja) {
-      const line = el('p', 'tt2d-card-ja');
-      line.append(el('span', 'tt2d-card-ja-key', '日本語名'), document.createTextNode(ja));
-      card.append(line);
-    }
+    if (ja) card.append(el('p', 'tt2d-card-ja', ja));   // v2.0.52: no 「日本語名」 label
     const text = bodyText(best.food);
     if (text) card.append(el('p', 'tt2d-card-desc', text));
     const frag = [card];
@@ -198,7 +194,7 @@
       frag.push(box);
     }
     if (rest.length) {
-      frag.push(el('p', 'tt2d-section', 'ほかの候補'));
+      frag.push(el('p', 'tt2d-section tt2d-section--cands', 'ほかの候補'));
       const box = el('div', 'tt2d-cands');
       candidates(box, rest, variants, show, term);
       frag.push(box);
