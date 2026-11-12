@@ -42,9 +42,9 @@
   // v2.0.41: every place name opens its own map position (checked by the user, 遠出_地点リンク一覧.csv).
   // Key: destination-mode-option-stop (stop 0 = 出発, last = 到着, between = 乗換). sub = the grey line under the name.
   const PLACES = {
-    '0-0-0-0':{name:"捷運西門站",sub:"バス停「MRT Ximen Sta.」",url:"https://www.google.com/maps/place/%E6%8D%B7%E9%81%8B%E8%A5%BF%E9%96%80%E7%AB%99/@25.0399791,121.5077809,21z/data=!4m18!1m11!4m10!1m6!1m2!1s0x3442a909804e4613:0x82ad6129e5d1e9b7!2z6KW_6ZaAIDEwMOWPsOeBo-iHuuWMl-W4guS4reato-WNgOilv-mWgOmHjOWvtuaFtui3rzMyLTHomZ8!2m2!1d121.5082995!2d25.0421884!1m2!1m1!2z5YWs6LuK56uZ!3m5!1s0x3442a909fb9c10af:0xf2ec706438a2fd45!8m2!3d25.040033!4d121.507934!16s%2Fg%2F11hzwbvhsb?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 台北客運 965番 出発
+    '0-0-0-0':{name:"捷運西門站",sub:"バス停「捷運西門站」",url:"https://www.google.com/maps/place/%E6%8D%B7%E9%81%8B%E8%A5%BF%E9%96%80%E7%AB%99/@25.0399791,121.5077809,21z/data=!4m18!1m11!4m10!1m6!1m2!1s0x3442a909804e4613:0x82ad6129e5d1e9b7!2z6KW_6ZaAIDEwMOWPsOeBo-iHuuWMl-W4guS4reato-WNgOilv-mWgOmHjOWvtuaFtui3rzMyLTHomZ8!2m2!1d121.5082995!2d25.0421884!1m2!1m1!2z5YWs6LuK56uZ!3m5!1s0x3442a909fb9c10af:0xf2ec706438a2fd45!8m2!3d25.040033!4d121.507934!16s%2Fg%2F11hzwbvhsb?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 台北客運 965番 出発
     '0-0-0-1':{name:"九份",sub:"「九份老街」で降車",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1103418,121.8456348,21z/data=!4m6!3m5!1s0x345d451833cc9403:0x7c999c8da6bd4a23!8m2!3d25.110359!4d121.845726!16s%2Fg%2F11b62pdx0s?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 台北客運 965番 到着
-    '0-0-1-0':{name:"捷運忠孝復興站",sub:"バス停「MRT Zhongxiao Fuxing Sta.」",url:"https://www.google.com/maps/place/%E6%8D%B7%E9%81%8B%E5%BF%A0%E5%AD%9D%E5%BE%A9%E8%88%88%E7%AB%99/@25.040969,121.5432445,20.01z/data=!4m6!3m5!1s0x3442abd0b99c2483:0xe836455fbf5cf57b!8m2!3d25.04082!4d121.54357!16s%2Fg%2F1q67b4kwz?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 基隆客運 1062番 出発
+    '0-0-1-0':{name:"捷運忠孝復興站",sub:"バス停「捷運忠孝復興站」",url:"https://www.google.com/maps/place/%E6%8D%B7%E9%81%8B%E5%BF%A0%E5%AD%9D%E5%BE%A9%E8%88%88%E7%AB%99/@25.040969,121.5432445,20.01z/data=!4m6!3m5!1s0x3442abd0b99c2483:0xe836455fbf5cf57b!8m2!3d25.04082!4d121.54357!16s%2Fg%2F1q67b4kwz?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 基隆客運 1062番 出発
     '0-0-1-1':{name:"九份",sub:"「九份老街」で降車",url:"https://www.google.com/maps/place/%E4%B9%9D%E4%BB%BD%E8%80%81%E8%A1%97/@25.1101818,121.8456363,19.88z/data=!4m6!3m5!1s0x345d451831f09705:0x15229b5cbec753c8!8m2!3d25.110385!4d121.845794!16s%2Fg%2F11b62sc359?entry=ttu&g_ep=EgoyMDI2MTEwOC4wIKXMDSoASAFQAw%3D%3D"}, // 九份 基隆客運 1062番 到着
     '0-1-0-0':{name:"台北駅",sub:"松山駅などからも乗車可能",url:"https://www.google.com/maps/search/?api=1&query=%E8%87%BA%E5%8C%97%E8%BB%8A%E7%AB%99"}, // 九份 路線バス 出発
     '0-1-0-1':{name:"瑞芳駅",sub:"",url:"https://www.google.com/maps/search/?api=1&query=%E7%91%9E%E8%8A%B3%E8%BB%8A%E7%AB%99"}, // 九份 路線バス 乗換
@@ -150,7 +150,7 @@
     let name=translated||primary;
     let sub='';
     if(dest===0 && mode===0 && index===0){
-      if(picks[dest][mode]===0){name='捷運西門站';sub='バス停「MRT Ximen Sta.」';}
+      if(picks[dest][mode]===0){name='捷運西門站';sub='バス停「捷運西門站」';}
       else{name='捷運忠孝復興站';sub='MRT 忠孝復興駅付近';}
     } else if(index===0 && /台北駅・松山駅/.test(name)){
       name='台北駅';sub='松山駅などからも乗車可能';
@@ -299,6 +299,36 @@
     changeDestination(expanded);
     document.getElementById('guide')?.scrollTo({top:0,left:0,behavior:'instant'});
   }
+  // v2.0.69: the 遠出 page (js/figma-daytrip-v269.js) reads each route from here, with the same
+  // names, places, fares, notes and 「経路を見る」 link as the route stage above. Read only.
+  window.tabiDaytrip = {
+    describe(d, m, o) {
+      const keep = [dest, mode, picks[d]?.[m]];
+      if (!configs[d]?.[m]?.options[o]) return null;
+      dest = d; mode = m; picks[d][m] = o;
+      try {
+        const opt = configs[d][m].options[o];
+        const timeline = opt.route?.querySelector('.timeline');
+        if (!timeline) return null;
+        const stops = [...timeline.querySelectorAll(':scope > .timeline-stop')];
+        const legs = [...timeline.querySelectorAll(':scope > .timeline-leg')];
+        const meta = sourceMetadata(opt);
+        let price = meta.find(v => /NT\$|料金|運賃|メーター/.test(v)) || '';
+        if (d === 0 && m === 0 && o === 0) price = '片道 NT$90';
+        return {
+          label: opt.label, type: opt.type, price,
+          time: meta.find(v => /分|時間/.test(v)) || '',
+          stops: stops.map((stop, i) => {
+            const st = stationInfo(stop, i, stops.length, opt), place = PLACES[`${d}-${m}-${o}-${i}`];
+            return {name: st.name, sub: place ? place.sub : st.sub, url: place?.url || ''};
+          }),
+          legs: legs.map((leg, i) => legInfo(leg, opt, i)),
+          mapUrl: routeURL(stops, opt),
+          warning: getWarnings(opt),
+        };
+      } finally { dest = keep[0]; mode = keep[1]; picks[d][m] = keep[2]; }
+    },
+  };
   document.addEventListener('tt:viewchange',()=>requestAnimationFrame(sync));
   if(isDayTrips())sync();else {renderModes();render();}
 })();
