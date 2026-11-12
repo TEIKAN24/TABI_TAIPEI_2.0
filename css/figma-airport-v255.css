@@ -292,12 +292,13 @@ html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-
   html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline .leg-content {animation:none!important;}
 }
 
-/* v2.0.62 — sizes. The iPhone home-screen app reports a viewport of ~793px (852 minus the status bar)
-   although it draws the full 852, so every rule derived from 100dvh / 100cqh fell to its minimum
-   there and the route was squeezed. The Figma sizes are now fixed; only a really short screen
-   (iPhone SE 667 and the like) still compresses the route and the gaps, and the page scrolls. */
-@media (max-height: 740px) {
-  html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline {height:clamp(262px, calc(100dvh - 527px), 325px);height:clamp(262px, calc(100cqh - 423px), 325px);}
-  html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .facts {margin-top:clamp(12px, calc(100dvh - 829px), 23px)!important;margin-top:clamp(12px, calc(100cqh - 725px), 23px)!important;}
-  html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .footnote {margin-top:clamp(16px, calc(100dvh - 816px), 36px)!important;margin-top:clamp(16px, calc(100cqh - 712px), 36px)!important;}
-}
+/* v2.0.64 — sizes, from this page's own box (100cqh = the 空港アクセス box, container-type:size).
+   The content needs 673px at the Figma sizes: 202 above the route + route 325 + 23 + facts 48 +
+   36 + footnote 15 + 24. (The earlier rules wanted the whole 748 Figma frame, its empty bottom
+   included, and squeezed everything as soon as the box was shorter — Safari 649, home-screen 690.)
+   When the box is shorter than 673, the gap above the footnote gives way first (36 → 16), then the
+   gap above the facts (23 → 12), and only then the route (325 → 262); below that the page scrolls.
+   Every route gets the same height. Without cqh support the fixed Figma sizes above apply. */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .timeline {height:clamp(262px, calc(100cqh - 317px), 325px);}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .facts {margin-top:clamp(12px, calc(100cqh - 630px), 23px)!important;}
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .footnote {margin-top:clamp(16px, calc(100cqh - 637px), 36px)!important;}
