@@ -188,8 +188,10 @@ html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section .nm-map {
 }
 /* The original airport-route controls have no approved replacement design.
    Keep the original module fully functional when directly requested from
-   the already existing side link; do NOT invent a new airport interface. */
-html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .airport-route-selector {
+   the already existing side link; do NOT invent a new airport interface.
+   v2.0.54: + :not(#_a) — the 旅支度 rule above that hides every other child of .page-body
+   (three :not() classes) was one class stronger, so 空港アクセス opened as an empty page. */
+html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .airport-route-selector:not(#_a) {
   display:block!important;position:absolute!important;inset:80px 0 0!important;
   height:calc(100% - 80px)!important;max-height:calc(100% - 80px)!important;
   overflow-y:auto!important;overflow-x:hidden!important;
