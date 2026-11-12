@@ -81,5 +81,8 @@ html.tt2-fidelity[data-tt-view='emergency'] #guide .emergency-official-links a::
   -webkit-mask:url('../assets/figma/icons/link-arrow.svg') center/9px 9px no-repeat;mask:url('../assets/figma/icons/link-arrow.svg') center/9px 9px no-repeat;
 }
 html.tt2-fidelity[data-tt-view='emergency'] #guide .tt2e-foot {
-  margin:clamp(20px, calc(100dvh - 769px), 83px) 0 24px;font:400 10px/15px var(--tt2-ui);letter-spacing:0;color:#9e9e9e;text-align:center;
+  /* v2.0.65: from the page's own box (#guide = 100dvh − sitebar): the content above ends at 551px and
+     the note 15 + 24 below, so the gap stays Figma's 83px whenever it fits (home-screen app, Safari
+     included) instead of following the whole 852 frame. */
+  margin:clamp(20px, calc(100dvh - var(--tt2-sitebar-height,104px) - 590px), 83px) 0 24px;font:400 10px/15px var(--tt2-ui);letter-spacing:0;color:#9e9e9e;text-align:center;
 }
