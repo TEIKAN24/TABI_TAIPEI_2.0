@@ -2348,13 +2348,17 @@ const stopTranslations={
  '桃園国際空港・第1ターミナル':{zh:'桃園國際機場 第1航廈',ja:'桃園空港 第1ターミナル'},
  '桃園国際空港・第2ターミナル':{zh:'桃園國際機場 第2航廈',ja:'桃園空港 第2ターミナル'}
 };
-function stationContent(name){
- const item=stopTranslations[name]||{zh:name,ja:''};
+// v2.0.59: stations of the MRT (shown with a station code) take the Japanese names of the official
+// route maps; the same names as bus or taxi stops keep the lines above.
+const mrtStationJa={'機場第一航廈':'空港第1ターミナル駅','機場第二航廈':'空港第2ターミナル駅','松山機場':'松山空港駅','台北車站':'台北駅','忠孝復興':''};
+function stationContent(name,code=''){
+ const base=stopTranslations[name]||{zh:name,ja:''};
+ const item=code&&name in mrtStationJa?{zh:base.zh,ja:mrtStationJa[name]}:base;
  return `<span class="airsel-station-label"><span class="stop-name" lang="zh-Hant">${esc(item.zh)}</span>${item.ja?`<span class="airsel-station-ja" lang="ja">${esc(item.ja)}</span>`:''}</span>`;
 }
 function stop(label,name,code,cls=''){
  const codeColor=code.startsWith('BR')?'brown':code.startsWith('BL')?'blue':code.startsWith('A')?'purple':'';
- return `<div class="timeline-stop ${cls}"><span class="timeline-status ${cls==='transfer'?'timeline-status--transfer':''}">${label}</span><span class="node" aria-hidden="true"></span><div class="stop-body">${stationContent(name)}${code?`<span class="code code--${codeColor}">${code}</span>`:''}</div></div>`;
+ return `<div class="timeline-stop ${cls}"><span class="timeline-status ${cls==='transfer'?'timeline-status--transfer':''}">${label}</span><span class="node" aria-hidden="true"></span><div class="stop-body">${stationContent(name,code)}${code?`<span class="code code--${codeColor}">${code}</span>`:''}</div></div>`;
 }
 function leg(line,number,direction,color,note=''){
  return `<div class="timeline-leg" style="--travel-color:${color}"><div class="leg-content"><div class="leg-meta"><span class="line-name">${line}</span><span class="separator">・</span><span class="station-count">${number}駅</span></div><div class="direction">${direction}</div>${note?`<div class="direction-note">${note}</div>`:''}</div></div>`;
@@ -2377,8 +2381,8 @@ const fallbackAirport='<svg viewBox="0 0 24 24" width="19" height="19" fill="non
 const fallbackTaipei='<svg viewBox="0 0 24 24" width="19" height="19" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.4"/><path d="M12 6 18 12 12 18 6 12z" stroke="currentColor" stroke-width="1.45"/><path d="M12 8.5v7M8.5 12h7" stroke="currentColor" stroke-width="1.25"/></svg>';
 function restoreRailLogo(song){
  const companySrc=song
-   ? 'https://upload.wikimedia.org/wikipedia/en/e/ee/Taipei_Metro_Logo%28Logo_Only%29.svg'
-   : 'https://www.tymetro.com.tw/tymetro-new/tw/_images/about/a-logo1.png';
+   ? 'assets/rail-logos/trtc.svg'   // v2.0.59: local copies (were loaded from wikimedia / tymetro.com.tw)
+   : 'assets/rail-logos/tymc.svg';
  const img=el('company-img');
  const fallback=el('company-fallback');
  // Rebuild the fallback on EVERY rail selection, including when the image URL is unchanged.
@@ -2455,14 +2459,14 @@ function update(){
  el('ground-details').hidden=true;el('ground-details').innerHTML='';
  if(state.transport!=='rail'){groundUpdate(airport,toCity);if(resultsOpen)queueTimelineEntrance(120);return;}
  restoreRailLogo(song);
- el('recommend-badge').hidden=song;
+ el('recommend-badge').hidden=!(song||state.mode==='express'); // v2.0.59: 6 routes (松山 MRT ⇄, 直達車 ⇄)
  for(const tab of tabs.querySelectorAll('button'))tab.setAttribute('aria-selected',String(tab.dataset.mode===state.mode));
  if(song){
-  el('rail-head-name').textContent=toCity?'文湖線 → 板南線':'板南線 → 文湖線';
+  el('rail-head-name').textContent='台北MRT'; // v2.0.59 (was the line pair; the lines are on the diagram)
 
   const firstStop=toCity?stop('出発','松山機場','BR13','start'):stop('出発','台北車站','BL12','start');
   const firstLeg=toCity?leg('文湖線','3','動物園 方面','#AE854E'):leg('板南線','3','南港展覧館 方面','#378BC7');
-  const transfer=`<div class="timeline-stop transfer"><span class="timeline-status timeline-status--transfer">乗換</span><span class="node"></span><div class="stop-body">${stationContent('忠孝復興')}<span class="code code--brown">BR10</span><span class="code code--blue">BL15</span></div></div>`;
+  const transfer=`<div class="timeline-stop transfer"><span class="timeline-status timeline-status--transfer">乗換</span><span class="node"></span><div class="stop-body">${stationContent('忠孝復興','BR10')}<span class="code code--brown">BR10</span><span class="code code--blue">BL15</span></div></div>`;
   const secondLeg=toCity?leg('板南線','3','頂埔・亞東醫院 方面','#378BC7'):leg('文湖線','3','南港展覧館 方面','#AE854E');
   const lastStop=toCity?stop('到着','台北車站','BL12','end'):stop('到着','松山機場','BR13','end');
   el('timeline').innerHTML=firstStop+firstLeg+transfer+secondLeg+lastStop;
@@ -2477,12 +2481,12 @@ function update(){
   const from=toCity?stop('出発',points[airport].station,code,'start'):stop('出発','台北車站','A1','start');
   const bound=toCity?'台北車站 方面':(express?'機場第二航廈・環北 方面':'機場第二航廈・老街溪 方面');
   const line=express?'直達車（急行）':'普通車（各停）';
-  const note=toCity?'': '列車により運行方向が異なります';
+  const note=''; // v2.0.60: 「列車により運行方向が異なります」 removed
   const dest=toCity?stop('到着','台北車站','A1','end'):stop('到着',points[airport].station,code,'end');
   el('timeline').innerHTML=from+leg(line,count,bound,color,note)+dest;
   const t=airport==='T1'?(express?'約35〜39分':'約50分'):(express?'約39〜43分':'約53分');
   facts(t,'NT$160','なし');
-  el('footnote').textContent='乗車駅数は選択した航廈・列車種別に応じて表示。運行便やダイヤは出発前に公式情報をご確認ください。';
+  el('footnote').textContent='運行便やダイヤは出発前に公式情報をご確認ください。';
  }
  if(resultsOpen)queueTimelineEntrance(120);
 }
