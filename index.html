@@ -3,14 +3,24 @@
 <html lang="ja"><head>
 <meta charset="utf-8"/><meta name="robots" content="noindex,nofollow"/><script>/* Debug copy only: keep it out of search results (production path is unaffected). */if(/^\/Debug_/i.test(location.pathname)){var r=document.createElement("meta");r.name="robots";r.content="noindex";document.head.appendChild(r);}</script><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta content="#000000" name="theme-color"/><script>document.documentElement.classList.add("tt-fwave","hero-intro-skip","tt2-fidelity");
-/* Only Safari browser TAB gets the status-bar offset calibration; not standalone PWA. */
+/* The status-bar calibration (46px masthead, css/figma-viewport-v204.css) is for an iPhone page that
+   starts BELOW the status bar: the Safari tab and, since v2.0.66, the home-screen app (the
+   black-translucent status bar was dropped: iOS 26.1+ draws a gradient over a translucent status bar
+   and the top of the page, which the page cannot turn off). An app added to the Home Screen before
+   keeps its translucent bar (iOS reads the setting when the app is added) and its page still starts
+   under the status bar (safe-area top > 0), so it keeps the 104px masthead. */
 try {
   const ios = /iPhone|iPod/.test(navigator.userAgent);
   const safari = /Safari\//.test(navigator.userAgent) && !/CriOS|FxiOS|EdgiOS|OPiOS/.test(navigator.userAgent);
   const standalone = !!navigator.standalone || !!window.matchMedia?.('(display-mode: standalone)').matches;
-  if (ios && safari && !standalone) document.documentElement.classList.add('tt-ios-safari-tab');
+  let underBar = false;
+  if (standalone) {
+    const p = document.createElement('div');
+    p.style.cssText = 'position:fixed;left:0;top:0;width:0;height:0;visibility:hidden;pointer-events:none;padding-top:env(safe-area-inset-top,0px)';
+    document.documentElement.appendChild(p); underBar = p.getBoundingClientRect().height > 20; p.remove();
+  }
+  if (ios && (standalone ? !underBar : safari)) document.documentElement.classList.add('tt-ios-safari-tab');
 } catch(_) {}</script>
 <meta content="定番からローカルな穴場まで、食べて、歩いて、買い物を楽しむ。" name="description"/>
 <title>TABI TAIPEI</title>
