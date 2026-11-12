@@ -14,6 +14,9 @@ html.tt-fwave.tt-route-chapter body:is(.food-swipe-active,.tt2d-on) #guide:not(.
    hidden, so only the dim backdrop appeared (e.g. a 夜市 名物 tap in 散策). While the sheet is
    in use it is shown regardless; on the home page #guide is shown with nothing but the sheet. */
 html.tt2-fidelity #guide > #food-search.tt2d:not(#_a):not(#_b) {display:flex!important;}
+/* v2.0.51: while the sheet is on screen #guide must not be a scroll box (on iPhone a scrolling
+   parent puts the fixed sheet under the backdrop; see figma-directory-v211.css). */
+html.tt2-fidelity body:is(.food-swipe-active,.tt2d-on) #guide:not(#_a):not(#_b) {overflow:hidden!important;}
 html.tt2-fidelity body:is(.food-swipe-active,.tt2d-on) #guide.tt-view-hidden:not(#_a) {
   display:block!important;height:0!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;overflow:visible!important;
 }

@@ -3,8 +3,11 @@
  * Header and categories are fixed; only directory list scrolls. No placeholder cards.
  * Reference 393x852: header 104..138, tabs 138..184, count 252,
  * first card 277..400, subsequent cards every 123.4 px. */
-html.tt2-fidelity[data-tt-view='experiences'] #guide,
-html.tt2-fidelity[data-tt-view='souvenirs'] #guide {
+/* v2.0.51: + .tt-route-chapter — figma-viewport-v205 (same chapters, one class more) made #guide a
+   scroll box here, which on iPhone put the 料理辞典 sheet (a fixed child of #guide) under its own
+   backdrop: dimmed, and every tap went to the backdrop. Only the list scrolls, as intended. */
+html.tt2-fidelity.tt-route-chapter[data-tt-view='experiences'] #guide,
+html.tt2-fidelity.tt-route-chapter[data-tt-view='souvenirs'] #guide {
   overflow:hidden!important; padding:0!important;
 }
 html.tt2-fidelity[data-tt-view='experiences'] #guide > :not(.tt-chapter-heading):not(.tt2-directory-section),
