@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.62';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.63';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   'assets/figma/side-v227/chapter-01.svg',
@@ -250,9 +250,13 @@ self.addEventListener('fetch', event => {
 
   if (request.mode === 'navigate') {
     // Network first (fresh content when online), the stored page when offline.
+    // v2.0.63: always ask the server (no-cache = revalidate, 304 when unchanged). The host sends the
+    // page with max-age=600, so a plain fetch could reuse the old page — and its old ?v= files — for
+    // up to ten minutes after an upload.
+    const fresh = (() => { try { return new Request(request, {cache: 'no-cache'}); } catch (_) { return request; } })();
     event.respondWith((async () => {
       try {
-        const res = await fetch(request);
+        const res = await fetch(fresh);
         event.waitUntil(keep(new Request(new URL('./', base).href), res.clone()));
         return res;
       } catch (_) {
