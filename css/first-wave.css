@@ -35,93 +35,62 @@ html.tt-fwave summary:focus-visible {outline:1px solid currentColor;outline-offs
 .tt-brand-main {font-family:var(--tt-serif);font-size:25px;font-weight:400;line-height:1;letter-spacing:-.09em;}
 .tt-brand-small {display:none;color:#80ceae;font-family:system-ui,sans-serif;font-size:7px;line-height:1.1;letter-spacing:0;font-weight:550;}
 html.tt-fwave.tt-at-home .tt-brand-small {display:block;}
-.tt-menu-toggle {
-  position:relative;z-index:151;display:grid;place-items:center;flex:none;
-  width:44px;height:40px;margin:0 -10px -4px 0;
-  border:0;border-radius:0;background:transparent;color:inherit;cursor:pointer;
-  touch-action:manipulation;
-}
-.tt-menu-strokes {width:23px;height:18px;display:block;position:relative;}
-.tt-menu-strokes i {display:block;position:absolute;left:2px;width:19px;height:1px;background:currentColor;transform-origin:center;transition:transform .44s cubic-bezier(.22,1,.36,1);}
-.tt-menu-strokes i:nth-child(1){top:2px;}.tt-menu-strokes i:nth-child(2){top:9px;}.tt-menu-strokes i:nth-child(3){top:16px;}
-html.tt-fwave.tt-nav-open .tt-menu-strokes i:nth-child(1) {transform:translateX(3.4px);}
-html.tt-fwave.tt-nav-open .tt-menu-strokes i:nth-child(3) {transform:translateX(-3.1px);}
-html.tt-fwave.tt-nav-open .tt-sitebar {background:transparent;}
-html.tt-fwave.tt-nav-open .tt-brand {opacity:0;pointer-events:none;}
-html.tt-fwave.tt-nav-open .tt-sitebar::after {opacity:0;}
+
+
+
+
+
+
+
+
+
 
 /* Real native overlay; blur/dim only behind the panel. */
-.tt-menu-backdrop {
-  position:fixed;inset:0;z-index:101;opacity:0;pointer-events:none;
-  background:rgba(0,0,0,.5);-webkit-backdrop-filter:blur(80px);backdrop-filter:blur(80px);
-  transition:opacity .48s ease;
-}
-html.tt-fwave.tt-nav-open .tt-menu-backdrop {opacity:1;pointer-events:auto;}
-.tt-side-menu {
-  position:fixed;right:0;top:0;bottom:0;z-index:110;
-  width:min(300px,calc(100vw - 22px));overflow-x:hidden;overflow-y:auto;
-  background:var(--tt-side-bg);color:var(--tt-ink);visibility:hidden;
-  transform:translate3d(104%,0,0);transition:transform .68s cubic-bezier(.2,.76,.16,1),visibility 0s linear .7s;
-  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
-}
-html.tt-fwave.tt-nav-open .tt-side-menu {visibility:visible;transform:translate3d(0,0,0);transition-delay:0s;}
-.tt-side-shine {pointer-events:none;position:absolute;left:0;right:0;top:102px;height:44px;background:radial-gradient(ellipse at 55% 0%,rgba(231,233,225,.16),transparent 72%);opacity:.95;}
-.tt-side-chapters {height:540px;position:relative;padding-top:0;}
-.tt-side-link {
-  --i:0;position:absolute;left:0;right:0;height:60px;top:calc(117px + var(--i)*57.65px);
-  text-decoration:none!important;color:inherit!important;
-  display:flex;align-items:start;min-width:0;
-}
-.tt-side-index {position:absolute;left:15px;top:11px;font-family:var(--tt-serif);font-size:10px;line-height:1;opacity:0;color:var(--tt-muted);}
-.tt-side-title {
-  font-family:var(--tt-serif);position:absolute;right:14px;top:-2px;
-  font-size:clamp(33px,10vw,41px);letter-spacing:-.09em;font-weight:400;
-  line-height:1.18;white-space:nowrap;opacity:0;
-  transform:translate3d(0,12px,0);color:var(--tt-ink);
-}
-.tt-side-line {
-  --line-len:100px;
-  position:absolute;left:27px;top:16px;width:var(--line-len);height:1px;
-  background:var(--tt-rule);opacity:0;transform-origin:left center;
-  transform:rotate(var(--angle)) translateX(-8px);
-}
-.tt-side-link:nth-child(1) {--line-len:110px;--angle:5deg;}
-.tt-side-link:nth-child(2) {--line-len:119px;--angle:15deg;}
-.tt-side-link:nth-child(3) {--line-len:143px;--angle:22deg;}
-.tt-side-link:nth-child(4) {--line-len:153px;--angle:29deg;}
-.tt-side-link:nth-child(5) {--line-len:167px;--angle:35deg;}
-.tt-side-link:nth-child(6) {--line-len:176px;--angle:41deg;}
-.tt-side-link:nth-child(7) {--line-len:155px;--angle:69deg;}
-.tt-side-link:nth-child(7) .tt-side-title {right:14px;}
-.tt-side-link:hover .tt-side-title,.tt-side-link:focus-visible .tt-side-title {color:#c6cfca;}
-html.tt-fwave.tt-nav-open .tt-side-title {animation:tt-rise 1s cubic-bezier(.22,.7,.28,1) both;animation-delay:calc(var(--i)*.3s);}
-html.tt-fwave.tt-nav-open .tt-side-index {animation:tt-index .72s ease-out both;animation-delay:calc(var(--i)*.3s + .12s);}
-html.tt-fwave.tt-nav-open .tt-side-line {animation:tt-line .72s cubic-bezier(.22,.8,.25,1) both;animation-delay:calc(var(--i)*.3s + .28s);}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @keyframes tt-rise {0%{opacity:0;transform:translate3d(0,12px,0);}100%{opacity:1;transform:translate3d(0,0,0);}}
 @keyframes tt-index {0%{opacity:0;transform:translate3d(-5px,3px,0);}100%{opacity:.86;transform:none;}}
 @keyframes tt-line {0%{opacity:0;transform:rotate(var(--angle)) translateX(-8px) scaleX(.6);}100%{opacity:.78;transform:rotate(var(--angle)) translateX(0) scaleX(1);}}
-.tt-side-extras {position:absolute;top:604px;left:30px;right:19px;display:flex;flex-direction:column;gap:71px;font-family:var(--tt-serif);font-size:13px;}
-.tt-side-extras a {display:flex;align-items:center;justify-content:space-between;color:var(--tt-ink)!important;text-decoration:none!important;position:relative;}
-.tt-side-extras a::after {content:"";position:absolute;left:75px;right:16px;top:50%;height:1px;background:var(--tt-rule);opacity:.5;}
-.tt-side-extras a span {font-size:20px;line-height:1;}
-.tt-side-extras {opacity:0;transform:translateY(8px);transition:opacity .55s ease,transform .55s ease;}
-html.tt-fwave.tt-nav-open .tt-side-extras {opacity:1;transform:none;transition-delay:2.2s;}
+
+
+
+
+
+
 
 /* Figma-inspired black, typographic seven-chapter entrance. Existing hero content
    remains in DOM to satisfy old JS and deep-link behavior, but is visually retired. */
-html.tt-fwave #top.hero {padding:0 0 24px!important;min-height:calc(100svh - 104px);position:relative;display:block;}
-html.tt-fwave #top.hero > .hero-stage,
-html.tt-fwave #top.hero > .quick-nav,
-html.tt-fwave #top.hero > .hero-welcome {display:none!important;}
-.tt-home {padding:22px 0 0;min-height:calc(100svh - 128px);}
-.tt-home-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,clamp(164px,23svh,197px));gap:0;}
-.tt-home-item {position:relative;min-width:0;padding:22px 8px 6px 28px;color:var(--tt-ink)!important;text-decoration:none!important;display:flex;align-items:start;overflow:hidden;}
-.tt-home-item::before {content:"";position:absolute;top:32px;bottom:0;left:24px;border-left:1px solid var(--tt-rule);opacity:.56;}
-.tt-home-item:nth-child(n+4)::before {bottom:8px;}
-.tt-home-number {position:absolute;top:13px;left:15px;min-width:20px;text-align:right;font-family:var(--tt-serif);font-size:10px;line-height:1;color:var(--tt-muted);}
-.tt-home-label {font-family:var(--tt-serif);font-size:clamp(31px,8.8vw,42px);line-height:1.04;font-weight:400;letter-spacing:.03em;writing-mode:vertical-rl;text-orientation:upright;max-height:95%;color:var(--tt-ink);}
-.tt-home-item:active .tt-home-label {opacity:.64;}
-.tt-home-item:focus-visible {outline-offset:-3px;}
+
+html.tt-fwave #top.hero > .quick-nav {display:none!important;}
+
+
+
+
+
+
+
+
+
 
 /* New chapter labels are independent from the functional panels. */
 html.tt-fwave #guide {padding-bottom:110px;}
@@ -185,28 +154,21 @@ html.tt-fwave #guide details.travel-passes {padding:0 0 10px!important;}
 /* The modules below are deliberately not overridden: city maps, event calendar,
    SVG route drawing, day trips, search/recommend logic and airport transit. */
 @media(min-width:650px){
-  .tt-home-label {font-size:40px;}
+
   .tt-sitebar {padding-left:max(16px,calc((100vw - 460px)/2));padding-right:max(16px,calc((100vw - 460px)/2));}
-  .tt-side-menu {right:max(0px,calc((100vw - 760px)/2));}
+
 }
-@media(max-width:355px){
-  .tt-home-item {padding-left:25px;}
-  .tt-home-label{font-size:30px;}
-  .tt-side-title{font-size:36px;}
-  .tt-side-line{max-width:55%;}
-}
+
 @media(prefers-reduced-motion:reduce){
-  .tt-menu-strokes i,.tt-menu-backdrop,.tt-side-menu,.tt-side-extras {transition:none!important;}
-  html.tt-fwave.tt-nav-open .tt-side-title,
-  html.tt-fwave.tt-nav-open .tt-side-index,
-  html.tt-fwave.tt-nav-open .tt-side-line {animation:none!important;opacity:1!important;transform:none!important;}
-  html.tt-fwave.tt-nav-open .tt-side-line{transform:rotate(var(--angle))!important;}
+
+
+
   html.tt-fwave #guide details.travel-caution details.nested-accordion > .indented {animation:none!important;}
 }
 
 /* === First-wave screen navigation; no DOM removal/reparenting === */
 html.tt-fwave .tt-view-hidden {display:none!important;}
-html.tt-fwave.tt-route-chapter #top.hero {display:none!important;}
+
 html.tt-fwave.tt-route-home #guide {display:none!important;}
 html.tt-fwave.tt-route-home .tt-brand-small {display:block;}
 html.tt-fwave.tt-route-chapter .tt-brand-small {display:none!important;}

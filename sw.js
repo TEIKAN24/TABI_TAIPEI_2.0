@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.92';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.93';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   'assets/figma/side-v227/chapter-01.svg',
@@ -32,7 +32,6 @@ const PRECACHE = [
   'assets/figma/side-v227/utility-02.svg',
   'assets/figma/side-v227/utility-03.svg',
   'assets/figma/side-v227/utility-04.svg',
-  'css/figma-side-angled-v227.css',
   'js/figma-side-angled-v227.js',
   './',
   'index.html',
@@ -168,14 +167,14 @@ const PRECACHE = [
   'js/figma-notes-v243.js',
   'css/figma-dict-v245.css',
   'js/figma-dict-v245.js',
-  'css/figma-home-v247.css',
   'css/figma-emergency-v253.css',
   'css/figma-airport-v255.css',
   'js/figma-airport-v259.js',
   'js/figma-daytrip-v269.js',
   'css/figma-daytrip-v269.css',
   'css/figma-system-v273.css',
-  'css/home-greeting-v290.css',
+  'css/tt2-home.css',
+  'css/tt2-menu.css',
   'js/home-greeting-v290.js',
   'js/figma-type-v276.js',
   'assets/figma/outlines/type/name-emergency.svg',

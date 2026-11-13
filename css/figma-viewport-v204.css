@@ -23,10 +23,7 @@ html.tt2-fidelity.tt-ios-safari-tab .tt-sitebar {
 /* An overlay is positioned relative to the same Safari tab viewport. Align
    its seven titles and diagonal rules with the original screen coordinates,
    while leaving the hamburger inside the fixed masthead at its original spot. */
-html.tt2-fidelity.tt-ios-safari-tab .tt-side-menu,
-html.tt2-fidelity.tt-ios-safari-tab .tt-menu-backdrop {
-  top:-58px;
-}
+
 
 /* The old website credit remains in the DOM, but is not part of any of the
    approved Figma chapter screens. Hide it; never delete the source text. */
@@ -35,23 +32,9 @@ html.tt2-fidelity body > footer.wrapper {display:none!important;}
 /* No long one-page tail or blank credit space on the seven-chapter entrance.
    Preserve 393px absolute element coordinates within the existing native
    grid; only the viewport's usable height changes with Safari chrome. */
-html.tt2-fidelity.tt-route-home #top.hero {
-  padding:0!important;
-  box-sizing:border-box;
-  min-height:max(0px,calc(100svh - var(--tt2-sitebar-height)));
-}
-html.tt2-fidelity.tt-route-home .tt-home {
-  box-sizing:border-box;
-  min-height:max(0px,calc(100svh - var(--tt2-sitebar-height)));
-}
-@supports (height:100dvh) {
-  html.tt2-fidelity.tt-route-home #top.hero {
-    min-height:max(0px,calc(100dvh - var(--tt2-sitebar-height)));
-  }
-  html.tt2-fidelity.tt-route-home .tt-home {
-    min-height:max(0px,calc(100dvh - var(--tt2-sitebar-height)));
-  }
-}
+
+
+
 /* The site is screen-based; the home view must not scroll to an obsolete
    footer, but chapter content and its maps remain naturally scrollable. */
 html.tt2-fidelity.tt-route-home body {min-height:100%;}

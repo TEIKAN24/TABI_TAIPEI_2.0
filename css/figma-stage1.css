@@ -18,24 +18,24 @@ html.tt2-fidelity.tt-route-home .tt-sitebar::after {opacity:0;}
 html.tt2-fidelity .tt-brand {min-height:16px;gap:8px;align-items:center;line-height:1;}
 html.tt2-fidelity .tt-brand-main {font-family:'lithue-1.1',Georgia,'Times New Roman',serif;font-size:20px;letter-spacing:-.068em;line-height:1;white-space:nowrap;}
 html.tt2-fidelity .tt-brand-small {font:500 7px/.96 var(--tt2-ui);letter-spacing:-.02em;color:#7cc9a6;}
-html.tt2-fidelity .tt-menu-toggle {height:35px;width:42px;margin-bottom:-4px;}
-html.tt2-fidelity .tt-menu-strokes {width:24px;height:17px;}
-html.tt2-fidelity .tt-menu-strokes i {width:19px;height:1px;left:2px;}
+
+
+
 
 /* Exact 393px home tile geometry from Figma node 1:408. All seven targets
    remain native HTML anchors with readable Japanese text and click events. */
-html.tt2-fidelity.tt-route-home #top.hero {padding:0!important;min-height:calc(100svh - 104px);}
-html.tt2-fidelity .tt-home {padding:22px 0 0;min-height:calc(100svh - 104px);position:relative;}
-html.tt2-fidelity .tt-home::before {content:'';position:absolute;left:-16px;right:-16px;top:-3px;height:63px;pointer-events:none;background:radial-gradient(ellipse 66% 22% at 50% 0%,rgba(212,216,202,.2),rgba(143,148,135,.085) 55%,transparent 98%);}
-html.tt2-fidelity .tt-home-grid {grid-template-columns:126px 131px minmax(0,1fr);grid-template-rows:181px 162px 197px;min-height:0;}
-html.tt2-fidelity .tt-home-item {padding:29px 0 0 31px;overflow:visible;}
-html.tt2-fidelity .tt-home-item::before {left:26px;top:35px;bottom:0;border-color:rgba(196,196,196,.45);opacity:.67;}
-html.tt2-fidelity .tt-home-item:nth-child(n+4)::before {bottom:8px;}
-html.tt2-fidelity .tt-home-number {top:15px;left:20px;min-width:0;transform:none;font:400 10px/1 var(--tt2-num);color:rgba(235,235,235,.76);}
-html.tt2-fidelity .tt-home-label {font-family:var(--tt2-serif);font-weight:400;font-size:40px;line-height:1;letter-spacing:0;transform:scaleY(.72);transform-origin:left top;max-height:none;color:#fff;white-space:nowrap;}
-html.tt2-fidelity .tt-home-item:nth-child(1) .tt-home-label {transform:scaleY(.72) scaleX(1.07);}
-html.tt2-fidelity .tt-home-item:nth-child(2) .tt-home-label {transform:scaleY(.72) scaleX(1.06);}
-html.tt2-fidelity .tt-home-item:nth-child(7) .tt-home-label {transform:scaleY(.72) scaleX(1.06);}
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Frame 1-1: 0–103 masthead, 104–137 chapter strip, 138–183 tabs,
    209–501 notes. Footer line 26–369 at y776 in a 852px viewport. */
@@ -87,14 +87,8 @@ html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-link {position:absolute;top:-
 html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-card:nth-child(2) {margin-top:60px;}
 html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-card.tt2-pass-extra {margin-top:calc(100svh - 790px);margin-bottom:30px;}
 html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane:after {content:'';display:block;height:0;}
-@media(max-width:392px){
- html.tt2-fidelity .tt-home-grid{grid-template-columns:34.9% 36.3% minmax(0,1fr);}
- html.tt2-fidelity .tt-home-label{font-size:clamp(32px,10vw,40px)}
- html.tt2-fidelity .tt-home-item{padding-left:25px;}
- html.tt2-fidelity .tt-home-item::before{left:21px;}
- html.tt2-fidelity .tt-home-number{left:14px;}
-}
-@media(min-width:450px){html.tt2-fidelity .tt-home-grid{grid-template-columns:repeat(3,minmax(0,1fr));}html.tt2-fidelity .tt-home{max-width:460px;margin:auto;}}
+
+
 @media(prefers-reduced-motion:reduce){html.tt2-fidelity .tt2-note-arrow,html.tt2-fidelity .tt2-note-content{transition:none!important;animation:none!important;}}
 
 /* Protect native Figma accordion from generic Notion <summary> rules. */
@@ -114,9 +108,9 @@ html.tt2-fidelity[data-tt-view='travel'] .tt2-original-note-extra ul {padding:0 
 html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-continuation .tt2-pass-card {position:relative;margin:0 0 25px;}
 html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-continuation h2 {font:500 14.66px/21px var(--tt2-ui);color:white;margin:0 0 13px;}
 html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-continuation p {font:400 12.67px/1.53 var(--tt2-ui);color:#c1c1c1;margin:0;max-width:330px;}
-html.tt2-fidelity .tt-side-link {top:calc(112px + var(--i)*57.65px);}
-html.tt2-fidelity .tt-side-title {font-family:var(--tt2-serif);}
-html.tt2-fidelity .tt-side-index {font-family:var(--tt2-num);}
+
+
+
 /* Measured against Figma frame 56:278: X=16.18/127.77/265.13/379.44
    and footer X=25.72..369.90; no global wrapper changes. */
 @media (max-width:599px) {
@@ -125,10 +119,10 @@ html.tt2-fidelity .tt-side-index {font-family:var(--tt2-num);}
  html.tt2-fidelity[data-tt-view='travel'] .tt-travel-tabs {grid-template-columns:30.72% 37.82% minmax(0,1fr);}
  html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane {margin-left:9.54px;margin-right:9.54px;}
 }
-html.tt2-fidelity .tt-home-number {left:21px;}
+
 html.tt2-fidelity .tt-brand-main {font-size:23.3px;line-height:1;transform:scaleY(.8);transform-origin:left bottom;}
 html.tt2-fidelity .tt-brand-small {font-size:7.6px;letter-spacing:.04em;}
-html.tt2-fidelity .tt-home-item:nth-child(7) .tt-home-label {transform:scaleY(.67) scaleX(1.06);}
+
 /* The supplied Figma screens exist only in dark appearance. Keep the two
    approved screens dark even if the legacy site has a light-mode override;
    otherwise white outlined-style chapter typography becomes illegible. */
@@ -137,18 +131,18 @@ html.tt2-fidelity[data-tt-view='travel'] body {background:#000!important;color:#
 html.tt2-fidelity.tt-route-home .tt-sitebar,
 html.tt2-fidelity[data-tt-view='travel'] .tt-sitebar {background:#000!important;color:#fff!important;}
 html.tt2-fidelity[data-tt-view='travel'] .tt-chapter-heading[data-tt-chapter='travel'] {color:#fff!important;}
-html.tt2-fidelity .tt-side-menu {background:#000!important;color:#fff!important;}
+
 html.tt2-fidelity .tt-brand-main {transform:scaleY(.65);}
 html.tt2-fidelity .tt-sitebar {padding-bottom:11px;}
 /* `side` Figma frame: 300px panel, 50px Kasumi Min2 display headlines.
    Render editable HTML text, pending original licensed outlines. */
-html.tt2-fidelity .tt-side-title {font-size:50px;line-height:1.18;letter-spacing:-.05em;top:9px;right:14px;transform-origin:right top;transform:translateY(12px) scaleY(.68);}
-html.tt2-fidelity .tt-side-line {left:17px;top:22px;}
+
+
 @keyframes tt2-side-rise {from{opacity:0;transform:translateY(12px) scaleY(.68)}to{opacity:1;transform:translateY(0) scaleY(.68)}}
-html.tt2-fidelity.tt-nav-open .tt-side-title {animation-name:tt2-side-rise;}
-html.tt2-fidelity .tt-side-extras a:nth-child(2)::after {left:94px;right:auto;width:149px;top:16px;transform-origin:left center;transform:rotate(-32deg);}
-html.tt2-fidelity .tt-side-extras a:nth-child(1)::after {left:70px;right:20px;top:18px;}
+
+
+
 /* Original angled airport-link rule in the Figma `side` frame. */
-html.tt2-fidelity .tt-side-extras {gap:75px;}
-html.tt2-fidelity .tt-side-extras a:nth-child(2)::after {top:22px;}
-html.tt2-fidelity .tt-side-extras a:nth-child(2) span {position:absolute;right:0;top:-53px;}
+
+
+
