@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.83 — home background: 長虹玻璃 under the sage band (js/home-glass-v281.js).
+/* TABI TAIPEI v2.0.86 — home background: 長虹玻璃 under the sage band (js/home-glass-v281.js).
    The glass is a fixed layer behind the home index; js sets its top / left / width from the
    index (#top.hero) and it runs to the bottom of the screen. Home only. */
 .tt281-glass {display:none;position:fixed;z-index:0;bottom:0;overflow:hidden;pointer-events:none;}
@@ -7,32 +7,48 @@ html.tt2-fidelity.tt-route-home .tt281-glass {display:block;}
 html.tt2-fidelity.tt-route-home #top.hero {z-index:1;}
 .tt281-svg, .tt281-svg svg {position:absolute;left:0;top:0;display:block;}
 
-/* the flowing lower edge of the light: two irregular wave tiles (made in js) slide sideways,
-   one each way, at about 4-5 px a second, and rise and fall a few px on their own beats.
-   Ends fade like the glass. Transform only. */
+/* the flowing lower edge of the light: three irregular wave tiles (made in js) flow left to
+   right, the first crossing the screen in about 3 s. Each layer's own beats (set in js as
+   --flow / --sd / --sa / --rise / --fade) make it sway, rise and fade, so the speed and
+   brightness never settle into a loop. Ends fade like the glass. Transform and opacity only. */
 .tt281-wave {
-  position:absolute;left:0;right:0;top:0;height:220px;overflow:hidden;
+  position:absolute;left:0;right:0;top:0;height:240px;overflow:hidden;
   -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent);
   mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent);
-  animation:tt281-rise 17s ease-in-out infinite alternate;
+  animation:tt281-rise var(--rise) ease-in-out infinite alternate,tt281-fade var(--fade) ease-in-out infinite alternate;
 }
-.tt281-wave-2 {animation-duration:23s;animation-delay:-9s;}
+.tt281-wave b {
+  position:absolute;inset:0;display:block;
+  animation:tt281-sway var(--sd) ease-in-out infinite alternate;
+}
 .tt281-wave i {
-  position:absolute;left:0;top:0;bottom:0;width:calc(100% + var(--L));
+  position:absolute;top:0;bottom:0;left:calc(-1 * var(--sa));width:calc(100% + var(--L) + 2 * var(--sa));
   background-repeat:repeat-x;background-position:0 0;background-size:var(--L) auto;
-  will-change:transform;animation:tt281-flow 180s linear infinite;
+  will-change:transform;animation:tt281-flow var(--flow) linear infinite reverse;
 }
-.tt281-wave-2 i {animation-duration:140s;animation-direction:reverse;}
 @keyframes tt281-flow {from{transform:translate3d(0,0,0)}to{transform:translate3d(calc(-1 * var(--L)),0,0)}}
-@keyframes tt281-rise {from{transform:translate3d(0,-3px,0)}to{transform:translate3d(0,4px,0)}}
-@media (prefers-reduced-motion:reduce) {.tt281-wave,.tt281-wave i {animation:none;}}
+@keyframes tt281-sway {from{transform:translate3d(calc(-1 * var(--sa)),0,0)}to{transform:translate3d(var(--sa),0,0)}}
+@keyframes tt281-rise {from{transform:translate3d(0,-4px,0)}to{transform:translate3d(0,5px,0)}}
+@keyframes tt281-fade {from{opacity:.5}to{opacity:1}}
+@media (prefers-reduced-motion:reduce) {.tt281-wave,.tt281-wave b,.tt281-wave i {animation:none;}}
 
-/* rib shading (16px ribs, lined up with the SVG's), faded like the refraction: both ends out,
+/* grain over the light only: dithers the low sage levels so they do not band */
+.tt281-grain {
+  position:absolute;left:0;right:0;top:0;height:240px;opacity:.045;background-size:180px 180px;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
+    linear-gradient(#000,rgba(0,0,0,.6) 100px,transparent 230px);
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
+    linear-gradient(#000,rgba(0,0,0,.6) 100px,transparent 230px);
+  mask-composite:intersect;
+}
+
+/* rib shading (24px ribs, lined up with the SVG's), faded like the refraction: both ends out,
    strongest under the band, a fifth at the floor, where it is only just there */
 .tt281-ribs {
   position:absolute;inset:0;
-  background-image:linear-gradient(to right,transparent 0,rgba(255,255,255,.06) 3.52px,transparent 8px,rgba(0,0,0,.26) 14.4px,transparent 16px);
-  background-size:16px 100%;
+  background-image:linear-gradient(to right,transparent 0,rgba(255,255,255,.06) 5.28px,transparent 12px,rgba(0,0,0,.26) 21.6px,transparent 24px);
+  background-size:24px 100%;
   -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
     linear-gradient(#000,rgba(0,0,0,.62) 30%,rgba(0,0,0,.3) 62%,rgba(0,0,0,.2));
   -webkit-mask-composite:source-in;
