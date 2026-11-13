@@ -82,8 +82,7 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide .daytrip-destination-buttons 
 /* The only new animation is the route as it is redrawn. The source site's
    original daytrip and route modules are not mutated. */
 
-@media (prefers-reduced-motion:reduce) {
-}
+
 
 /* Last-layer overrides for the old compact-toolbar absolute positioning.
    Parent buttons must own the text's horizontal centering, not the old span. */
@@ -112,10 +111,8 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide #daytrip-destination-panel-2[
 /* The 46px transport bar now lives outside the Jiufen route stage. Maintain
    the previous footer line's screen position, not a duplicate offset. */
 
-@media (max-width:365px){
-}
-@media (prefers-reduced-motion:reduce){
-}
+
+
 
 /* ===== from figma-daytrip-v216.css ===== */
 /* TABI TAIPEI 2.0.16 / 06 遠出 — fixed-height route screens.
@@ -144,10 +141,8 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide .sights-day-trips {
 /* Access to longer original notes and geolocated sightseeing / food links:
    an overlay inside the fixed chapter frame (only this pane may scroll). */
 
-@media (max-height:720px){
-}
-@media (prefers-reduced-motion:reduce) {
-}
+
+
 
 /* Avoid legacy focus scrolling the 16px overhanging edge of the stage. */
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .sights-day-trips {scroll-behavior:auto!important;}
@@ -407,8 +402,7 @@ html.tt2-fidelity.tt-ios-safari-tab[data-tt-view='day-trips'] #guide .sights-day
  html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-leg {right:12px;}
  html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-route-meta{right:20px;}
 }
-@media(max-height:700px){
-}
+
 
 /* On compact-height iPhones the three-stop route must not overlap its transfer
    station. Preserve the authored primary type size; suppress secondary copy

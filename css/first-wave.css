@@ -11,10 +11,7 @@ html.tt-fwave {
   --tt-serif: "Hiragino Mincho ProN", "Yu Mincho", "BIZ UDPMincho", "Noto Serif JP", serif;
   scroll-padding-top: 118px;
 }
-html.tt-fwave[data-theme="light"] {
-  --tt-bg:#f9f8f5;--tt-ink:#20211f;--tt-muted:#555853;--tt-dim:#757975;
-  --tt-rule:rgba(35,36,33,.37);--tt-side-bg:#f6f5f2;
-}
+
 html.tt-fwave body {
   background:var(--tt-bg)!important;color:var(--tt-ink);
   min-width:0;overflow-x:clip;

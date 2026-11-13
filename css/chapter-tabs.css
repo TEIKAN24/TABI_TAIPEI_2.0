@@ -23,7 +23,7 @@
 /* While the rows glide into place, the real tabs wait underneath. */
 #guide .ct-tabs.ct-morphing .ct-tab,#guide .ct-tabs.ct-morphing .ct-ind{visibility:hidden}
 #guide .ct-tab:focus-visible{outline:2px solid var(--ct-sub,#9A9A9A);outline-offset:2px}
-html[data-theme="light"] #guide .ct-tabs{--ct-line:#E1E1E0;--ct-sub:#6B6B69;--ct-hi:#333333;--ct-ink:#2B2B2B}
+
 @media(max-width:350px){#guide .ct-tab{font-size:12px;padding:0 5px}}
 
 /* Tab mode: only the chosen section shows, without its own title, in a box of fixed height. */
@@ -79,4 +79,4 @@ html[data-theme="light"] #guide .ct-tabs{--ct-line:#E1E1E0;--ct-sub:#6B6B69;--ct
   min-height:50px;margin:14px 20px 22px!important;padding:0!important;border-radius:7px!important;border:0!important;
   background:#F3F3F3!important;color:#151515!important;-webkit-text-fill-color:#151515;font-size:16px!important;font-weight:800!important;
   letter-spacing:.06em;text-decoration:none!important}
-html[data-theme="light"] #guide .walk-inline-detail a.walk-inline-go.walk-go-bottom{background:#2B2B2B!important;color:#FCFCFB!important;-webkit-text-fill-color:#FCFCFB}
+
