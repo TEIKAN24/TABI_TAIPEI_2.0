@@ -1,0 +1,49 @@
+/* TABI TAIPEI v2.0.81 — home background: 長虹玻璃 under the sage band (js/home-glass-v281.js).
+   The glass is a fixed layer behind the home index; js sets its top / left / width from the
+   index (#top.hero) and it runs to the bottom of the screen. Home only. */
+.tt281-glass {display:none;position:fixed;z-index:0;bottom:0;overflow:hidden;pointer-events:none;}
+html.tt2-fidelity.tt-route-home .tt281-glass {display:block;}
+/* the index paints above the glass */
+html.tt2-fidelity.tt-route-home #top.hero {z-index:1;}
+.tt281-svg, .tt281-svg svg {position:absolute;left:0;top:0;display:block;}
+
+/* rib shading, faded like the refraction: both ends out, strongest under the band, about 8%
+   at the floor. The shadow sits near each rib's far edge and stays put; the highlight (a
+   quarter in) is its own layer so tilt can slide it. Ribs line up with the SVG's (x 0, 12px). */
+.tt281-ribs, .tt281-glint {
+  position:absolute;inset:0;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
+    linear-gradient(#000,rgba(0,0,0,.55) 30%,rgba(0,0,0,.16) 62%,rgba(0,0,0,.08));
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
+    linear-gradient(#000,rgba(0,0,0,.55) 30%,rgba(0,0,0,.16) 62%,rgba(0,0,0,.08));
+  mask-composite:intersect;
+}
+.tt281-ribs {
+  background-image:linear-gradient(to right,transparent 0,transparent 6px,rgba(0,0,0,.26) 10.8px,transparent 12px);
+  background-size:12px 100%;
+}
+/* one pitch wider each side, so a ±2.5px slide never shows an edge and the phase stays at 0 */
+.tt281-glint i {
+  position:absolute;top:0;bottom:0;left:-12px;right:-12px;
+  background-image:linear-gradient(to right,transparent 0,rgba(255,255,255,.09) 2.64px,transparent 6px,transparent 12px);
+  background-size:12px 100%;
+  opacity:.55;will-change:transform;
+}
+
+/* side menu: 「背景を動かす オン／オフ」, on the About row, right side (touch devices only) */
+html.tt2-fidelity .tt281-tilt {
+  position:absolute;right:21px;top:643px;height:32px;
+  display:flex;align-items:center;gap:12px;padding:0 6px;margin:0;
+  border:0;border-radius:0;background:transparent;color:#fff;
+  font-family:var(--tt2-serif,serif);font-size:12px;line-height:1;letter-spacing:.14em;
+  cursor:pointer;pointer-events:auto;touch-action:pan-y;-webkit-tap-highlight-color:transparent;
+}
+html.tt2-fidelity .tt281-tilt-state {color:#8a8a8a;letter-spacing:.08em;}
+html.tt2-fidelity .tt281-tilt[aria-pressed='true'] .tt281-tilt-state {color:#8a9e7a;}
+html.tt2-fidelity .tt281-tilt:active {opacity:.76;}
+html.tt2-fidelity .tt281-tilt:focus-visible {outline:1px solid rgba(255,255,255,.78);outline-offset:-1px;}
+html.tt2-fidelity.tt-nav-open .tt281-tilt {animation:tt227-arrive .34s ease-out both;animation-delay:620ms;}
+@media (prefers-reduced-motion:reduce) {
+  html.tt2-fidelity.tt-nav-open .tt281-tilt {animation:none;}
+}
