@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.86 — home background: 長虹玻璃 under the sage band (js/home-glass-v281.js).
+/* TABI TAIPEI v2.0.88 — home background: 長虹玻璃 under the sage band (js/home-glass-v281.js).
    The glass is a fixed layer behind the home index; js sets its top / left / width from the
    index (#top.hero) and it runs to the bottom of the screen. Home only. */
 .tt281-glass {display:none;position:fixed;z-index:0;bottom:0;overflow:hidden;pointer-events:none;}
@@ -12,11 +12,27 @@ html.tt2-fidelity.tt-route-home #top.hero {z-index:1;}
    --flow / --sd / --sa / --rise / --fade) make it sway, rise and fade, so the speed and
    brightness never settle into a loop. Ends fade like the glass. Transform and opacity only. */
 .tt281-wave {
-  position:absolute;left:0;right:0;top:0;height:240px;overflow:hidden;
+  position:absolute;left:0;right:0;top:0;height:210px;overflow:hidden;
   -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent);
   mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent);
   animation:tt281-rise var(--rise) ease-in-out infinite alternate,tt281-fade var(--fade) ease-in-out infinite alternate;
 }
+/* the two copies of a wave, each seen through half of every 24px rib (lined up with the
+   glass). The left half shows what lies to its left, the right half what lies to its right,
+   as the rib's lens does, so the edge steps at each rib. The stripes stay put; only the
+   copies inside them move. */
+.tt281-half {
+  position:absolute;inset:0;
+  -webkit-mask-image:linear-gradient(to right,#000 0,#000 12px,transparent 12px,transparent 24px);
+  mask-image:linear-gradient(to right,#000 0,#000 12px,transparent 12px,transparent 24px);
+  -webkit-mask-size:24px 100%;mask-size:24px 100%;-webkit-mask-repeat:repeat-x;mask-repeat:repeat-x;
+}
+.tt281-half-b {
+  -webkit-mask-image:linear-gradient(to right,transparent 0,transparent 12px,#000 12px,#000 24px);
+  mask-image:linear-gradient(to right,transparent 0,transparent 12px,#000 12px,#000 24px);
+}
+.tt281-half-a b {translate:9px -2px;}
+.tt281-half-b b {translate:-9px 2px;opacity:.8;}
 .tt281-wave b {
   position:absolute;inset:0;display:block;
   animation:tt281-sway var(--sd) ease-in-out infinite alternate;
@@ -32,17 +48,6 @@ html.tt2-fidelity.tt-route-home #top.hero {z-index:1;}
 @keyframes tt281-fade {from{opacity:.5}to{opacity:1}}
 @media (prefers-reduced-motion:reduce) {.tt281-wave,.tt281-wave b,.tt281-wave i {animation:none;}}
 
-/* grain over the light only: dithers the low sage levels so they do not band */
-.tt281-grain {
-  position:absolute;left:0;right:0;top:0;height:240px;opacity:.045;background-size:180px 180px;
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
-    linear-gradient(#000,rgba(0,0,0,.6) 100px,transparent 230px);
-  -webkit-mask-composite:source-in;
-  mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
-    linear-gradient(#000,rgba(0,0,0,.6) 100px,transparent 230px);
-  mask-composite:intersect;
-}
-
 /* rib shading (24px ribs, lined up with the SVG's), faded like the refraction: both ends out,
    strongest under the band, a fifth at the floor, where it is only just there */
 .tt281-ribs {
@@ -54,5 +59,22 @@ html.tt2-fidelity.tt-route-home #top.hero {z-index:1;}
   -webkit-mask-composite:source-in;
   mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
     linear-gradient(#000,rgba(0,0,0,.62) 30%,rgba(0,0,0,.3) 62%,rgba(0,0,0,.2));
+  mask-composite:intersect;
+}
+
+/* the glass surface catching the band: a soft catchlight on each rib (2.0.88: a 6px glow at
+   7%, was a 1px line at 20%, too hard) and a soft dark seam where two ribs meet. It fades
+   quickly below the band and is only a trace from the second row down. */
+.tt281-sheen {
+  position:absolute;inset:0;
+  background-image:
+    linear-gradient(to right,transparent 3px,rgba(255,255,255,.07) 6px,transparent 9px),
+    linear-gradient(to right,rgba(0,0,0,.35) 0,transparent 2px,transparent 22px,rgba(0,0,0,.35) 24px);
+  background-size:24px 100%;
+  -webkit-mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
+    linear-gradient(#000,rgba(0,0,0,.6) 50px,rgba(0,0,0,.22) 130px,rgba(0,0,0,.06) 240px,rgba(0,0,0,.03));
+  -webkit-mask-composite:source-in;
+  mask-image:linear-gradient(to right,transparent,#000 16%,#000 84%,transparent),
+    linear-gradient(#000,rgba(0,0,0,.6) 50px,rgba(0,0,0,.22) 130px,rgba(0,0,0,.06) 240px,rgba(0,0,0,.03));
   mask-composite:intersect;
 }
