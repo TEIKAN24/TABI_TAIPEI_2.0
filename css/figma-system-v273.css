@@ -141,7 +141,7 @@ html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(n+7)::before {height:c
 html.tt2-fidelity[data-tt-view='food'] #food-recommend-section {--tt-food-slack:calc(100dvh - var(--tt2-sitebar-height,104px) - 79px - 402.8px)!important;}
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-where {
   display:flex!important;align-items:center!important;gap:6px!important;height:52px!important;padding:0 0 0 11px!important;
-  border-bottom:1px solid #666464!important;position:relative!important;
+  border-bottom:0!important;position:relative!important; /* v2.0.80: no rule above the glow (user) */
 }
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-where-time,
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-where-label,
@@ -175,7 +175,11 @@ html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-chip .tt2-f
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-chip.is-set {background:#fff;border-color:#fff;}
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-chip.is-set .tt2-food-chip-main {color:#000!important;padding-right:4px!important;}
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-chip.is-set .tt2-food-chip-x {
-  display:block!important;height:28px!important;padding:0 11px 0 4px!important;font:400 11px/28px var(--tt2-ui)!important;color:#000!important;
+  display:block!important;width:22px!important;height:28px!important;padding:0!important;font-size:0!important;color:transparent!important;
+  /* v2.0.80: the イベント filter chip's hairline cross (7×7, 1px), not a text ✕ */
+  background:
+    linear-gradient(45deg,transparent calc(50% - .5px),#000 calc(50% - .5px),#000 calc(50% + .5px),transparent calc(50% + .5px)) 4px 50%/7px 7px no-repeat,
+    linear-gradient(-45deg,transparent calc(50% - .5px),#000 calc(50% - .5px),#000 calc(50% + .5px),transparent calc(50% + .5px)) 4px 50%/7px 7px no-repeat!important;
 }
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .tt2-food-chip.is-set .tt2-food-chip-x::before {content:'';position:absolute;inset:-8px 0;}
 /* ＋ : the 条件 summary, now a 30px white circle at the end of the row */
