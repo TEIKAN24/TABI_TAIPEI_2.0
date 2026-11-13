@@ -1325,9 +1325,9 @@ html, body, .nav-button, .site-content a:not(:where(#taipei-recommender *)), .si
   border:1px solid #66533B!important;
 }
 /* All souvenir snacks now appear in one continuous, naturally scrolling list. */
-.site-content .souvenir-snack-list {padding-left:23px;margin:6px 0;}
-.site-content .souvenir-snack-list > li {padding:8px 0;margin:0;border-bottom:1px solid #303030;line-height:1.75;}
-.site-content .souvenir-snack-list > li:last-child {border-bottom:0;}
+
+
+
 
 /* =================== CSS 23: food-category-list-focus-20261015 =================== */
 
@@ -4712,7 +4712,7 @@ html body #guide .venue-secondary-links a:not(#_):hover{background-color:rgba(47
    opened, like the City Walk area glow (v30.9.231: guide.js adds
    .venue-glow-in when the page has stopped gliding to the section). */
 
-#guide details.venue-tone-experience{--venue-tone:188,112,98;}
+
 #guide details:is(.venue-tone-sights,.venue-tone-experience) .tab-panels{position:relative;margin-top:8px!important;}
 #guide details:is(.venue-tone-sights,.venue-tone-experience) .tab-panels::before{
   content:"";position:absolute;left:0;right:0;top:0;height:56px;pointer-events:none;z-index:0;
