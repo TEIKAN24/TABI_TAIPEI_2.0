@@ -18,9 +18,7 @@ html.tt2-fidelity {
 
 /* ---------- L1 ---------- */
 /* 見所: three cells on the Figma rules (it was three equal columns, x136 / x257). */
-html.tt2-fidelity[data-tt-view='sights'] #guide > .tt2-chapter-tabs[data-tt2-chapter='sights'] {
-  grid-template-columns:111.6px 137.4px minmax(0,1fr)!important;
-}
+
 /* 遠出: destinations — same type, colours and rules as the other L1 rows. */
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .daytrip-destination-buttons {
   border-bottom-color:var(--tt2-std-rule)!important;
@@ -40,23 +38,12 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide .daytrip-destination-buttons 
 
 /* ---------- L2 ---------- */
 /* 名所・博物館 wheel: y183–229 like every other L2 row (it sat at y189–235). */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='places'] .tt2-wheel {
-  top:-6px!important;
-}
+
 /* 撮影スポット: no size jump on the selected item; the standard 54×1 underline. */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab > .tab-pills {
-  border-bottom-color:var(--tt2-std-rule)!important;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab > .tab-pills > .tab-pill.tab-pill {
-  font-family:var(--tt2-std-ui)!important;font-size:12px!important;color:var(--tt2-std-off)!important;
-  border-right-color:var(--tt2-std-rule)!important;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab > .tab-pills > .tab-pill.tab-pill[aria-selected='true'] {
-  font-size:12px!important;font-weight:700!important;color:#fff!important;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab > .tab-pills > .tab-pill.tab-pill[aria-selected='true']::after {
-  width:54px!important;height:1px!important;background:#bcbcbc!important;
-}
+
+
+
+
 /* 遠出 交通 row: y183–229 (was y184), standard type and rules; underline kept (exception). */
 html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-mode-nav {
   margin-top:-1px!important;border-bottom-color:var(--tt2-std-rule)!important;

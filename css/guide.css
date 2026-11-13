@@ -4269,7 +4269,7 @@ body.food-drawer-open .food-theme-dock .theme-preview-toggle{pointer-events:auto
 /* more room between 03 SIGHTS and 04 CITY WALK */
 #guide hr.chapter-glow--citywalk{margin-top:78px!important;}
 /* 撮影スポット: its own block under 名所・博物館 */
-#guide .photo-spot-section{margin-top:12px;}
+
 #guide .venue-directory-section .tab-panel.list-can-scroll:not([data-list-end="true"]){
   -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 64px),transparent);
   mask-image:linear-gradient(to bottom,#000 calc(100% - 64px),transparent);
@@ -4711,7 +4711,7 @@ html body #guide .venue-secondary-links a:not(#_):hover{background-color:rgba(47
    hr.chapter-glow--…) rises at the top of the list once the section has
    opened, like the City Walk area glow (v30.9.231: guide.js adds
    .venue-glow-in when the page has stopped gliding to the section). */
-#guide details.venue-tone-sights{--venue-tone:138,158,122;}
+
 #guide details.venue-tone-experience{--venue-tone:188,112,98;}
 #guide details:is(.venue-tone-sights,.venue-tone-experience) .tab-panels{position:relative;margin-top:8px!important;}
 #guide details:is(.venue-tone-sights,.venue-tone-experience) .tab-panels::before{
