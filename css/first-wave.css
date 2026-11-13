@@ -110,10 +110,10 @@ html.tt-fwave #guide .tt-chapter-heading {scroll-margin-top:120px;}
 
 /* Chapter 01: preserve the original <details> semantics and their Japanese copy.
    Tabs control existing details, not a replacement duplicated data structure. */
-.tt-travel-tabs {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));height:48px;margin:0 0 6px;border-bottom:1px solid var(--tt-rule);}
-.tt-travel-tabs > button {font:500 12px/1.3 -apple-system,BlinkMacSystemFont,'Noto Sans JP',sans-serif;letter-spacing:.01em;cursor:pointer;border:0;border-right:1px solid var(--tt-rule);border-radius:0;padding:5px 4px;background:transparent;color:var(--tt-muted);}
-.tt-travel-tabs > button:last-child {border-right:0;}
-.tt-travel-tabs > button[aria-selected="true"] {color:var(--tt-ink);font-weight:700;}
+
+
+
+
 html.tt-fwave #guide .page-body > details:is(.travel-caution,.travel-twac,.travel-passes) {border:0!important;border-radius:0!important;background:transparent!important;box-shadow:none!important;margin:0!important;padding:0!important;}
 html.tt-fwave #guide .page-body > details:is(.travel-caution,.travel-twac,.travel-passes) > summary {display:none!important;}
 html.tt-fwave #guide .page-body > details:is(.travel-caution,.travel-twac,.travel-passes) > .indented {margin:0!important;padding:0!important;}
