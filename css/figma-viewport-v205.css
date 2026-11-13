@@ -26,21 +26,12 @@ html.tt2-fidelity[data-tt-view='travel'] #guide > .page-body {
   height:100%;max-height:100%;min-height:0;
   display:flex!important;flex-direction:column;overflow:hidden!important;
 }
-html.tt2-fidelity[data-tt-view='travel'] .page-body > .tt-chapter-heading,
-html.tt2-fidelity[data-tt-view='travel'] .tt-travel-tabs {flex:0 0 auto;}
-html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane {
-  flex:0 1 auto;
-  height:calc(100% - 156px);
-  min-height:0!important;max-height:calc(100% - 156px);
-  overflow-y:auto!important;overflow-x:hidden!important;
-  overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane::-webkit-scrollbar {display:none;}
+html.tt2-fidelity[data-tt-view='travel'] .page-body > .tt-chapter-heading {flex:0 0 auto;}
+
+
 /* Additional legacy notes and secondary pass entries must remain accessible,
    but may not extend the shell. Their content is already in native panels. */
-html.tt2-fidelity[data-tt-view='travel'] .tt2-original-note-extra,
-html.tt2-fidelity[data-tt-view='travel'] .tt2-pass-continuation {display:none!important;}
+html.tt2-fidelity[data-tt-view='travel'] .tt2-original-note-extra {display:none!important;}
 /* All other chapters: freeze the section heading and category navigation.
    Original data-backed <details> are the ONLY scrollable content panels. */
 html.tt2-fidelity.tt-route-chapter[data-tt-view='city-walk'] #guide > :not(.tt-chapter-heading):not(.tt2-chapter-tabs):not(details),
@@ -153,11 +144,7 @@ html.tt2-fidelity .tt-sitebar {
 html.tt2-fidelity[data-tt-view='travel'] #guide > .page-body > :not(.tt-chapter-heading):not(.tt-travel-tabs):not(.tt2-travel-pane) {
   display:none!important;
 }
-html.tt2-fidelity[data-tt-view='travel'] .tt2-travel-pane {
-  flex:0 0 auto;
-  height:calc(100% - 156px)!important;
-  max-height:calc(100% - 156px)!important;
-}
+
 /* `details > .indented` is wrapped in a browser native details box whose
    percentage height resolves to zero in WebKit/Chromium. Use viewport units
    instead: this equals 607 px on the 393×852 reference phone. */
@@ -181,10 +168,7 @@ html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > 
   background:#000!important;z-index:10;
   -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
 }
-html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .tt2-travel-pane,
-html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide > .page-body > .tt-travel-tabs {
-  visibility:hidden!important;pointer-events:none;
-}
+
 /* Until their corresponding Figma screen structures have been calibrated,
    preserve access to every original line, card, recommendation and route by
    using a contained scroll surface, never unlocking the document itself. */

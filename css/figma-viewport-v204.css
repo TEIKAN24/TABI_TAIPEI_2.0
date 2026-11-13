@@ -41,19 +41,7 @@ html.tt2-fidelity.tt-route-home body {min-height:100%;}
 
 /* Chapter 01 native accordion: one consistent 18px centered arrow pivot,
    with a complete CSS chevron. The row's label stays actual selectable text. */
-html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow {
-  transform-origin:50% 50%;
-}
-html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow::before {
-  left:3px;top:8.5px;width:11px;height:1px;
-  background:currentColor;transform:none;
-}
-html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow::after {
-  left:8px;top:5px;width:6px;height:6px;
-  background:transparent;border-top:1px solid currentColor;
-  border-right:1px solid currentColor;
-  transform:rotate(45deg);transform-origin:center;
-}
-@media(prefers-reduced-motion:reduce) {
-  html.tt2-fidelity[data-tt-view='travel'] .tt2-note-arrow {transition:none;}
-}
+
+
+
+
