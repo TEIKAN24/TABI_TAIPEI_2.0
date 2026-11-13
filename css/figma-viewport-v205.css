@@ -90,15 +90,8 @@ html.tt2-fidelity #guide > details[data-tt2-panel] > .indented {
 }
 /* The map is a native original SVG interaction surface with existing markers,
    zoom/pan and location controls. Figma: x16..379 y189..797 rounded 16px. */
-html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section,
-html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-tabs,
-html.tt2-fidelity[data-tt-view='city-walk'] .nm-map {
-  border-radius:16px!important;
-}
-html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-tabs,
-html.tt2-fidelity[data-tt-view='city-walk'] .nm-map {
-  height:100%!important;max-height:100%!important;overflow:hidden!important;
-}
+
+
 html.tt2-fidelity[data-tt-view='city-walk'] .area-panel {
   height:100%!important;max-height:100%!important;min-height:0!important;
 }
@@ -148,10 +141,7 @@ html.tt2-fidelity[data-tt-view='travel'] #guide > .page-body > :not(.tt-chapter-
 /* `details > .indented` is wrapped in a browser native details box whose
    percentage height resolves to zero in WebKit/Chromium. Use viewport units
    instead: this equals 607 px on the 393×852 reference phone. */
-html.tt2-fidelity[data-tt-view='city-walk'] #guide > details[data-tt2-panel] > .indented,
-html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-tabs,
-html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section .nm-stage,
-html.tt2-fidelity[data-tt-view='city-walk'] #night-markets-section .nm-map {
+html.tt2-fidelity[data-tt-view='city-walk'] #guide > details[data-tt2-panel] > .indented {
   height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
   max-height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
   min-height:0!important;
@@ -184,14 +174,7 @@ html.tt2-fidelity.tt-route-chapter #guide::-webkit-scrollbar {display:none;}
 /* 散策 / 商圏 uses the ORIGINAL second interactive map. Its source list
    is intentionally hidden by the legacy map module. Give the native map
    the same 607px viewport as 夜市, without forcing source lists visible. */
-html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host,
-html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-map,
-html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host .nm-stage,
-html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host .nm-map {
-  height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
-  max-height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
-  min-height:0!important;border-radius:16px;
-}
+
 /* 観光 / 名所・博物館 (Figma 4-1-1): secondary classification is a
    flat line-based horizontal strip, not the old rounded bubble buttons. */
 html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'] .tab-pills {
