@@ -17,13 +17,7 @@ html.tt2-fidelity[data-tt-view='day-trips'] #guide {
 }
 /* Remove inactive chapter separator glows that leaked through original
    !important display declarations under the view router. */
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > .tt-view-hidden,
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > hr.chapter-glow,
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > .chapter-eyebrow,
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > h2,
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > p.chapter-lead,
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > .food-theme-dock,
-html.tt2-fidelity[data-tt-view='day-trips'] #guide > #food-search {display:none!important;}
+html.tt2-fidelity[data-tt-view='day-trips'] #guide > .tt-view-hidden,html.tt2-fidelity[data-tt-view='day-trips'] #guide > hr.chapter-glow,html.tt2-fidelity[data-tt-view='day-trips'] #guide > .chapter-eyebrow,html.tt2-fidelity[data-tt-view='day-trips'] #guide > h2,html.tt2-fidelity[data-tt-view='day-trips'] #guide > p.chapter-lead,html.tt2-fidelity[data-tt-view='day-trips'] #guide > .food-theme-dock {display:none!important;}
 html.tt2-fidelity[data-tt-view='day-trips'] #guide > .tt-chapter-heading[data-tt-chapter='day-trips']{
   display:flex!important;height:34px!important;min-height:34px!important;
   box-sizing:border-box!important;align-items:center!important;gap:16px!important;
