@@ -99,7 +99,7 @@ a,.site-content a[href^="https://maps.app.goo.gl"] {color:var(--accent)}
 .site-content figure figcaption,footer {color:var(--muted)}
 
 /* Full-width embedded food search, sized to mobile height without lateral overflow. */
-.food-browser-banner {display:block;margin:17px 0 22px;scroll-margin-top:14px}
+
 @media(max-width:600px){
  .wrapper {width:calc(100% - 28px)}
  
@@ -321,15 +321,8 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
 #food-explorer, #food-explorer *, #food-explorer *::before, #food-explorer *::after{ box-sizing: border-box; }
 
 #food-explorer{-webkit-text-size-adjust:100%;--page:#191a1a;--surface:#252727;--text:#f0f2f0;--muted:#aab0ac;--border:#393d3a;--soft:#2d312e;--accent:#83d3b0;--accent-faint:#233c30;--focus:#4bbf8b;font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif}
-#food-explorer .search-shell{
-    display: flex; align-items: center; gap: 10px;
-    padding: 0 13px;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    background: var(--soft);
-    transition: border-color .15s, box-shadow .15s;
-  }
-#food-explorer .search-shell:focus-within{ border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-faint); }
+
+
 #food-explorer .search-svg{ display: block; color: var(--muted); width: 20px; height: 20px; flex-shrink: 0; }
 #food-explorer input{
     min-width: 0; width: 100%; height: 49px;
@@ -420,14 +413,7 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
 @media  (prefers-reduced-motion: reduce) {#food-explorer, #food-explorer *{ transition: none !important; }}
 /* Original food-search surface (#252727), with the existing mint-green accents. */
 #food-explorer{display:block;width:100%;margin:0;padding:0;color-scheme:dark;background:transparent;color:var(--text);font-size:14px;line-height:1.55;}
-#food-explorer .food-panel{
-  width:100%;max-width:none;margin:0;
-  padding:22px 20px 18px;
-  border:1px solid var(--border);
-  border-radius:18px;
-  background:var(--surface);
-  box-shadow:none;
-}
+
 /* The guide's global paragraph and heading rules must not recolor food search text. */
 #food-explorer .intro{font-size:12px;color:var(--muted);margin:0 0 19px;line-height:1.55;}
 #food-explorer .desc{color:var(--muted);margin:0;line-height:1.55;}
@@ -436,10 +422,10 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
 #food-explorer .results-head h3{margin:0;font-size:13px;font-weight:750;line-height:1.55;color:var(--text);}
 #food-explorer .dish{margin:0 0 3px;font-size:15px;font-weight:725;line-height:1.4;color:var(--text);}
 #food-explorer mark{background:#365E4B;color:#fff;border-radius:2px;padding:0 1px;}
-#food-explorer .search-shell input{height:49px;font-size:16px;color:var(--text);background:transparent;}
-#food-explorer .search-shell input::placeholder{color:var(--muted);}
+
+
 #food-explorer .quick button{touch-action:manipulation;}
-@media(max-width:420px){#food-explorer .food-panel{padding:18px 13px 15px;border-radius:15px;}}
+
 
 /* =================== CSS 05: venue-directory-style =================== */
 
@@ -594,12 +580,12 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
 /* === Oct 2026: mobile food index / calmer travel cards / daytrip directory === */
 @media (max-width: 600px) {
   /* Use almost the entire phone width; keep a little breathing room at the edge. */
-  .site-content .food-browser-banner {margin-left:-5px;margin-right:-5px;margin-top:15px;margin-bottom:24px;}
-  #food-explorer .food-panel {padding:16px 13px 13px;border-radius:15px;}
+
+
   #food-explorer .food-title {font-size:clamp(20px,5.4vw,23px);margin-bottom:4px;}
   #food-explorer .intro {font-size:11.5px;margin-bottom:13px;line-height:1.6;}
-  #food-explorer .search-shell {padding:0 11px;gap:8px;border-radius:11px;}
-  #food-explorer .search-shell input {height:46px;font-size:16px;} /* prevent iOS input-focus zoom */
+
+ /* prevent iOS input-focus zoom */
   #food-explorer .search-svg {width:18px;height:18px;}
   #food-explorer .quick {
     flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;
@@ -622,7 +608,7 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
   #food-explorer .foot {margin-top:7px;font-size:10px;}
 }
 @media (max-width:350px) {
-  #food-explorer .food-panel {padding:14px 10px 12px;}
+
   #food-explorer .result {gap:6px;}
   #food-explorer .dish {font-size:13.5px;}
   #food-explorer .quick button {flex-basis:32px;height:34px;}
@@ -1559,51 +1545,16 @@ html, body, .nav-button, .site-content a:not(:where(#taipei-recommender *)), .si
 .quick-nav .nav-title { color:#F7F7F7!important; }
 .quick-nav .nav-subtitle { color:#CCCCCC!important; }
 
-#guide #food-explorer .food-panel {
-  position:relative; isolation:isolate; overflow:hidden;
-  background:
-    linear-gradient(180deg, rgba(255,255,255,.034) 0%, rgba(255,255,255,.022) 62%, rgba(255,255,255,.014) 100%)!important;
-  border:1px solid rgba(255,255,255,.085)!important;
-  box-shadow:
-    0 7px 16px rgba(0,0,0,.10),
-    inset 0 1px 0 rgba(255,255,255,.075),
-    inset 0 -1px 0 rgba(255,255,255,.018)!important;
-  -webkit-backdrop-filter:none!important; backdrop-filter:none!important;
-}
-#guide #food-explorer .food-panel::before {
-  content:""!important; display:block!important; position:absolute; inset:0; border-radius:inherit;
-  pointer-events:none; z-index:0; padding:.9px;
-  background:linear-gradient(138deg,
-    rgba(255,255,255,.16), rgba(255,255,255,.022) 34%, rgba(255,255,255,.032) 68%, rgba(255,255,255,.10));
-  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); -webkit-mask-composite:xor;
-  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0); mask-composite:exclude;
-}
-#guide #food-explorer .food-panel::after {
-  content:""!important; display:block!important; position:absolute; inset:1px; border-radius:inherit;
-  pointer-events:none; z-index:0;
-  background:
-    radial-gradient(94% 140px at 6% 0%, rgba(255,255,255,.09), transparent 62%),
-    linear-gradient(180deg, rgba(255,255,255,.018) 0%, transparent 28%);
-}
-#guide #food-explorer .food-panel > * { position:relative; z-index:1; }
-#guide #food-explorer .search-shell {
-  position:relative; overflow:hidden;
-  background:linear-gradient(180deg, rgba(255,255,255,.028), rgba(255,255,255,.016))!important;
-  border-color:rgba(255,255,255,.10)!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.08), inset 0 -1px 0 rgba(255,255,255,.015)!important;
-  -webkit-backdrop-filter:none!important; backdrop-filter:none!important;
-}
-#guide #food-explorer .search-shell::before {
-  content:""; position:absolute; left:7px; right:7px; top:0; height:38%; pointer-events:none; border-radius:999px;
-  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,0)); opacity:.48;
-}
-#guide #food-explorer .search-shell:focus-within {
-  border-color:var(--accent)!important;
-  box-shadow:0 0 0 2px rgba(131,211,176,.13), inset 0 1px 0 rgba(255,255,255,.085)!important;
-}
+
+
+
+
+
+
+
 
 #guide #food-explorer .results-head, #guide #food-explorer .result { border-color:rgba(255,255,255,.10)!important; }
-.quick-nav::before, #guide .food-browser-banner::before { content:none!important; display:none!important; }
+.quick-nav::before { content:none!important; display:none!important; }
 @media(prefers-reduced-motion:reduce){ .quick-nav > .nav-button:nth-child(n){ transition:none!important; } }
 
 /* =================== CSS 31: daytrip-alternative-liquid-glow-20261015 =================== */
@@ -1812,33 +1763,11 @@ html, body, .nav-button, .site-content a:not(:where(#taipei-recommender *)), .si
 /* =================== CSS 38: food-drawer-and-16char-lines-v1 =================== */
 
 /* Separate the food dictionary from page flow, without obscuring main guide content. */
-.food-drawer-backdrop {
-  position:fixed; inset:0;z-index:198;
-}
-#guide #food-search.food-drawer {
-  position:fixed!important;inset:0 0 0 auto!important;
-  width:min(100vw,480px)!important;max-width:100vw!important;
-  height:100dvh;
-  margin:0!important;padding:0!important;
-  color:#F7F7F7;
-  border-radius:0;
-  z-index:200;display:flex;flex-direction:column;
-  overflow:hidden;
-  overscroll-behavior:contain;
-}
-body.food-drawer-open #guide #food-search.food-drawer {
-  transform:translate3d(0,0,0);visibility:visible;pointer-events:auto;
-  transition:transform .32s cubic-bezier(.22,.76,.24,1),visibility 0s;
-}
-body.food-drawer-open .food-drawer-backdrop {
-  visibility:visible;opacity:1;
-  transition:opacity .25s ease, visibility 0s;
-}
-#guide #food-search .food-drawer-scroll {
-  padding:9px 12px calc(22px + env(safe-area-inset-bottom));
-  -webkit-overflow-scrolling:touch;overscroll-behavior:contain;
 
-}
+
+
+
+
 
  /* The drawer toolbar already says FOOD INDEX. */
 
@@ -1849,10 +1778,8 @@ body.food-drawer-open .food-drawer-backdrop {
 #guide #food-explorer .food-desc-full[hidden],
 #guide #food-explorer .food-desc-preview[hidden] {display:none!important;}
 #guide #food-explorer .food-entry-toggle {align-items:flex-start;}
-@media(min-width:600px){#guide #food-search .food-drawer-scroll {padding:15px 20px 32px;}}
-@media(prefers-reduced-motion:reduce) {
-  #guide #food-search.food-drawer,.food-drawer-backdrop {transition:none!important;}
-}
+
+
 
 /* =================== CSS 39: swipe-food-screens-v2 =================== */
 
@@ -1865,48 +1792,19 @@ body > footer {
   will-change:transform;
 }
 /* Also float the back-to-top with the main page, without changing its own fade/offset rules. */
-#guide #food-search.food-drawer {
 
-  visibility:hidden;pointer-events:none;
-  will-change:transform;
-}
-body.food-swipe-active #guide #food-search.food-drawer,
-body.food-drawer-open #guide #food-search.food-drawer {
-  visibility:visible;pointer-events:auto;
-  transition:transform .29s cubic-bezier(.22,.75,.27,1),visibility 0s!important;
-}
-.food-drawer-backdrop {
-  visibility:hidden;pointer-events:none;
 
-}
-body.food-swipe-active .food-drawer-backdrop,
-body.food-drawer-open .food-drawer-backdrop {
-  visibility:visible;
-  pointer-events:none;
 
-}
+
 /* v30.9.208: only the drawer (user-select is inherited: on <body> it restyled the whole page per drag). */
-body.food-swipe-dragging #food-search {user-select:none;-webkit-user-select:none;}
-body.food-drawer-open .food-drawer-backdrop {pointer-events:auto;}
-body.food-swipe-dragging .hero,
-body.food-swipe-dragging #guide > .divider,
-body.food-swipe-dragging #guide > .page-body,
-body.food-swipe-dragging > footer,
-body.food-swipe-dragging #guide #food-search.food-drawer,
-body.food-swipe-dragging .food-drawer-backdrop {transition:none!important;}
-#guide #food-search .food-drawer-scroll {
-  padding:calc(13px + env(safe-area-inset-top)) 12px calc(22px + env(safe-area-inset-bottom));
-}
+
+
+body.food-swipe-dragging .hero,body.food-swipe-dragging #guide > .divider,body.food-swipe-dragging #guide > .page-body,body.food-swipe-dragging > footer {transition:none!important;}
+
 
 /* A subtle visual seam on the drawer edge; not an interactive button. */
-#guide #food-search.food-drawer::before {
-  content:"";position:absolute;left:0;height:40%;width:1px;
-  background:linear-gradient(to bottom,transparent,rgba(255,255,255,.18),transparent);
-  pointer-events:none;z-index:5;
-}
-@media(min-width:600px) {
-  #guide #food-search .food-drawer-scroll {padding:calc(18px + env(safe-area-inset-top)) 20px 32px;}
-}
+
+
 
 /* =================== CSS 40: food-overlap-deep-layer-mobile-v3 =================== */
 
@@ -1921,165 +1819,52 @@ body > footer {
   transition:transform .32s cubic-bezier(.22,.76,.24,1),filter .32s ease!important;
 }
 /* No visible dividing line between the surfaces; depth comes from ambient shadow. */
-#guide #food-search.food-drawer {
-  background:#0D0D0D!important;
-  border:0!important;border-left:0!important;outline:none!important;
-  transform:translate3d(calc(100% - var(--food-swipe-px,0px)),0,0)!important;
-  transition:transform .32s cubic-bezier(.22,.76,.24,1),visibility 0s linear .33s!important;
-}
-.food-drawer-backdrop {
-  background:rgba(0,0,0,.56)!important;
-  opacity:var(--food-swipe-progress,0)!important;
-  border:0!important;
-  transition:opacity .32s ease,visibility 0s linear .33s!important;
-}
-body.food-swipe-active .food-drawer-backdrop,
-body.food-drawer-open .food-drawer-backdrop {
-  opacity:var(--food-swipe-progress,0)!important;
-  transition:opacity .32s ease,visibility 0s!important;
-}
-body.food-swipe-dragging > .hero,
-body.food-swipe-dragging #guide > .divider,
-body.food-swipe-dragging #guide > .page-body,
-body.food-swipe-dragging > footer,
-body.food-swipe-dragging #guide #food-search.food-drawer,
-body.food-swipe-dragging .food-drawer-backdrop {transition:none!important;}
+
+
+
+body.food-swipe-dragging > .hero,body.food-swipe-dragging #guide > .divider,body.food-swipe-dragging #guide > .page-body,body.food-swipe-dragging > footer {transition:none!important;}
 /* True full-screen dictionary: remove the legacy embedded search card entirely. */
-#guide #food-search .food-drawer-scroll {
-  padding:calc(22px + env(safe-area-inset-top)) 18px calc(16px + env(safe-area-inset-bottom))!important;
-  overflow-y:auto;overflow-x:hidden;
-  scrollbar-width:none;
-}
-#guide #food-search .food-drawer-scroll::-webkit-scrollbar{display:none;}
-#guide #food-search #food-explorer {
-  width:100%!important;max-width:none!important;
-  margin:0!important;padding:0!important;
-}
-#guide #food-search #food-explorer .food-panel {
-  position:relative!important;
-  width:100%!important;max-width:none!important;
-  display:flex!important;flex-direction:column!important;
-  padding:0!important;margin:0!important;
-  border:0!important;border-radius:0!important;
-  background:transparent!important;
-  box-shadow:none!important;overflow:visible!important;
-  -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
-}
-#guide #food-search #food-explorer .food-panel::before,
-#guide #food-search #food-explorer .food-panel::after {
-  content:none!important;display:none!important;
-}
-#guide #food-search #food-explorer .food-title {
-  font-size:clamp(22px,6.2vw,27px)!important;
-  line-height:1.35!important;
-  margin:0 0 7px!important;letter-spacing:-.015em;
-}
 
-#guide #food-search #food-explorer .intro {
-  font-size:12px!important;line-height:1.6!important;
-  color:#A7A7A7!important;margin:0 0 17px!important;
-}
-#guide #food-search #food-explorer .search-shell {
-  min-height:50px;
-  background:rgba(255,255,255,.033)!important;
-  border:1px solid rgba(255,255,255,.16)!important;
-  border-radius:13px!important;
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.05)!important;
-}
-#guide #food-search #food-explorer .search-shell input {
-  height:50px!important;font-size:16px!important;
-}
-#guide #food-search #food-explorer .quick {
-  margin-top:12px!important;margin-bottom:12px!important;
-  gap:8px!important;padding:0 0 3px!important;
-}
-#guide #food-search #food-explorer .quick button {
-  flex-basis:37px!important;width:37px!important;height:37px!important;
-  border-radius:50%;
-}
 
-#guide #food-search #food-explorer .food-panel > section {
-  flex:1 1 auto;display:flex;flex-direction:column;
-}
-#guide #food-search #food-explorer .results-head {
-  flex:0 0 auto;padding:5px 0 10px;
-  border-bottom:1px solid rgba(255,255,255,.12)!important;
-}
-#guide #food-search #food-explorer .results-head h3 {font-size:14px;}
-#guide #food-search #food-explorer #results {
 
-  overflow-x:hidden!important;
-  scrollbar-width:thin;
 
-}
-#guide #food-search #food-explorer .result {
-  padding:13px 1px!important;
-  border-bottom-color:rgba(255,255,255,.095)!important;
-}
-#guide #food-search #food-explorer .dish {
-  font-size:15px!important;line-height:1.5!important;
-}
-#guide #food-search #food-explorer .desc {
-  font-size:12.5px!important;line-height:1.62!important;
-}
-#guide #food-search #food-explorer .foot {
-  flex:0 0 auto;margin:7px 0 0!important;
-  padding:3px 0 1px;font-size:10.5px!important;
-}
-#guide #food-search #food-explorer .scroll-tip {
-  flex:0 0 auto;margin:5px 0 0!important;
-}
-@media(max-width:350px){
-  #guide #food-search .food-drawer-scroll {
-    padding:calc(18px + env(safe-area-inset-top)) 14px calc(13px + env(safe-area-inset-bottom))!important;
-  }
-  #guide #food-search #food-explorer .food-title {font-size:21.5px!important;}
-  
-  #guide #food-search #food-explorer .quick button {flex-basis:34px!important;width:34px!important;height:36px!important;}
-}
-@media(min-width:600px){
-  #guide #food-search .food-drawer-scroll {padding:calc(26px + env(safe-area-inset-top)) 25px calc(22px + env(safe-area-inset-bottom))!important;}
-  
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media(prefers-reduced-motion:reduce){
-  body > .hero,#guide > .divider,#guide > .page-body,body > footer,
-  #guide #food-search.food-drawer,.food-drawer-backdrop{transition:none!important;}
+  body > .hero,#guide > .divider,#guide > .page-body,body > footer{transition:none!important;}
 }
 
 /* =================== CSS 41: food-page-full-height-results-20261016 =================== */
 
 /* The dictionary is a full-screen page, not a scrollable embedded card.
    Constrain the food list to the remaining height so it can scroll independently. */
-#guide #food-search .food-drawer-scroll {
-  display:flex!important;flex-direction:column!important;
-  flex:1 1 auto!important;min-height:0!important;
-  height:100%!important;box-sizing:border-box!important;
-  overflow:hidden!important;
-}
-#guide #food-search #food-explorer {
-  display:flex!important;flex-direction:column!important;
-  flex:1 1 auto!important;min-height:0!important;
-  height:100%!important;
-}
-#guide #food-search #food-explorer .food-panel {
-  height:100%!important;min-height:0!important;
-  flex:1 1 auto!important;
-  box-sizing:border-box!important;
-}
-#guide #food-search #food-explorer .food-panel > section {
-  min-height:0!important;
-}
+
+
+
+
 /* The popular chips and difficulty filters must never be squeezed to slivers
    by a long result list; only the list itself is scrollable. */
 
-#guide #food-search #food-explorer .quick{flex:0 0 auto!important;height:auto!important;min-height:0!important;align-items:center!important}
-#guide #food-search #food-explorer #results {
 
-  /* Allow resizeResultViewport()'s measured inline max-height to apply. */
-  max-height:none;
 
-  -webkit-overflow-scrolling:touch;
-}
 
 /* =================== CSS 42: inner-pills-compact-emoji-demo-20261016 =================== */
 
@@ -3818,12 +3603,7 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 /* v30.9.49 — respect the JavaScript-measured compact food list height.
    The containing section still fills the drawer, but the list itself caps
    at 4–5 visible dishes and independently scrolls (including expanded rows). */
-#guide #food-search #food-explorer #results {
-  flex:0 1 auto!important;
-  min-height:0!important;
-  overflow-y:auto!important;
-  overscroll-behavior-y:contain;
-}
+
 
 /* ================= v30.9.50 — Safari-safe compact food rows =================
    A zero-sized CSS Grid track can still allow its content to affect row
@@ -3886,8 +3666,7 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 #guide .area-directory-section .tab-panel .teaser-scroll-body > details.guided-title-pinned > .indented {
   margin-top:4px!important;
 }
-#guide #food-search.food-drawer:focus,
-#guide #food-search.food-drawer:focus-visible{outline:none!important;}
+
 /* The full document is very tall. Translating it a whole drawer width and
    applying a filter forces the browser to repaint large raster surfaces. */
 body.food-swipe-active > .hero,
@@ -3901,24 +3680,9 @@ body.food-swipe-active > footer{
 html:has(body.food-swipe-active),
 body.food-swipe-active {background:#0d0d0d!important;}
 
-#guide #food-search.food-drawer::before,
-#guide #food-search.food-drawer::after {
-  content:""!important;
-  display:block!important;
-  position:absolute!important;
-  left:0!important;right:0!important;
-  z-index:10!important;
-  pointer-events:none!important;
-  width:auto!important;
-  height:calc(22px + env(safe-area-inset-top, 0px))!important;
-  background:linear-gradient(to bottom,#0D0D0D 0%,transparent 100%)!important;
-}
-#guide #food-search.food-drawer::before {top:0!important;bottom:auto!important;}
-#guide #food-search.food-drawer::after {
-  top:auto!important;bottom:0!important;
-  height:calc(26px + env(safe-area-inset-bottom, 0px))!important;
-  background:linear-gradient(to top,#0D0D0D 0%,transparent 100%)!important;
-}
+
+
+
 
 /* v30.9.208: --drawer-chrome-edge is now set once per theme (bottom of this
    file). Switching an inherited custom property on <html> whenever a drawer
@@ -3945,8 +3709,7 @@ html:has(body.food-swipe-active)::before {top:0;}
 /* Avoid doubling the existing per-drawer fades when the viewport-wide bridge
    is visible. Keep the drawer's own solid K95/light canvas unchanged. */
 
-body.food-swipe-active #guide #food-search.food-drawer::before,
-body.food-swipe-active #guide #food-search.food-drawer::after {opacity:0!important;}
+
 @media(prefers-reduced-motion:reduce){
  html:has(body.food-swipe-active)::before,
  html:has(body.food-swipe-active)::after {transition:none;}
@@ -3960,19 +3723,14 @@ html:has(body.food-swipe-active)::after{top:auto;bottom:0;height:calc(26px + env
 /* The drawers move as solid surfaces without casting a shadow on the
    underlying guide while opening, dragging, or closing. */
 
-body.food-swipe-active #guide #food-search.food-drawer {
-  box-shadow:none!important;
-}
+
 
 /* The outgoing drawer must never cast a shadow once it is sliding offscreen.
    A legacy default box-shadow reappeared for one frame after swipe-active was
    removed, even though its drag-state override was shadowless. */
-#guide #food-search.food-drawer {
-  box-shadow:none!important;
-  -webkit-box-shadow:none!important;
-}
+
 /* Backdrop itself must not create a seam on the right edge. */
-.food-drawer-backdrop {box-shadow:none!important;filter:none!important;}
+
 
 /* v30.9.129 — an open nested menu (e.g. 雑貨) keeps its own title at the top of
    that menu while its items scroll, and lets go when the menu ends. */
@@ -4020,172 +3778,94 @@ body.food-swipe-active #guide #food-search.food-drawer {
 
 
 
-body #guide #food-search.food-drawer.is-floating{inset:calc(12px + env(safe-area-inset-top,0px)) 12px calc(12px + env(safe-area-inset-bottom,0px)) auto!important;width:min(calc(100vw - 24px),440px)!important;max-width:none!important;height:auto!important;border-radius:28px!important;border:1px solid #2B2B2B!important;box-shadow:0 28px 70px rgba(0,0,0,.55)!important;overflow:hidden!important;transform:translate3d(calc((100% + 16px) * (1 - var(--food-swipe-progress,0))),0,0)!important}
-body #guide #food-search.food-drawer.is-floating::before{content:none!important;}
-@media(min-width:600px){body #guide #food-search.food-drawer.is-floating{inset:16px 16px 16px auto!important;}}
-body #guide #food-search.food-drawer.is-floating .food-drawer-scroll{
-  height:100%!important;box-sizing:border-box;display:flex!important;flex-direction:column;overflow:hidden!important;
-  padding:22px 20px 0!important;
-}
-body #guide #food-search.food-drawer.is-floating #food-explorer,body #guide #food-search.food-drawer.is-floating .food-panel{flex:1 1 auto;min-height:0;display:flex!important;flex-direction:column;margin:0!important;padding:0!important;
-  background:none!important;border:0!important;box-shadow:none!important;max-width:none!important;width:100%!important;}
-body #guide #food-search.food-drawer.is-floating .food-panel{position:relative;}
-body #guide #food-search.food-drawer.is-floating .food-title{margin:0!important;font-size:22px!important;line-height:1.3!important;font-weight:800!important;letter-spacing:.02em;color:#F4F4F4!important;}
-body #guide #food-search.food-drawer.is-floating .intro{margin:6px 0 0!important;font-size:11.5px!important;line-height:1.5!important;color:#A0A0A0!important;letter-spacing:.04em;}
-body #guide #food-search.food-drawer.is-floating .search-shell{
-  display:flex!important;align-items:center;gap:8px;margin:18px 0 0!important;min-height:50px;padding:0 10px 0 14px!important;box-sizing:border-box;
-  border:1px solid #333!important;border-radius:16px!important;background:#121212!important;box-shadow:inset 0 1px 0 rgba(255,255,255,.04)!important;
-}
-body #guide #food-search.food-drawer.is-floating .search-shell svg{flex:none;color:#D0D0D0;}
-body #guide #food-search.food-drawer.is-floating #search{flex:1;min-width:0;height:48px;padding:0!important;border:0!important;background:transparent!important;color:#F4F4F4!important;font-size:17px!important;outline:none;}
-body #guide #food-search.food-drawer.is-floating #search::placeholder{color:#8C8C8C;}
-body #guide #food-search.food-drawer.is-floating #search::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none;display:none;}
-body #guide #food-search.food-drawer.is-floating .clear{flex:none;display:none!important;align-items:center;justify-content:center;width:30px;height:30px;padding:0!important;border:0!important;border-radius:50%!important;
-  background:#3A3A3A!important;color:#E8E8E8!important;font-size:18px!important;line-height:1!important;cursor:pointer;}
-body #guide #food-search.food-drawer.is-floating .clear.visible{display:inline-flex!important;}
-body #guide #food-search.food-drawer.is-floating .food-tools{position:relative;margin:12px 0 0;z-index:20;}
-body #guide #food-search.food-drawer.is-floating .food-tools-toggle{
-  display:inline-flex;align-items:center;border:1px solid #444;border-radius:999px;background:transparent;
-  color:#DADADA;font:inherit;font-weight:600;letter-spacing:.04em;cursor:pointer;-webkit-tap-highlight-color:transparent;
-}
-body #guide #food-search.food-drawer.is-floating .food-tools-toggle .food-tools-chevron{transition:transform .2s ease;}
-body #guide #food-search.food-drawer.is-floating .food-tools-toggle[aria-expanded="true"] .food-tools-chevron{transform:rotate(180deg);}
-body #guide #food-search.food-drawer.is-floating .food-tools-panel{position:absolute;left:0;right:0;z-index:30;box-sizing:border-box;border:1px solid #3A3A3A;border-radius:18px;background:#111111;box-shadow:0 18px 40px rgba(0,0,0,.55)}
-body #guide #food-search.food-drawer.is-floating .food-tools-panel[hidden]{display:none!important;}
-body #guide #food-search.food-drawer.is-floating .food-tools-label{margin:0 0 12px!important;line-height:1.4!important;color:#BDBDBD!important;letter-spacing:.04em;}
-body #guide #food-search.food-drawer.is-floating .food-tools-label + .quick{margin-top:0!important;}
-body #guide #food-search.food-drawer.is-floating .quick,body #guide #food-search.food-drawer.is-floating .food-chars{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:0!important;padding:0!important;}
-body #guide #food-search.food-drawer.is-floating .food-chars{}
-body #guide #food-search.food-drawer.is-floating .quick>span{display:none!important;}
-body #guide #food-search.food-drawer.is-floating #food-explorer .quick button{
-  justify-self:center;min-width:0!important;flex:none!important;padding:0!important;border:1px solid #3D3D3D!important;border-radius:50%!important;background:#161616!important;line-height:1!important;cursor:pointer;
-}
-body #guide #food-search.food-drawer.is-floating .food-char{padding:0;border:1px solid #3D3D3D;border-radius:20px;background:#161616;color:#EDEDED;
-  font:inherit;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;
-}
-body #guide #food-search.food-drawer.is-floating #food-explorer .quick button[aria-pressed="true"]{border-color:#F2F2F2!important;background:#2A2A2A!important;}
-body #guide #food-search.food-drawer.is-floating .food-char[aria-pressed="true"]{background:#F2F2F2;border-color:#F2F2F2;color:#111111;}
-
-body #guide #food-search.food-drawer.is-floating .food-list{position:relative;flex:1 1 auto;min-height:0;display:flex;flex-direction:column;margin:20px 0 0!important;}
-body #guide #food-search.food-drawer.is-floating .results-head{display:flex!important;align-items:baseline;justify-content:space-between;margin:0!important;padding:0 2px 10px!important;}
-body #guide #food-search.food-drawer.is-floating .results-head h3{margin:0!important;font-size:14px!important;font-weight:700!important;color:#E8E8E8!important;}
-body #guide #food-search.food-drawer.is-floating .result-count{font-size:14px!important;color:#E8E8E8!important;letter-spacing:.06em;}
-body #guide #food-search.food-drawer.is-floating .food-list::before{
-  content:"";position:absolute;left:-20px;right:-20px;top:30px;height:60px;pointer-events:none;z-index:0;
-  background:linear-gradient(to bottom,rgba(176,138,70,.42),rgba(176,138,70,.14) 50%,rgba(176,138,70,0) 92%);
-}
-body #guide #food-search.food-drawer.is-floating #results{
-  position:relative;z-index:1;flex:1 1 auto;min-height:0;max-height:none!important;overflow-y:auto!important;overscroll-behavior:contain;
-  margin:0 -2px!important;padding:0 2px 30px!important;border:0!important;background:transparent!important;
-  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 80px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 80px),transparent);
-}
-body #guide #food-search.food-drawer.is-floating .scroll-tip{display:none!important;}
-body #guide #food-search.food-drawer.is-floating .result{background:transparent!important;border-left:0!important;border-right:0!important;border-top:0!important;border-bottom:1px solid #2E2E2E!important;}
-body #guide #food-search.food-drawer.is-floating .result .dish{font-size:16px!important;font-weight:700!important;color:#F2F2F2!important;}
-body #guide #food-search.food-drawer.is-floating .result .desc{font-size:13px!important;color:#A3A3A3!important;}
-body #guide #food-search.food-drawer.is-floating .result-meta .tag{background:none!important;border:0!important;padding:0!important;font-size:11px!important;color:#A3A3A3!important;box-shadow:none!important;}
 
 
-body #guide #food-search.food-drawer.is-floating{
-  inset:auto 12px auto auto!important;
-  height:min(490px,calc(100dvh - 24px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px)))!important;
-  top:max(calc(12px + env(safe-area-inset-top,0px)),calc(50dvh - 245px))!important;bottom:auto!important;
-  background:rgba(14,14,14,.95)!important;
-}
-@media(min-width:600px){body #guide #food-search.food-drawer.is-floating{
-  right:16px!important;height:min(600px,calc(100dvh - 32px))!important;top:max(16px,calc(50dvh - 300px))!important;
-}}
 
-body #guide #food-search.food-drawer.is-floating .food-list::before{
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 22%,#000 78%,transparent);
-  mask-image:linear-gradient(to right,transparent,#000 22%,#000 78%,transparent);
-}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* v30.9.209: dimmed while the window slides; the blur is added once it has
    stopped (body.food-drawer-settled). Same look when open, far less GPU work
    per frame of the slide. brightness() comes first so the two lists
    interpolate (the blur eases in from 0). */
-html body .food-drawer-backdrop{
-  background:transparent!important;
-  -webkit-backdrop-filter:brightness(.68);backdrop-filter:brightness(.68);
-}
-html body.food-drawer-settled .food-drawer-backdrop{
-  -webkit-backdrop-filter:brightness(.68) blur(7px);backdrop-filter:brightness(.68) blur(7px);
-  transition:opacity .32s ease,visibility 0s,-webkit-backdrop-filter .22s ease-out,backdrop-filter .22s ease-out!important;
-}
 
-body #guide #food-search.food-drawer.is-floating .search-shell{
-  margin-top:9px!important; /* half of v30.9.144's 18px gap */
-}
-body #guide #food-search.food-drawer.is-floating .food-tools{margin-top:9px!important;}
-body #guide #food-search.food-drawer.is-floating .food-tools-toggle{
-  min-height:29px!important;padding:0 10px 0 11px!important;
-  font-size:12px!important;gap:3px!important;
-}
-body #guide #food-search.food-drawer.is-floating .food-tools-toggle .food-tools-chevron{width:12px;height:12px;}
 
-body #guide #food-search.food-drawer.is-floating .food-tools-label{
-  margin-bottom:8px!important;font-size:12px!important;
-}
-body #guide #food-search.food-drawer.is-floating .quick,
-body #guide #food-search.food-drawer.is-floating .food-chars{gap:7px!important;}
-body #guide #food-search.food-drawer.is-floating .food-chars{margin:8px 0 13px!important;}
-body #guide #food-search.food-drawer.is-floating #food-explorer .quick button{
-  width:44px!important;height:44px!important;font-size:22px!important;
-}
-body #guide #food-search.food-drawer.is-floating .food-char{height:34px!important;font-size:15px!important;}
 
-body #guide #food-search.food-drawer.is-floating .food-list{margin-top:14px!important;}
-body #guide #food-search.food-drawer.is-floating .results-head{
-  border:0!important;border-bottom:none!important;box-shadow:none!important;
-}
-body #guide #food-search.food-drawer.is-floating #results{border-top:0!important;}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Light-mode legacy selectors had three IDs and kept a 1px line over the
    pinned gold glow despite the floating-window override above. */
-html[data-theme="dark"] body #guide #food-search.food-drawer.is-floating #food-explorer .results-head{
-  border-bottom:0!important;border-top:0!important;box-shadow:none!important;
-}
-body #guide #food-search.food-drawer.is-floating .food-tools-panel{top:calc(100% + 6px)!important;padding:12px 14px 13px!important}
-body #guide #food-search.food-drawer.is-floating .food-chars{margin-bottom:9px!important;}
-@media(max-width:340px){
-  body #guide #food-search.food-drawer.is-floating .food-tools-panel{
-    padding-left:12px!important;padding-right:12px!important;
-  }
-  body #guide #food-search.food-drawer.is-floating .quick,
-  body #guide #food-search.food-drawer.is-floating .food-chars{
-    gap:2px!important;
-  }
-}
-@media(max-width:299px){
-  body #guide #food-search.food-drawer.is-floating #food-explorer .quick button{
-    width:36px!important;height:36px!important;font-size:19px!important;
-  }
-}
+
+
+
+
+
 /* Align popover button rows to the same five equal tracks, with no
    accidental overflow from the content's minimum intrinsic width. */
-body #guide #food-search.food-drawer.is-floating .food-tools-panel .quick,
-body #guide #food-search.food-drawer.is-floating .food-tools-panel .food-chars{
-  width:100%!important;min-width:0!important;box-sizing:border-box!important;
-  grid-template-columns:repeat(5,minmax(0,1fr))!important;
-}
-body #guide #food-search.food-drawer.is-floating .food-tools-panel .quick button,
-body #guide #food-search.food-drawer.is-floating .food-tools-panel .food-char{
-  max-width:100%;box-sizing:border-box;
-}
+
+
 
 /* v30.9.147 — selected difficulty next to 常用字リスト; touch-safe search ×.
    Keep the toggle's v30.9.146 dimensions/placement unchanged. */
-body #guide #food-search.food-drawer.is-floating .food-tools{
-  display:flex!important;align-items:center!important;gap:8px!important;
-}
-body #guide #food-search.food-drawer.is-floating .food-tools-toggle{
-  flex:0 0 auto;
-}
 
-body #guide #food-search.food-drawer.is-floating .search-shell{cursor:text;}
-body #guide #food-search.food-drawer.is-floating .clear{
-  position:relative;z-index:2;touch-action:manipulation;
-  -webkit-tap-highlight-color:transparent;
-}
+
+
+
+
 #guide .tab-panels.bubble-swipe-content {touch-action:pan-y;}
 
 /* The food results own vertical scrolling and taps, but a deliberate
@@ -4212,26 +3892,11 @@ body #guide #food-search.food-drawer.is-floating .clear{
 }
 
 /* The existing restaurant directory retains its own vertical momentum scrolling. */
-#food-recommend-section #food-directory-panel {touch-action:pan-y;}
-#food-recommend-section .food-directory-tabs::after{
-  content:"";
-  display:block;
-  flex:0 0 var(--food-directory-tail-space,0px);
-  height:1px;
-  pointer-events:none;
-}
-#food-recommend-section .food-directory-tabs[data-scroll-fade="end"]{
-  -webkit-mask-image:linear-gradient(to right,#000 0%,#000 calc(100% - 16px),transparent 100%);
-  mask-image:linear-gradient(to right,#000 0%,#000 calc(100% - 16px),transparent 100%);
-}
-#food-recommend-section .food-directory-tabs[data-scroll-fade="start"]{
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 25px,#000 100%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 25px,#000 100%);
-}
-#food-recommend-section .food-directory-tabs[data-scroll-fade="both"]{
-  -webkit-mask-image:linear-gradient(to right,transparent 0%,#000 25px,#000 calc(100% - 16px),transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0%,#000 25px,#000 calc(100% - 16px),transparent 100%);
-}
+
+
+
+
+
 #guide hr.chapter-glow{
   display:block!important;box-sizing:border-box;height:72px!important;margin:40px -24px -46px!important;padding:0;
   border:0!important;border-radius:0;background:none;color:transparent;opacity:1;
@@ -4274,11 +3939,7 @@ body.food-drawer-open .food-theme-dock .theme-preview-toggle{pointer-events:auto
   -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 64px),transparent);
   mask-image:linear-gradient(to bottom,#000 calc(100% - 64px),transparent);
 }
-html body .food-drawer-backdrop{
-  top:calc(-1 * max(env(safe-area-inset-top,0px),64px))!important;
-  bottom:calc(-1 * max(env(safe-area-inset-bottom,0px),64px))!important;
-  left:0!important;right:0!important;height:auto!important;
-}
+
 #guide > hr.chapter-glow{margin-top:64px!important;}
 #guide .emergency-contact-list{display:grid!important;grid-template-columns:1fr 1fr;gap:10px!important;}
 
@@ -4509,14 +4170,10 @@ html body .food-drawer-backdrop{
 /* v30.9.204 — difficulty levels removed from the dictionary: the spice level
    takes the label's former place (same top offset and line box), and the
    常用字リスト panel ends with the common-character row. */
-body #guide #food-search.food-drawer.is-floating .result-meta .spice{
-  margin-top:3px;min-height:17px;
-}
-@media (max-width:600px){
-  body #guide #food-search.food-drawer.is-floating .result-meta .spice{margin-top:1px;}
-}
-body #guide #food-search.food-drawer.is-floating .food-tools-panel{padding-bottom:13px!important;}
-body #guide #food-search.food-drawer.is-floating .food-tools-panel .food-chars{margin-bottom:0!important;}
+
+
+
+
 
 /* =================== CSS v30.9.208 — smooth dictionary drawer =================== */
 /* The page behind the floating dictionary stays put: it is never moved,
@@ -4681,13 +4338,10 @@ html.hero-intro-skip #top .hero-greeting-line{opacity:1;animation:none;transform
   animation:food-entry-flash 2.4s cubic-bezier(.45,0,.55,1) .45s both;
 }
 
-@keyframes food-entry-flash{
-  0%{opacity:0}14%{opacity:1}31%{opacity:.08}
-  47%{opacity:1}64%{opacity:.08}80%{opacity:1}100%{opacity:0}
-}
+
 @media(prefers-reduced-motion:reduce){
   #guide #food-explorer .result.food-entry-flash::before{animation:food-entry-flash-once 1.6s ease .45s both;}
-  @keyframes food-entry-flash-once{0%,100%{opacity:0}25%,70%{opacity:1}}
+  
 }
 
 /* v30.9.229 — 公式サイト of TWAC: a little room before から申請する. */
