@@ -89,28 +89,17 @@ html.tt2-fidelity #guide li.venue-row.tt2l-row:not(#_a):not(#_b) .venue-secondar
 
 /* ---------- frame: count, list top, glow, one bottom line ---------- */
 /* 体験 / おみやげ: tabs end y184 → count y211, list y236. */
-html.tt2-fidelity #guide > details.tt2-directory-section .tt2-directory-count {top:73px!important;}
-html.tt2-fidelity #guide > details.tt2-directory-section .tab-panels {
-  flex:none!important;padding-top:52px!important;
-  height:calc(100dvh - var(--tt2l-gap) - var(--tt2-sitebar-height,104px) - 80px)!important;
-}
-html.tt2-fidelity[data-tt-view] #guide .tt2-directory-section .tab::before {top:98px!important;}
+
+
+
 /* 名所・博物館 / 撮影スポット: tabs end y229 → count y256, list y281. */
 
 
 
 /* The scrolling list fills exactly what is left (older layers gave it 100% of different
    boxes, so it overran the frame and its fade was cut off) and fades over its last 70px. */
-html.tt2-fidelity #guide > details.tt2-directory-section .tab-panels > .tab-panel:not(#_a) {
-  height:calc(100dvh - var(--tt2l-gap) - var(--tt2-sitebar-height,104px) - 132px)!important;
-  max-height:none!important;min-height:0!important;
-}
 
-html.tt2-fidelity #guide > details:is(.tt2-directory-section,[data-tt2-panel-key='places'],[data-tt2-panel-key='photo']) .tab-panels > .tab-panel:not(#_a) {
-  -webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 70px),transparent 100%)!important;
-          mask-image:linear-gradient(to bottom,#000 calc(100% - 70px),transparent 100%)!important;
-}
+
+
 /* v2.0.48: guide.js no longer evens these lists out (it also set their overflow inline). */
-html.tt2-fidelity #guide > details:is(.tt2-directory-section,[data-tt2-panel-key='places'],[data-tt2-panel-key='photo']) .tab-panels > .tab-panel:not(#_a) {
-  overflow-y:auto!important;overscroll-behavior:contain;
-}
+
