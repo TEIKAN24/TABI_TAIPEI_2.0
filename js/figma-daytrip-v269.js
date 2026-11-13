@@ -69,6 +69,11 @@
   section.querySelector('.tt221-stage')?.after(page);
   section.classList.add('tt269-ready');
 
+  // v2.0.73: each sentence is one unbroken piece, so an 11px note that needs two lines
+  // breaks after 「。」, never inside a word.
+  function sentences(text) {
+    return (text.match(/[^。]+。?/g) || []).map(t => `<span class="tt269-sent">${safe(t)}</span>`).join('');
+  }
   function sketch(r) {
     const n = r.stops.length, at = i => (i / (n - 1)) * 100;
     const segs = r.legs.map((l, i) => `<span class="tt269-seg tt269-seg--${l.kind}" style="left:${at(i)}%;width:${at(i + 1) - at(i)}%"><span class="tt269-seg-label">${safe(l.head.replace(/　/g, ' '))}</span></span>`);
@@ -105,8 +110,8 @@
       ${sections}
       <section class="tt269-access"><h3 class="tt269-access-title">行き方</h3>${ways}</section>
       <p class="tt269-hint">タップで路線図と「経路を見る」（Google Maps）を表示</p>
-      <p class="tt269-caution">${safe((first?.warning || '').replace(/\n/g, ''))}</p>
-      <p class="tt269-foot">運賃・所要時間は目安です。時刻は「経路を見る」（Google Maps）で確認。</p>`;
+      <p class="tt269-caution">${sentences((first?.warning || '').replace(/\n/g, ''))}</p>
+      <p class="tt269-foot">${sentences('運賃・所要時間は目安です。時刻は「経路を見る」（Google Maps）で確認。')}</p>`;
     page.scrollTop = 0;
   }
 

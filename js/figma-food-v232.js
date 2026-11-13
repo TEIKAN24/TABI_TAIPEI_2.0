@@ -381,3 +381,4 @@
   document.addEventListener('tt:viewchange', event => { if (event.detail?.view === 'food') sync(); setNotes(false); });
   sync();
 })();
+
