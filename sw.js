@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.74';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.77';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   'assets/figma/side-v227/chapter-01.svg',
@@ -175,6 +175,31 @@ const PRECACHE = [
   'js/figma-daytrip-v269.js',
   'css/figma-daytrip-v269.css',
   'css/figma-system-v273.css',
+  'js/figma-type-v276.js',
+  'assets/figma/outlines/type/name-emergency.svg',
+  'assets/figma/outlines/type/name-sights.svg',
+  'assets/figma/outlines/type/place-jiufen.svg',
+  'assets/figma/outlines/type/place-keelung.svg',
+  'assets/figma/outlines/type/place-shifen.svg',
+  'assets/figma/outlines/type/place-yehliu.svg',
+  'assets/figma/outlines/type/tag-jiufen.svg',
+  'assets/figma/outlines/type/tag-keelung.svg',
+  'assets/figma/outlines/type/tag-shifen.svg',
+  'assets/figma/outlines/type/tag-yehliu.svg',
+  'assets/figma/outlines/type/name-airport.svg',
+  'assets/figma/outlines/type/name-day.svg',
+  'assets/figma/outlines/type/name-exp.svg',
+  'assets/figma/outlines/type/name-food.svg',
+  'assets/figma/outlines/type/name-souvenir.svg',
+  'assets/figma/outlines/type/name-travel.svg',
+  'assets/figma/outlines/type/name-walk.svg',
+  'assets/figma/outlines/type/num-01.svg',
+  'assets/figma/outlines/type/num-02.svg',
+  'assets/figma/outlines/type/num-03.svg',
+  'assets/figma/outlines/type/num-04.svg',
+  'assets/figma/outlines/type/num-05.svg',
+  'assets/figma/outlines/type/num-06.svg',
+  'assets/figma/outlines/type/num-07.svg',
   'assets/daytrips/photo/jiufen.jpg',
   'assets/daytrips/photo/shifen.jpg',
   'assets/daytrips/photo/keelung.jpg',

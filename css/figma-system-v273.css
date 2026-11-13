@@ -68,4 +68,62 @@ html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .recommend-advanced-p
   border-color:#e4e4e2!important;color:#121212!important;font-weight:500!important;
 }
 
+/* ================= v2.0.75 — design review P2 ================= */
+
+/* P2-2 radii: capsules 999 (100px is the same shape), boxes 12. Badges (station codes,
+   tags) keep their small radius; the map's own controls are left as they are.
+   Only the イベント cards and filter panel were off (14px). */
+html.tt2-fidelity #guide :is(.ec-card,.ec-filter-panel) {border-radius:12px!important;}
+
+/* P2-3 list glow 56 → 32px: same colours and fade, so it ends before the first row's
+   small label (17–18px below the glow's top) instead of tinting it green. */
+html.tt2-fidelity .tt-home::before,
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #recommend-results::before,
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #food-flip-back .food-directory-summary::after,
+html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box::before,
+html.tt2-fidelity[data-tt-view='experiences'] #guide .tt2-directory-section .tab::before,
+html.tt2-fidelity[data-tt-view='souvenirs'] #guide .tt2-directory-section .tab::before,
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-glow {height:32px!important;}
+
+/* P2-4 one green: the glow's sage #8a9e7a (rgb 138,158,122) for 営業中 too; the logo
+   subtitle SVG fill was changed to the same colour. The 「〜まで」 grey joins the notes grey. */
+html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .recommend-opening-open {color:#8a9e7a!important;}
+html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .recommend-opening-status[data-until]::after {color:#8a8a8a!important;}
+
+/* P2-5 空港アクセス: with no route yet, the 出発地／目的地 row waits in the middle of the
+   page box (45% down, a little above centre); once a route opens it slides back to the top. */
+html.tt2-fidelity #airport-route-selector .airsel-route-fields {
+  transition:transform .55s cubic-bezier(.22,1,.36,1)!important;
+}
+html.tt2-fidelity #airport-route-selector:not(:has(.airsel-results-clip.is-open)) .airsel-route-fields {
+  transform:translateY(calc(45cqh - 56px))!important;
+}
+@media (prefers-reduced-motion:reduce) {
+  html.tt2-fidelity #airport-route-selector .airsel-route-fields {transition:none!important;}
+}
+
+/* ================= v2.0.76 — P2-1 type ================= */
+
+/* Figma's display words as outlines (js/figma-type-v276.js adds .tt2o and the sizes).
+   The box keeps the old line height; the Figma text box is centred in it as a mask
+   painted with the text colour, so colour, opacity and animations still apply. */
+html.tt2-fidelity .tt2o {
+  display:block!important;width:var(--tt2o-w)!important;min-width:0!important;height:var(--tt2o-h)!important;
+  font-size:0!important;line-height:0!important;letter-spacing:0!important;
+  background-color:currentColor!important;
+  -webkit-mask:var(--tt2o-url) 0 50%/var(--tt2o-w) var(--tt2o-mh) no-repeat!important;
+  mask:var(--tt2o-url) 0 50%/var(--tt2o-w) var(--tt2o-mh) no-repeat!important;
+}
+
+/* v2.0.77: the 遠出 place name had -2px to pull the font's side bearing back; the outline
+   starts at the ink itself, so it sits on the text line without it. */
+html.tt2-fidelity #guide .tt269-place.tt2o {margin-left:0!important;}
+
+/* Running text: Hiragino Mincho, built into every iPhone and Mac, so the preview and the
+   phone match (the Figma faces never reached phones). Words without an outline yet use it too. */
+html.tt2-fidelity {
+  --tt2-serif:'Hiragino Mincho ProN','Hiragino Mincho Pro','Yu Mincho','YuMincho','Noto Serif JP',serif!important;
+  --tt2-num:'Hiragino Mincho ProN','Hiragino Mincho Pro','Yu Mincho','YuMincho','Noto Serif JP',serif!important;
+}
+
 }
