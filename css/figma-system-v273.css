@@ -119,6 +119,21 @@ html.tt2-fidelity .tt2o {
    starts at the ink itself, so it sits on the text line without it. */
 html.tt2-fidelity #guide .tt269-place.tt2o {margin-left:0!important;}
 
+/* ================= v2.0.78 — design review P3 ================= */
+
+/* P3-1 home index (user's choice): three equal columns (was 126 / 131 / 104), and one rule
+   for the vertical lines on all seven cells (the Figma artboard had lines on 01–04 only).
+   Each line starts under its number and runs down to the next row's number; the last
+   row stops 8px above the bottom of its cell. */
+html.tt2-fidelity .tt-home-grid {grid-template-columns:repeat(3,minmax(0,1fr))!important;}
+html.tt2-fidelity .tt-home-grid > .tt-home-item::before {
+  display:block!important;left:26.5px!important;top:35px!important;bottom:auto!important;height:calc(100% - 22px)!important;
+}
+html.tt2-fidelity .tt-home-grid > .tt-home-item:nth-child(n+7)::before {height:calc(100% - 43px)!important;}
+@media (max-width:392px) {
+  html.tt2-fidelity .tt-home-grid > .tt-home-item::before {left:21.5px!important;}
+}
+
 /* Running text: Hiragino Mincho, built into every iPhone and Mac, so the preview and the
    phone match (the Figma faces never reached phones). Words without an outline yet use it too. */
 html.tt2-fidelity {
