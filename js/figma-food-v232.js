@@ -72,7 +72,10 @@
   const placeCode = el('span', 'tt2-food-where-code');
   const placeName = el('span', 'tt2-food-where-name');
   const placeHint = el('span', 'tt2-food-where-hint');
-  placeValue.append(placeCode, placeName, placeHint);
+  // v2.0.79 (Figma B 細修版): a status dot before the district — grey / pulsing / sage / red.
+  const placeDot = el('span', 'tt2-food-dot');
+  placeDot.setAttribute('aria-hidden', 'true');
+  placeValue.append(placeDot, placeCode, placeName, placeHint);
   placeBtn.append(placeLabel, placeValue);
   const timeBtn = el('button', 'tt2-food-where-time');
   timeBtn.type = 'button';
@@ -88,6 +91,59 @@
     else currentLocation?.click();
   });
   timeBtn.addEventListener('click', event => { event.stopPropagation(); stationPicker.close(); timeButton?.click(); });
+
+  /* ---------- v2.0.79: one summary row (Figma 「味わい B 細修版」 259:1406–262:1406) ----------
+     place on the left; on the right the time band and the order as capsules, then ＋.
+     Outline capsule = chosen by the site (time follows Taipei time; order follows the place),
+     white capsule with ✕ = set by the visitor (✕ hands it back). Every capsule and ＋ open the
+     one 条件 panel, which now holds 時間帯 · 並び順 · 料理種類 (the original buttons, moved). */
+  const advancedWrap = drawer.querySelector('.recommend-control-advanced-wrap');
+  const advanced = $('recommend-advanced');
+  const advPanel = advanced?.querySelector('.recommend-advanced-panel');
+  const sortGroup = drawer.querySelector('.recommend-sort');
+  const timeOptionBox = $('recommend-time-options');
+  const openPanel = event => { event.stopPropagation(); stationPicker.close(); if (advanced) advanced.open = true; };
+  function chip(kind, clearLabel, onClear) {
+    const wrap = el('span', 'tt2-food-chip tt2-food-chip--' + kind);
+    const main = el('button', 'tt2-food-chip-main');
+    main.type = 'button';
+    main.addEventListener('click', openPanel);
+    const x = el('button', 'tt2-food-chip-x', '✕');
+    x.type = 'button';
+    x.setAttribute('aria-label', clearLabel);
+    x.addEventListener('click', event => { event.stopPropagation(); onClear(); });
+    wrap.append(main, x);
+    return {wrap, main};
+  }
+  const timeChip = chip('time', '時間帯の指定を解除（現在時刻に戻す）', () => {
+    drawer.querySelector(".tt2-food-panel-time [data-value=\"current\"]")?.click();
+  });
+  const sortChip = chip('sort', '並び順の指定を解除', () => window.tabiFoodSortAuto?.());
+  const badge = el('span', 'tt2-food-badge');
+  badge.setAttribute('aria-hidden', 'true');
+  where.append(timeChip.wrap, sortChip.wrap);
+  if (advancedWrap) {
+    where.append(advancedWrap);
+    advanced?.querySelector('summary')?.append(badge);
+  }
+  if (advPanel) {
+    const title = text => { const h = el('h3', 'tt2-food-panel-title', text); return h; };
+    const timeBox = el('div', 'recommend-choices tt2-food-panel-time');
+    timeBox.setAttribute('role', 'group');
+    timeBox.setAttribute('aria-label', '時間帯');
+    for (const b of [...(timeOptionBox?.querySelectorAll('.recommend-option') || [])]) {
+      timeBox.append(b);
+      b.addEventListener('click', () => { if (advanced) advanced.open = false; });
+    }
+    const first = advPanel.firstElementChild;
+    advPanel.insertBefore(title('時間帯'), first);
+    advPanel.insertBefore(timeBox, first);
+    if (sortGroup) {
+      sortGroup.classList.add('recommend-choices', 'tt2-food-panel-sort');
+      advPanel.insertBefore(title('並び順'), first);
+      advPanel.insertBefore(sortGroup, first);
+    }
+  }
 
   /* ---------- 駅検索: one panel under the station row ----------
      v2.0.43 (Figma 定案 A), v2.0.44 restyled to Figma 「Station Picker Renew」 (310×470, top-left
@@ -300,8 +356,29 @@
       placeBtn.title = hint;
       placeBtn.setAttribute('aria-label', located ? `現在地：${name}（タップして再取得）` : '現在地を取得');
     }
+    // v2.0.79: the place's state, for the dot (recommend.js writes it on the drawer).
+    if (!station) {
+      const status = drawer.dataset.locationStatus || 'idle';
+      const name = $('recommend-district-name')?.textContent.trim() || '';
+      placeName.textContent = status === 'loading' ? '確認中…' : status === 'outside' ? '対象エリア外'
+        : status === 'success' && name && name !== '現在地' ? name : '現在地を取得';
+    }
+    // the two capsules: label, and white with ✕ when the visitor chose it
     const band = $('recommend-time-label');
-    timeValue.textContent = band?.textContent.trim() || '';
+    const bandSet = !!band?.classList.contains('is-breathing');
+    timeChip.main.textContent = band?.textContent.trim() || '';
+    timeChip.wrap.classList.toggle('is-set', bandSet);
+    timeChip.main.setAttribute('aria-label', `時間帯：${timeChip.main.textContent}${bandSet ? '（指定中）' : '（現在時刻）'}。条件を開く`);
+    const order = sortGroup?.querySelector('[aria-pressed="true"]');
+    const orderSet = drawer.dataset.sortAuto === 'false';
+    sortChip.main.textContent = order?.textContent.trim() || 'おすすめ順';
+    sortChip.wrap.classList.toggle('is-set', orderSet);
+    sortChip.main.setAttribute('aria-label', `並び順：${sortChip.main.textContent}${orderSet ? '（指定中）' : '（自動）'}。条件を開く`);
+    const picked = advPanel ? advPanel.querySelectorAll('#recommend-mood-options [aria-pressed="true"]').length : 0;
+    badge.textContent = picked ? String(picked) : '';
+    badge.hidden = !picked;
+    const band0 = band;
+    timeValue.textContent = band0?.textContent.trim() || '';
     timeValue.classList.toggle('is-breathing', !!band?.classList.contains('is-breathing'));
     timeBtn.setAttribute('aria-label', `時間帯：${timeValue.textContent}（タップして変更）`);
     fillNotes();
@@ -312,6 +389,12 @@
     .observe(node, {subtree: true, childList: true, characterData: true, attributes: true, attributeFilter: ['class', 'hidden', 'style']});
   // Not #food-flip's subtree: it contains this row, and sync() writes to it.
   [picker, disclaimer, statusLine, relaxed].forEach(watch);
+  // v2.0.79: the capsules follow the time label, the order buttons, the cuisine choice and
+  // the place / order state recommend.js writes on the drawer.
+  new MutationObserver(later).observe(drawer, {attributes: true, attributeFilter: ['data-sort-auto', 'data-location-status']});
+  const tl = $('recommend-time-label');
+  tl && new MutationObserver(later).observe(tl, {attributes: true, attributeFilter: ['class'], childList: true, characterData: true, subtree: true});
+  advPanel && new MutationObserver(later).observe(advPanel, {subtree: true, attributes: true, attributeFilter: ['aria-pressed']});
   $('food-flip') && new MutationObserver(sync).observe($('food-flip'), {attributes: true, attributeFilter: ['data-face']});
 
   /* ---------- 一覧: 掲載 N店, category wheel ---------- */

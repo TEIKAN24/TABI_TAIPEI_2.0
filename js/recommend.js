@@ -154,7 +154,7 @@
   function taipeiHour(){return Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Taipei',hour:'2-digit',hourCycle:'h23'}).formatToParts(taipeiNow()).find(p=>p.type==='hour')?.value??12);}
   // Taipei time bands: 朝 05–10:59, 昼 11–13:59, 午後 14–16:59, 夜 17–22:59, 深夜 23–04:59.
   function defaultBand(){const h=taipeiHour();return h>=5&&h<11?'morning':h>=11&&h<14?'lunch':h>=14&&h<17?'afternoon':h>=17&&h<23?'night':'late';}
-  const state={timeMode:'current',time:defaultBand(),areaMode:'current',area:'',line:'',stationCode:'',categories:[],sortMode:'recommend',page:0,locationStatus:'idle',geoRequested:false,position:null};
+  const state={timeMode:'current',time:defaultBand(),areaMode:'current',area:'',line:'',stationCode:'',categories:[],sortMode:'recommend',sortAuto:true,page:0,locationStatus:'idle',geoRequested:false,position:null};
   // Static station coordinates are used on-device: no geolocation permission,
   // API key, third-party request or location upload in station mode.
   let metroLines=[],metroStations=[],stationsReady=false,stationsFailed=false;
@@ -1249,6 +1249,7 @@
     const cityJa=region?.city==='N'?'新北市':region?.city==='T'?'台北市':'';
     const cityEn=region?.city==='N'?'New Taipei City':'Taipei City';
     const districtEnglish=district?(region.city==='N'?NEW_TAIPEI_DISTRICT_EN[district]:DISTRICTS[district]?.[1]):inferred?.[1];
+    drawer.dataset.locationStatus=state.locationStatus;
     districtName.textContent=state.locationStatus==='outside'?'台北・新北エリア外':cityJa?`${cityJa}${jpDistrict?' '+jpDistrict:''}`:state.locationStatus==='loading'?'測位中':'現在地';
     const districtEnLabel=districtEnglish?`${districtEnglish.replace(/\s+Dist\.?$/i,'')} Dist.`:'';
     districtEn.textContent=state.locationStatus==='outside'?'Outside Taipei Area':cityJa?`${districtEnLabel?districtEnLabel+', ':''}${cityEn}`:state.locationStatus==='loading'?'Locating…':state.locationStatus==='success'?'地区名は未確認':state.locationStatus==='idle'?'タップして現在地を取得':'Location';
@@ -1471,6 +1472,10 @@ ${GEO_MAX_METERS}m 內：${near} 筆
     const origin=state.areaMode==='station'?stationOrigin():
       state.areaMode==='current'&&state.locationStatus==='success'?state.position:null;
     const distanceAvailable=!!origin&&nearbyReady;
+    // v2.0.79: until the visitor picks an order, it follows the place: by distance when a
+    // position or station is known, otherwise recommended.
+    if(state.sortAuto)state.sortMode=distanceAvailable?'distance':'recommend';
+    drawer.dataset.sortAuto=String(state.sortAuto);
     sortDistance.disabled=!distanceAvailable;
     sortDistance.title=distanceAvailable?'直線距離が近い順に表示します':'現在地を取得するか、駅を選択すると使えます';
     sortRecommend.setAttribute('aria-pressed',String(state.sortMode==='recommend'));
@@ -1478,11 +1483,14 @@ ${GEO_MAX_METERS}m 內：${near} 筆
   }
   function setSortMode(mode){
     if(mode==='distance'&&sortDistance.disabled)return;
-    if(state.sortMode===mode)return;
+    state.sortAuto=false;
+    if(state.sortMode===mode){updateSortControls();closeOptions();closeStationMenus();advanced.open=false;return;}
     state.sortMode=mode;state.page=0;
     closeOptions();closeStationMenus();advanced.open=false;
     renderResults();
   }
+  // v2.0.79: the order chip's ✕ hands the order back to the automatic choice.
+  window.tabiFoodSortAuto=()=>{state.sortAuto=true;state.page=0;renderResults();};
   sortRecommend.addEventListener('click',()=>setSortMode('recommend'));
   sortDistance.addEventListener('click',()=>setSortMode('distance'));
   function updateTagFade(node){
@@ -1553,7 +1561,7 @@ ${GEO_MAX_METERS}m 內：${near} 筆
     updateSortControls();
     if(state.areaMode==='station'&&(!currentStation()||!nearbyReady)){
       results.replaceChildren(el('p','recommend-no-data',stationsFailed?'駅データを読み込めませんでした。':currentStation()?'位置データを読み込み中です。':`路線と駅を選ぶと、駅から${GEO_MAX_METERS}m以内のおすすめを表示します。`));
-      count.textContent='駅を選択';more.hidden=true;relaxed.hidden=true;
+      count.textContent='駅を選択';more.hidden=true;more.dataset.total='0';relaxed.hidden=true;
       disclaimer.textContent='※ 距離は直線です。';
       return;
     }
@@ -1561,7 +1569,7 @@ ${GEO_MAX_METERS}m 內：${near} 筆
     if(state.areaMode==='current'&&state.locationStatus==='outside'){
       visibleRecommendations=[];
       results.replaceChildren(el('p','recommend-no-data','エリア対象外です。'));
-      count.textContent='エリア外';more.hidden=true;relaxed.hidden=true;
+      count.textContent='エリア外';more.hidden=true;more.dataset.total='0';relaxed.hidden=true;
       reportDebug(0);return;
     }
     const {ordered,timeCount,lifted,nearbyFallback,useDistance,nearbyCount}=recommendedPool();
