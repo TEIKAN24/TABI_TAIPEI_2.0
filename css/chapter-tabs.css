@@ -37,10 +37,10 @@
   overflow-x:hidden;overflow-y:auto;overscroll-behavior-y:contain}
 
 /* イベントカレンダー: the event list takes the rest of the box. */
-#guide details.ct-on.ct-selected > .indented > .ec{flex:1 1 auto;min-height:0;display:flex;flex-direction:column}
-#guide details.ct-on.ct-selected .ec > *{flex:none}
-#guide details.ct-on.ct-selected .ec > .ec-list-box{flex:1 1 auto;min-height:0}
-#guide details.ct-on.ct-selected .ec-list-scroll{height:100%!important}
+
+
+
+
 
 /* 夜市マップ: the map takes the whole box. */
 

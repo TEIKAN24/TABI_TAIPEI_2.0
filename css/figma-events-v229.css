@@ -11,15 +11,8 @@
 html.tt2-fidelity .food-edge-hint { display:none!important;animation:none!important; }
 
 /* ---------- panel ---------- */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'].tt2-panel-current #event-calendar {
-  --tt-event-content-ink:#f1f1f1;
-  --tt-event-detail:#9e9e9e;
-  --tt-event-rule:rgba(220,220,220,.34);
-  position:relative;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar {
-  --tt-events-muted:#9e9e9e;
-}
+
+
 /* v2.0.29: the 1.0 behaviour. Months, summary and list stack in normal flow inside a
    panel of fixed height, so when the card switches bars ⇄ heatmap the summary and list
    glide with the stage's own height transition and the list absorbs the difference;
@@ -28,397 +21,117 @@ html.tt2-fidelity[data-tt-view='sights'] #event-calendar {
    #guide = 100dvh − sitebar, panel = #guide − 141px). The sitebar is taller on iPhone
    (status-bar safe area), so a fixed 104px here made the calendar taller than its box
    and its bottom was clipped. No bottom padding: the list ends on the box's edge. */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar.ec {
-  display:flex!important;flex-direction:column!important;
-  box-sizing:border-box;
-  height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px);
-  min-height:0!important;
-  padding-bottom:0;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar.ec > * {flex:none;}
+
+
 /* Heatmap card: trim the empty top/bottom margin inside the card (grid unchanged). */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar.ec.is-heat .ec-full {
-  padding-top:6px;padding-bottom:4px;
-}
+
 /* Side months: year / month / count only (Figma 4-3-1). */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-mini-bars {display:none!important;}
+
 /* Only the event list scrolls; the panel itself must not auto-scroll on focus. */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] > .indented,
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] {
-  overflow:clip!important;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel='sights'][data-tt2-panel-key='event'].tt2-panel-current {
-  overflow:clip!important;
-}
+
+
 
 /* ---------- summary (month + count) ---------- */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-summary {
-  display:block;
-  box-sizing:border-box;
-  min-height:52px;
-  /* v2.0.38: +8px for the 25px condition buttons. v2.0.39: month + count sit 4.5px lower,
-     so the count line ends on the buttons' bottom edge (height unchanged). */
-  padding:4.5px 0 14.5px 22px;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-summary {
-  position:relative!important;
-  top:auto!important;left:auto;right:auto;
-  width:auto;height:52px;
-  margin:0;
-  z-index:4;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-sum-lead {
-  display:flex;flex-direction:column;align-items:flex-start;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-sum-month {
-  font:400 10px/15px 'Noto Sans JP',sans-serif;
-  letter-spacing:0;
-  color:var(--tt-event-detail);
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-sum-total {
-  font:500 17.5px/18px 'Noto Sans JP',sans-serif; /* v2.0.39: 17.5px, Medium */
-  letter-spacing:0;
-  align-items:baseline;
-  color:var(--tt-event-content-ink);
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-sum-total small {
-  font-size:17.5px;font-weight:inherit;
-  margin-left:5px;
-  letter-spacing:0;
-}
+
+
+
+
+
+
 /* No ▾: the right side of this row is the condition area now. The count still opens
    the filter panel (for screen readers it is the same button as before). */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-tri {display:none!important;}
+
 /* The three counts stay in the DOM for screen readers only. */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-summary > .ec-stat,
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-summary > .ec-stat-gap {
-  position:absolute!important;width:1px!important;height:1px!important;
-  padding:0!important;margin:0!important;overflow:hidden!important;
-  clip-path:inset(50%);white-space:nowrap;
-}
+
 
 /* ---------- 条件を指定 button (added by js/figma-events-v229.js) ----------
    v2.0.38: Figma components「Filter Button」(100×26) and「Filter Botton Small」(26×26):
    white capsule, 12px Noto Sans JP Medium in black, padding 0 12px, 6px gap, and a「＋」
    that is the 7×7 hairline cross turned 45° (9.9px arms). Centred on the count line. */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar button.ec-condition-open {
-  -webkit-appearance:none!important;appearance:none!important;
-  position:absolute!important;right:2px!important;top:11.5px!important;
-  width:auto!important;min-width:0!important;max-width:none!important;
-  height:26px!important;min-height:26px!important;max-height:26px!important;
-  box-sizing:border-box!important;display:inline-flex!important;
-  align-items:center!important;justify-content:center!important;
-  gap:6px!important;margin:0!important;padding:0 12px!important;
-  border:0!important;border-radius:100px!important;
-  background:#fff!important;background-image:none!important;
-  color:#000!important;-webkit-text-fill-color:#000!important;
-  font:600 12px/1 'Noto Sans JP',sans-serif!important; /* v2.0.39: SemiBold */
-  letter-spacing:0!important;box-shadow:none!important;text-shadow:none!important;
-  outline-offset:2px;color-scheme:light;
-  white-space:nowrap;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-condition-open::after {
-  content:''!important;position:relative;top:0!important;flex:0 0 9.9px;
-  width:9.9px;height:9.9px;
-  background:linear-gradient(#000,#000) center/9.9px 1px no-repeat,
-             linear-gradient(#000,#000) center/1px 9.9px no-repeat!important;
-}
+
+
 /* A slightly larger touch area (37px tall), invisible. */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-condition-open::before {
-  content:'';position:absolute;inset:-6px -3px;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-condition-open:focus-visible {outline:2px solid #ddd;outline-offset:2px;}
+
+
 /* With conditions set (Figma 4-3-3) the button shrinks to the round「＋」at the right end of
    the chip row and keeps opening the panel to add or change conditions. */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar:has(.ec-chips.is-open .ec-chip) button.ec-condition-open {
-  width:26px!important;min-width:26px!important;max-width:26px!important;
-  padding:0!important;gap:0!important;
-  border-radius:50%!important;
-  font-size:0!important;
-}
+
 
 /* ---------- condition chips ----------
    They sit on the count row's right side (Figma 4-3-3, y362) and move with it. In flow
    they come just before the summary: margin-top places them 16px below the summary's
    top, and the negative margin-bottom gives the space back, so the summary starts
    --tt-ev-gap below the cards whether chips exist or not (nothing ever shifts). */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar {
-  --tt-ev-gap:19px; /* v2.0.39: everything under the cards 5px lower (was 14px) */
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips,
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips.is-open {
-  position:relative!important;
-  z-index:5;
-  inset:auto!important;
-  align-self:flex-end;
-  width:max-content!important;
-  max-width:calc(100% - 150px)!important;
-  height:25px!important;
-  display:flex!important;
-  align-items:center!important;
-  justify-content:flex-end!important;
-  flex-wrap:nowrap!important;
-  gap:7px!important; /* v2.0.39: 9 -> 7 */
-  padding:0!important;
-  /* v2.0.38: 25px chips centred on the count line (12px below the summary's top).
-     right: 2px edge + 26px「＋」+ 7px gap */
-  margin:calc(var(--tt-ev-gap) + 12px) 35px -37px 0!important;
-  background:transparent!important;
-  overflow:visible!important;
-  transition:none;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-chips:not(.is-open) {visibility:hidden;pointer-events:none;}
+
+
+
 /* Too many chips: the strip scrolls sideways; both ends fade (the padding keeps the
    chips clear of the fades until they are scrolled). */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips:has(> .ec-chip:nth-child(3)) {
-  justify-content:flex-start!important;
-  overflow-x:auto!important;overflow-y:hidden!important;
-  scrollbar-width:none;
-  -webkit-mask-image:linear-gradient(to right,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);
-          mask-image:linear-gradient(to right,transparent 0,#000 12px,#000 calc(100% - 12px),transparent 100%);
-  padding:0 12px!important;
-  margin-right:28px!important; /* the strip (and its fade) ends at the「＋」 */
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips:has(> .ec-chip:nth-child(3))::-webkit-scrollbar {display:none;}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-chip {
-  max-width:100%;
-  cursor:pointer;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chip,
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chip {
-  -webkit-appearance:none!important;appearance:none!important;
-  display:inline-flex!important;align-items:center!important;justify-content:flex-start!important;
-  box-sizing:border-box!important;
-  flex:none!important;
-  min-width:0!important;
-  /* v2.0.38: Figma「Date Filter」(85×25) /「City Filter」(73×25): white capsule,
-     12px Noto Sans JP Medium in black, padding 0 12px, 6px to a 7×7 hairline ×.
-     All chips (日付指定・エリア・ジャンル) share it; the width follows the label. */
-  position:relative!important;
-  width:auto!important;max-width:none!important;
-  height:25px!important;min-height:25px!important;max-height:25px!important;
-  padding:0 12px!important;gap:6px!important;
-  background:#fff!important;background-image:none!important;
-  color:#000!important;-webkit-text-fill-color:#000!important;
-  border:0!important;border-radius:100px!important;
-  box-shadow:none!important;text-shadow:none!important;
-  font:600 12px/1 'Noto Sans JP',sans-serif!important; /* v2.0.39: SemiBold */
-  letter-spacing:0!important;white-space:nowrap!important;
-  margin:0!important;
-  outline-offset:2px;color-scheme:light;
-}
+
+
+
+
 /* A slightly larger touch area (37px tall), invisible. */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips button.ec-chip::before {
-  content:'';position:absolute;inset:-6px -3px;
-}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-chip-label {
-  min-width:0;
-  display:block!important;flex:0 0 auto!important;
-  font:inherit!important;line-height:14px!important;
-  overflow:visible!important;text-overflow:clip!important;white-space:nowrap!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-label {
-  color:#000!important;-webkit-text-fill-color:#000!important;
-}
+
+
+
 /* × drawn as a 7×7 hairline cross corner to corner, as in Figma (the glyph stays for
    accessibility). */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-chip-x {
-  font:400 10px/14px 'Noto Sans JP',sans-serif;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x {
-  display:block!important;position:relative!important;
-  flex:0 0 7px!important;width:7px!important;height:7px!important;
-  min-width:7px!important;min-height:7px!important;
-  padding:0!important;margin:0!important;
-  font-size:0!important;line-height:0!important;
-  align-items:center!important;justify-content:center!important;
-  background:none!important;border:0!important;border-radius:0!important;box-shadow:none!important;
-  color:#171717!important;-webkit-text-fill-color:#171717!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::before,
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::after {
-  content:'';position:absolute;left:3px;top:-1.45px;width:1px;height:9.9px;
-  border-radius:0;background:#000;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::before {transform:rotate(45deg);}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips .ec-chip-x::after {transform:rotate(-45deg);}
+
+
+
+
+
 
 /* ---------- filter panel ----------
    v2.0.30: floats over the top of the list (as in 1.0), never below the screen: it was
    204px down from the list's top and ran off the bottom. If the list is very short the
    panel scrolls inside itself. */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-filter-panel {
-  top:4px;
-  max-height:calc(100% - 8px);
-  overflow-y:auto;overscroll-behavior:contain;
-  left:15px;right:4px;
-  border:1px solid #636363;
-  border-radius:12px;
-  background:#111;
-  box-shadow:0 16px 42px rgba(0,0,0,.75);
-}
+
 
 /* ---------- list box ---------- */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-list-box {
-  --ec-row-h:82px;
-  --ec-list-h:clamp(190px, calc(100dvh - 446px), 410px);
-  box-sizing:border-box;
-}
+
 /* The list takes whatever height is left in the panel (it grows in bars mode, shrinks
    in heatmap mode, its bottom edge stays put). */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box {
-  position:relative!important;
-  top:auto!important;left:auto;right:auto;
-  width:auto;
-  flex:1 1 0!important;min-height:0;
-  display:flex;flex-direction:column;
-  isolation:isolate;
-  z-index:1;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-list-scroll {
-  flex:1 1 auto;
-  height:auto!important;max-height:none!important;min-height:0;
-  overscroll-behavior-y:contain;
-}
+
+
 /* Figma gradient artwork above the first row. */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box::before {
-  content:'';
-  position:absolute;
-  left:-6px;right:auto;top:0;
-  width:393px;height:103px;
-  background:transparent url('../assets/figma/event-list-glow-v209.svg') 0 0/393px 332px no-repeat;
-  filter:none;
-  -webkit-mask-image:none;mask-image:none;
-  animation:none!important;opacity:1!important;
-  pointer-events:none;
-  z-index:0;
-}
+
 
 /* ---------- rows ----------
    v2.0.38: type, date block and vertical rhythm from 1.0 (css/events.css): 12px above and
    below, 19px date digits, 10.5px category line, two-line names centred on the date.
    The columns stay on the Figma x positions (date x27, text x118). */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar ul.ec-list {
-  padding:0 6px;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar ul.ec-list > li.ec-row {
-  min-height:0;
-  height:auto;
-  grid-template-columns:66px minmax(0,1fr);
-  column-gap:25px;
-  margin:0;
-  padding:12px 0 12px 15px;
-  border-bottom:none;
-  box-sizing:border-box;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar ul.ec-list > li.ec-row:first-child {
-  min-height:0;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar ul.ec-list > li.ec-row:nth-child(2) { min-height:0; }
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar ul.ec-list > li.ec-row {
-  align-items:start!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar ul.ec-list > li.ec-row.is-2line {
-  align-items:center!important;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar ul.ec-list > li.ec-row::after {
-  content:'';position:absolute;bottom:0;left:3px;right:-7px;
-  height:1px;background:var(--tt-event-rule);
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-body {
-  display:flex;
-  min-width:0;
-  flex-direction:column;
-  gap:3px;
-  padding-right:9px;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-meta {
-  display:block;
-  min-width:0;
-  height:16px;
-  line-height:16px;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-meta-text {
-  display:block;
-  font-size:10.5px;line-height:16px;
-  color:var(--ec-sub);
-  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec .ec-name,
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec a.ec-name:visited {
-  color:var(--tt-event-content-ink);
-  font:400 16px/20px 'Noto Sans JP',sans-serif;
-  letter-spacing:0;
-  max-height:40px;
-  -webkit-line-clamp:2;
-  line-clamp:2;
-  overflow-wrap:anywhere;
-}
+
+
+
+
+
+
+
+
+
+
+
 /* Date block: always top-aligned (one- and two-line names share baselines). */
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar ul.ec-list > li.ec-row .ec-date,
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar ul.ec-list > li.ec-row.is-2line .ec-date {
-  display:grid!important;grid-template-columns:max-content max-content!important;
-  column-gap:0!important;row-gap:0!important;
-  justify-content:start!important;align-content:start!important;
-  padding-top:2px!important;line-height:1.15!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar ul.ec-list > li.ec-row.is-2line .ec-date {padding-top:0!important;}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-date-m {
-  padding-bottom:3px!important;font-size:10px!important;line-height:1.15!important;
-}
-html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-date-d {
-  font-size:19px!important;line-height:1.15!important;letter-spacing:.02em!important;
-}
+
+
+
+
 /* Row badge (Figma 4-3-1): one thin outlined capsule, right-aligned, 8px below the rule
    above the row (v2.0.38, user's choice). 初日・最終日・開催予定 light, 開催終了 red. */
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-badge {
-  position:absolute;
-  top:8px;
-  right:-5px; /* right edge x376 on a 393 screen, as in Figma */
-  box-sizing:border-box;
-  height:13.4px;
-  padding:0 8px;
-  font:400 8px/11.4px 'Noto Sans JP',sans-serif;
-  border:1px solid currentColor;
-  border-radius:7px;
-  letter-spacing:0;
-  color:#e6e6e6;
-  background:transparent;
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .is-ended .ec-badge {
-  color:var(--ec-red);
-}
-html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar .ec-row:has(.ec-badge) .ec-meta-text {
-  padding-right:58px;
-}
+
+
+
 
 /* ---------- small screens / motion ---------- */
-@media(max-width:350px) {
-  html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='event'] #event-calendar ul.ec-list > li.ec-row {
-    grid-template-columns:56px minmax(0,1fr);
-    column-gap:18px;
-    padding-left:11px;
-  }
-  /* as 1.0 on narrow screens */
-  html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-date-d {font-size:16px!important;}
-  html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips,
-  html.tt2-fidelity[data-tt-view="sights"] #event-calendar .ec-chips.is-open {
-    gap:6px!important;max-width:calc(100% - 140px)!important;
-  }
-}
-@media(min-width:394px) {
-  html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box::before {
-    left:50%;transform:translateX(-50%);
-  }
-}
-@media(prefers-reduced-motion:reduce) {
-  html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-filter-panel {animation:none;}
-}
+
+
+
 
 /* v2.0.39: the month card scales from its top edge (js/events.js: picking = 1.2×), so the
    heatmap grows downward from the card's top and shrinks back upward after a day is picked. */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-card {transform-origin:50% 0;}
+
 /* v2.0.40: heatmap cells 8px lower in the card; the picked date (long press) 4px lower. */
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-grid {margin-top:16px;}
-html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-pick-date {top:-1px;}
+
+
