@@ -5,15 +5,9 @@
   --ec-l0:#1F1F1F;--ec-l1:#3A3A3A;--ec-l2:#676767;--ec-l3:#A5A5A5;--ec-l4:#E4E4E2;--ec-red:#E2665E;--ec-gold:#E0A93B;
   margin:0 0 0 -10px;padding:6px 0 12px;color:var(--ec-ink);font-variant-numeric:tabular-nums;
 }
-html[data-theme="light"] #guide .ec{
-  --ec-ink:#2B2B2B;--ec-sub:#6B6B69;--ec-line:#E4E4E2;--ec-card:#FDFDFC;--ec-lo:#DEDEDC;--ec-hi:#333333;
-  --ec-bar:#333333;--ec-mini:#7A7A78;--ec-mini-strong:#4A4A48;--ec-mini-bar:#CFCFCD;
-  --ec-l0:#F1F1F0;--ec-l1:#DADAD8;--ec-l2:#ABABA9;--ec-l3:#6F6F6D;--ec-l4:#333333;--ec-red:#B4443B;--ec-gold:#AD7F00;
-}
+
 /* Light mode: 開催予定 15% lighter, 日程未定 rows lighter still. */
-html[data-theme="light"] #guide .is-upcoming .ec-badge{color:color-mix(in srgb,var(--ec-ink) 85%,var(--ec-card))}
-html[data-theme="light"] #guide .is-tbd .ec-name{opacity:.6}
-html[data-theme="light"] #guide .is-tbd .ec-meta-text,html[data-theme="light"] #guide .is-tbd .ec-date{opacity:.75}
+
 #guide .ec[hidden]{display:none}
 
 /* ---- month carousel ---- */
@@ -123,7 +117,7 @@ html[data-theme="light"] #guide .is-tbd .ec-meta-text,html[data-theme="light"] #
   -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
           mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
   filter:blur(2px);opacity:0;transform-origin:50% 0}
-html[data-theme="light"] #guide .ec-list-box{--venue-glow:.55}
+
 #guide details.venue-glow-in .ec-list-box::before{animation:venue-glow-in .7s cubic-bezier(.2,.7,.3,1) both}
 #guide ul.ec-list > li.ec-row{position:relative;z-index:1;display:grid;grid-template-columns:66px minmax(0,1fr);
   column-gap:17px;align-items:start;box-sizing:border-box;margin:0;padding:12px 0;
@@ -222,7 +216,7 @@ html body #guide .ec a.ec-name:not(#_):not(#__):hover{color:var(--ec-ink)!import
 #guide .ec-filter-panel{position:absolute;top:0;left:2px;right:2px;z-index:6;box-sizing:border-box;padding:12px 12px 14px;
   border:1px solid var(--ec-lo);border-radius:14px;background:var(--ec-card);box-shadow:0 14px 30px rgba(0,0,0,.5);
   animation:ec-panel-in .18s ease-out both}
-html[data-theme="light"] #guide .ec-filter-panel{box-shadow:0 12px 28px rgba(0,0,0,.12)}
+
 #guide .ec-filter-panel[hidden]{display:none}
 @keyframes ec-panel-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 #guide .ec-filter-group + .ec-filter-group{margin-top:12px}

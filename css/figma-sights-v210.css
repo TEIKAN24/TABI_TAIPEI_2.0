@@ -143,15 +143,11 @@ html.tt2-fidelity[data-tt-view="sights"] #guide > details[data-tt2-panel-key="ph
 
 /* Food dictionary left-swipe drawer: keep native dimmer and interaction,
    remove ONLY the expensive post-settle blur. */
-html body.food-drawer-settled .food-drawer-backdrop,
-html[data-theme="light"] body.food-drawer-settled .food-drawer-backdrop {
+html body.food-drawer-settled .food-drawer-backdrop {
   -webkit-backdrop-filter:brightness(.68)!important;
   backdrop-filter:brightness(.68)!important;
 }
-html[data-theme="light"] body.food-drawer-settled .food-drawer-backdrop {
-  -webkit-backdrop-filter:brightness(.84)!important;
-  backdrop-filter:brightness(.84)!important;
-}
+
 
 /* Hamburger navigation: background is dimmed by only 20% (not 50%).
    CSS blur is pixels, not percent: 40px is 50% of old 80px radius.

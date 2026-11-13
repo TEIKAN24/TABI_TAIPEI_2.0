@@ -46,22 +46,8 @@
 .recommend-no-data{color:#d6d9d5;font-size:12px;}
 .recommend-control:focus-visible,.recommend-option:focus-visible,.recommend-pill:focus-visible,.recommend-venue:focus-visible,.recommend-more:focus-visible,.recommend-advanced summary:focus-visible{outline:2px solid #84d0b3;outline-offset:2px;}
 @keyframes recommend-card-reveal{from{opacity:.2;transform:translateY(4px);}to{opacity:1;transform:translateY(0);}}
-html[data-theme="light"] .recommend-drawer{background:#F8F8F7;color:#303030;border-right-color:#D3D3D2;}
-html[data-theme="light"] .recommend-location-status,html[data-theme="light"] .recommend-place,html[data-theme="light"] .recommend-disclaimer{color:#707070;}
-html[data-theme="light"] #recommend-title,html[data-theme="light"] .recommend-result-head h3{color:#313131;}
 
-html[data-theme="light"] .recommend-control{color:#444444;border-color:#D0D0CF;background:#FCFCFB;}
-html[data-theme="light"] .recommend-control[aria-expanded="true"]{border-color:#607c72;}
-html[data-theme="light"] .recommend-options{background:#FCFCFB;border-color:#D7D7D6;box-shadow:0 9px 26px rgba(38,38,38,.18);}
-html[data-theme="light"] .recommend-option{color:#424242;}
-html[data-theme="light"] .recommend-option[aria-pressed="true"]{background:#373737;color:#FCFCFB;}
-html[data-theme="light"] .recommend-count{color:#707070;}
-html[data-theme="light"] .recommend-pill{color:#5D5D5D;border-color:#D3D3D2;background:#FCFCFB;}
-html[data-theme="light"] .recommend-pill[aria-pressed="true"]{color:#FCFCFB;border-color:#373737;background:#373737;}
-html[data-theme="light"] .recommend-more{background:#FCFCFB;}
-html[data-theme="light"] .recommend-advanced{border-color:#DDDDDC;}
-html[data-theme="light"] .recommend-advanced summary{color:#656565;}
-html[data-theme="light"] .recommend-relaxed{background:#fff8ea;color:#7d5824;border-color:#ead5a9;}
+
 @media(max-width:360px){.recommend-control{padding:8px 9px;font-size:11.5px;}}
 @media(prefers-reduced-motion:reduce){.recommend-card,.recommend-drawer{animation:none!important;transition:none!important;}}
 .recommend-drawer:focus,
@@ -121,7 +107,6 @@ html:not([data-theme="light"]) .recommend-more {border-color:#4A4A4A;}
 .recommend-advanced-panel{position:absolute;left:0;top:calc(100% + 7px);z-index:180;padding:17px 15px 15px;border-radius:15px;background:#202020;border:1px solid #515151;box-shadow:0 16px 36px rgba(0,0,0,.38);max-height:min(450px,65dvh)}
 .recommend-advanced-panel h3 {margin:0 0 11px;font-size:12px;font-weight:730;color:#e7e7e7;}
 
-html[data-theme="light"] .recommend-advanced-panel {background:#FCFCFB;border-color:#D7D7D6;box-shadow:0 12px 30px rgba(38,38,38,.17);}
  .recommend-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
  .recommend-controls > .recommend-control-wrap:first-child {grid-column:1/-1;}
  
@@ -140,7 +125,7 @@ html[data-theme="light"] .recommend-advanced-panel {background:#FCFCFB;border-co
 .recommend-active-chip-label {min-width:0;overflow-wrap:anywhere;text-align:left;}
 .recommend-active-chip-remove {color:#BBD9C9;font-size:16px;line-height:1;flex:none;}
 .recommend-active-chip:focus-visible {outline:2px solid #84d0b3;outline-offset:2px;}
-html[data-theme="light"] .recommend-advanced-trigger .recommend-advanced-plus {color:#4A7E67;}
+
 @media(max-width:360px){
  .recommend-active-chip{font-size:11.5px;padding-left:10px;}
 }
@@ -251,16 +236,7 @@ html[data-theme="light"] .recommend-advanced-trigger .recommend-advanced-plus {c
 .recommend-card{border-color:#39343F;}
 .recommend-more{border-color:#605173;color:#E5DCF1;}
 .recommend-control:focus-visible,.recommend-option:focus-visible,.recommend-pill:focus-visible,.recommend-venue:focus-visible,.recommend-more:focus-visible,.recommend-advanced summary:focus-visible,.recommend-active-chip:focus-visible{outline-color:#C4A6FF!important;}
-html[data-theme="light"] .recommend-drawer{--recommend-edge-color:#F8F8F7}
-html[data-theme="light"] .recommend-control,html[data-theme="light"] .recommend-pill{color:#47395B;border-color:#CDC2DE;background:#FCFCFB;}
-html[data-theme="light"] .recommend-control[aria-expanded="true"],html[data-theme="light"] .recommend-advanced[open] .recommend-advanced-trigger{border-color:#8A70B4;}
-html[data-theme="light"] .recommend-options,html[data-theme="light"] .recommend-advanced-panel{background:#FCFCFB;border-color:#D7CBE7;}
-html[data-theme="light"] .recommend-option[aria-pressed="true"],html[data-theme="light"] .recommend-pill[aria-pressed="true"]{background:#7455A8;color:#FCFCFB;border-color:#7455A8;}
-html[data-theme="light"] .recommend-option:hover:not([aria-pressed="true"]){background:#F2EDFA;}
-html[data-theme="light"] .recommend-active-chip{color:#51376F;background:#F2EDFA;border-color:#BEABD7;}
-html[data-theme="light"] .recommend-active-chip-remove{color:#73549C!important;}
-html[data-theme="light"] .recommend-more{color:#604B7C;border-color:#C7BBDD;}
-html[data-theme="light"] .recommend-advanced-panel h3{color:#433354;}
+
 /* Laptop, tablet and mobile can use the original body scroll if appropriate. */
  .recommend-drawer-inner{padding-top:calc(var(--recommend-pad-top) + env(safe-area-inset-top,0px))!important;padding-bottom:calc(var(--recommend-pad-bottom) + env(safe-area-inset-bottom,0px))!important;display:flex;flex-direction:column;height:100dvh;overflow-y:hidden;padding-left:16px;padding-right:16px;min-height:0}
  #recommend-title{flex:0 0 auto;font-size:clamp(23px,5.9vw,27px);line-height:1.25;margin:0 0 5px;}
@@ -330,8 +306,7 @@ html[data-theme="light"] .recommend-advanced-panel h3{color:#433354;}
   color:#B997F1;
 }
 .recommend-card-top .recommend-place-pin svg {display:block;width:100%;height:100%;}
-html[data-theme="light"] .recommend-card-top .recommend-place {color:#7B718A;}
-html[data-theme="light"] .recommend-card-top .recommend-place-pin {color:#8764BC;}
+
   .recommend-card-top .recommend-place {display:inline-flex;gap:3px;font-size:9px;line-height:1.2;}
   .recommend-card-top .recommend-place-pin {width:11px;height:11px;flex-basis:11px;}
 @media(min-height:760px){
@@ -365,7 +340,7 @@ html[data-theme="light"] .recommend-card-top .recommend-place-pin {color:#8764BC
 .recommend-station-controls .recommend-options{min-width:205px;max-width:min(310px,calc(100vw - 40px));max-height:min(340px,53dvh);}
 .recommend-line-code{font-size:10px;opacity:.7;font-weight:650;}
 .recommend-station-code{border-radius:4px;padding:2px 4px;color:#fff;background:#70539e;font-size:10px;font-weight:780;min-width:35px;flex:none;text-align:center;}
-html[data-theme="light"] .recommend-station-controls .recommend-control-arrow{color:#8263b4;}
+
 @media(max-width:360px){
  .recommend-station-controls{gap:6px;}
  .recommend-station-controls .recommend-control{padding-inline:7px;font-size:11px;gap:4px;}
@@ -395,7 +370,7 @@ html[data-theme="light"] .recommend-station-controls .recommend-control-arrow{co
 .recommend-native-field select{position:absolute;inset:0;width:100%;height:100%;border:0;opacity:0;cursor:pointer;z-index:2;font-size:16px;}
 .recommend-native-field select:disabled{cursor:not-allowed;}
 .recommend-native-field:has(select:disabled){opacity:.65;}
-html[data-theme="light"] .recommend-picker-location,html[data-theme="light"] .recommend-picker-station,html[data-theme="light"] .recommend-mode-button{background:#FCFCFB;border-color:#c9c1d0;color:#453753;}
+
 @media(max-width:360px){
  .recommend-source-captions,.recommend-main-picker{gap:4px;}
  .recommend-picker-location{padding-inline:6px}
@@ -429,15 +404,7 @@ html[data-theme="light"] .recommend-picker-location,html[data-theme="light"] .re
 .recommend-native-option-code{display:inline-flex;align-items:center;justify-content:center;background:#4288c9;color:#fff;}
 .recommend-native-empty{display:grid;gap:4px;background:#17161a;color:#ece7f4;font-size:12px;line-height:1.5;}
 .recommend-native-empty small{color:#bdb2ce;font-size:10px;line-height:1.35;}
-html[data-theme="light"] .recommend-location-copy small,html[data-theme="light"] .recommend-native-copy small,html[data-theme="light"] .recommend-source-caption{color:#786888;}
-html[data-theme="light"] .recommend-native-menu{background:#FCFCFB;border-color:#dbd1ea;box-shadow:0 12px 28px rgba(50,39,71,.12);}
-html[data-theme="light"] .recommend-native-option{background:#faf8fd;color:#2f253d;}
-html[data-theme="light"] .recommend-native-option:hover{background:#f3eef9;}
-html[data-theme="light"] .recommend-native-option[aria-selected="true"]{background:#eee4fa;border-color:#b69ada;}
-html[data-theme="light"] .recommend-native-option-copy strong{color:#2f253d;}
-html[data-theme="light"] .recommend-native-option-copy small{color:#7a698e;}
-html[data-theme="light"] .recommend-native-empty{background:#f7f3fc;color:#3a3050;}
-html[data-theme="light"] .recommend-native-empty small{color:#7a6a8d;}
+
 @media(max-width:360px){
  .recommend-native-display{gap:3px!important;padding-inline:2px!important;}
 }
@@ -464,8 +431,7 @@ html[data-theme="light"] .recommend-native-empty small{color:#7a6a8d;}
 .recommend-native-option-copy strong{letter-spacing:-.03em;color:#fff;}
 .recommend-native-option-copy small{opacity:.95;}
 .recommend-native-empty{padding:14px 12px;border-radius:12px;}
-html[data-theme="light"] .recommend-native-copy strong,html[data-theme="light"] .recommend-native-copy small{color:#271e34;}
-html[data-theme="light"] .recommend-native-chevron{color:#9e85c8;}
+
 
 .recommend-picker-location{gap:8px;}
 
@@ -494,17 +460,7 @@ html[data-theme="light"] .recommend-native-chevron{color:#9e85c8;}
 /* Open lists span most of the drawer instead of the narrow row; tap targets >= 48px. */
 
 /* Dark controls in either theme keep Japanese and English white as requested. */
-html[data-theme="light"] .recommend-picker-location,
-html[data-theme="light"] .recommend-picker-station{background:#2B2B2B;border-color:#4D4D4D;color:#FCFCFB;}
-html[data-theme="light"] .recommend-picker-station[data-active="line"] .recommend-native-line,
-html[data-theme="light"] .recommend-picker-station[data-active="station"] .recommend-native-station{background:#30293a;}
-html[data-theme="light"] .recommend-location-copy strong,
-html[data-theme="light"] .recommend-location-copy small,
-html[data-theme="light"] .recommend-native-copy strong,
-html[data-theme="light"] .recommend-native-copy small{color:#FCFCFB;}
-html[data-theme="light"] .recommend-native-field + .recommend-native-field{border-top-color:#4D4D4D;}
-html[data-theme="light"] .recommend-native-option-copy strong,
-html[data-theme="light"] .recommend-native-option-copy small{color:#282138;}
+
 @media(max-width:360px){
  
  .recommend-native-station .recommend-native-code{font-size:8px;}
@@ -586,8 +542,7 @@ html[data-theme="light"] .recommend-native-option-copy small{color:#282138;}
 .recommend-sort-option[aria-pressed="true"]{color:#F2E9FF;border-bottom-color:#BDA0EA;font-weight:760;}
 .recommend-sort-option:disabled{opacity:.43;cursor:not-allowed;}
 .recommend-sort-option:focus-visible{outline:2px solid #C4A6FF;outline-offset:3px;border-radius:3px;}
-html[data-theme="light"] .recommend-sort-option{color:#696969;}
-html[data-theme="light"] .recommend-sort-option[aria-pressed="true"]{color:#5A3D78;border-bottom-color:#8761AD;}
+
   .recommend-sort-option{padding-top:3px;padding-bottom:6px;}
 
   
@@ -623,15 +578,7 @@ html[data-theme="light"] .recommend-sort-option[aria-pressed="true"]{color:#5A3D
 .recommend-guide-tag{border:1px solid #66616B!important;background:#2E2D31!important;color:#F4F0F9!important;font:700 12px/1 -apple-system,BlinkMacSystemFont,"Hiragino Sans","Noto Sans JP",sans-serif!important;white-space:nowrap;}
 .recommend-guide-tag-featured{color:#E4C38D!important;background:#89704A55!important;border-color:#B58B49!important;}
 .recommend-guide-tag-caution{color:#F4B2A7!important;background:#6E403F55!important;border-color:#8E5D58!important;}
-html[data-theme="light"] .recommend-card{background:linear-gradient(90deg,#FCFCFB 0%,#FBF8FD 100%)!important;border-color:#D8D0DF!important;}
-html[data-theme="light"] .recommend-card-type{color:#46365B;}
-html[data-theme="light"] .recommend-venue{color:#2F2340!important;}
-html[data-theme="light"] .recommend-distance-pill{background:#FCFCFB;color:#3B2F4E;border-color:#D0C6DD;}
-html[data-theme="light"] .recommend-distance-pill-icon{color:#6D57A3;}
-html[data-theme="light"] .recommend-card-stars{color:#AF8A4D;}
-html[data-theme="light"] .recommend-guide-tag{background:#F7F4FA!important;color:#4B3E5D!important;border-color:#D7CDDF!important;}
-html[data-theme="light"] .recommend-guide-tag-featured{background:#F6EDD9!important;color:#8A6428!important;border-color:#D7B67B!important;}
-html[data-theme="light"] .recommend-guide-tag-caution{background:#FFF1EF!important;color:#A84C43!important;border-color:#E0B7B2!important;}
+
  .recommend-card{min-height:132px!important;border-radius:18px!important;}
  .recommend-card-shell{gap:10px;}
  .recommend-distance-pill{padding:7px 10px;font-size:10px;gap:5px;}
@@ -797,10 +744,7 @@ html[data-theme="light"] .recommend-guide-tag-caution{background:#FFF1EF!importa
   border-color:#D76668!important;
   box-shadow:inset 0 0 0 .35px #D76668;
 }
-html[data-theme="light"] .recommend-distance-pill-outer{
-  border-color:#C74246!important;
-  box-shadow:inset 0 0 0 .35px #C74246;
-}
+
 .recommend-mode-return{display:none;}
 .recommend-main-picker.is-station .recommend-mode-button .recommend-mode-pin{display:none!important;}
 .recommend-main-picker.is-station .recommend-mode-button .recommend-mode-return{
@@ -921,52 +865,8 @@ html[data-theme="light"] .recommend-distance-pill-outer{
 /* White surfaces must remain white in light mode, even where legacy styles
    deliberately forced dark control backgrounds. Route-code accent colors are
    intentionally preserved from the MRT line data. */
-html[data-theme="light"] .recommend-drawer .recommend-picker-location,
-html[data-theme="light"] .recommend-drawer .recommend-picker-station{
-  background:#FDFDFC!important;border-color:#CECECD!important;color:#2B2B2B!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-picker-station[data-active="line"] .recommend-native-line,
-html[data-theme="light"] .recommend-drawer .recommend-picker-station[data-active="station"] .recommend-native-station{
-  background:#F0F0EF!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-picker-station .recommend-native-field + .recommend-native-field{border-top-color:#D6D6D5!important;}
-html[data-theme="light"] .recommend-drawer .recommend-native-copy strong,
-html[data-theme="light"] .recommend-drawer .recommend-location-copy strong{color:#2B2B2B!important;}
-html[data-theme="light"] .recommend-drawer .recommend-native-copy small,
-html[data-theme="light"] .recommend-drawer .recommend-location-copy small{color:#686868!important;opacity:1!important;}
-html[data-theme="light"] .recommend-drawer .recommend-control,
-html[data-theme="light"] .recommend-drawer .recommend-pill,
-html[data-theme="light"] .recommend-drawer .recommend-mode-button{
-  background:#FDFDFC!important;color:#474747!important;border-color:#CACAC9!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-mode-button,
-html[data-theme="light"] .recommend-drawer .recommend-mode-return{color:#5A5A5A!important;}
-html[data-theme="light"] .recommend-drawer .recommend-options,
-html[data-theme="light"] .recommend-drawer .recommend-native-menu,
-html[data-theme="light"] .recommend-drawer .recommend-advanced-panel{
-  background:#FEFEFD!important;border-color:#CDCDCC!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-native-option{background:#FDFDFC;color:#2B2B2B;}
-html[data-theme="light"] .recommend-drawer .recommend-native-option:hover,
-html[data-theme="light"] .recommend-drawer .recommend-option:hover:not([aria-pressed="true"]){background:#F0F0EF;}
-html[data-theme="light"] .recommend-drawer .recommend-native-option[aria-selected="true"]{background:#E9E9E8;border-color:#A7A7A7;}
-html[data-theme="light"] .recommend-drawer .recommend-native-option-copy strong,
-html[data-theme="light"] .recommend-drawer .recommend-advanced-panel h3{color:#2E2E2E;}
-html[data-theme="light"] .recommend-drawer .recommend-native-option-copy small{color:#626262;}
-html[data-theme="light"] .recommend-drawer .recommend-native-code.is-empty{background:#E1E1E0;color:#5D5D5D;}
-html[data-theme="light"] .recommend-drawer .recommend-active-chip{background:#F1F1F0;border-color:#C0C0BF;color:#4E4E4E;}
 
-html[data-theme="light"] .recommend-drawer .recommend-result-head h3{color:#2E2E2E;}
-html[data-theme="light"] .recommend-drawer .recommend-sort-option[aria-pressed="true"]{color:#676767;border-bottom-color:#8E8E8E;}
-html[data-theme="light"] .recommend-drawer .recommend-more{color:#595959;border-color:#B1B1B1;}
-html[data-theme="light"] .recommend-drawer .recommend-card{
-  background:linear-gradient(90deg,#FCFCFB,#FAFAF9)!important;border-color:#CFCFCE!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-card-type{color:#535353;}
-html[data-theme="light"] .recommend-drawer .recommend-venue{color:#2B2B2B!important;}
-html[data-theme="light"] .recommend-drawer .recommend-distance-pill{
-  color:#2D2D2D;border-color:#BDBDBD;background:#FEFEFD;
-}
+
 
 /* Single horizontal tag rail across the entire card, aligned with the name's
    left edge. Top row reserves space for the name, distance and Michelin mark. */
@@ -996,7 +896,7 @@ html[data-theme="light"] .recommend-drawer .recommend-distance-pill{
 .recommend-drawer .recommend-venue{color:#F7F7F7!important;}
 .recommend-drawer .recommend-card-type{color:#DEDEDE;}
 .recommend-drawer .recommend-distance-pill-icon{color:#C6C6C6;}
-html[data-theme="light"] .recommend-drawer .recommend-distance-pill-icon{color:#707070;}
+
 
 /* v30.9.104 — grayscale UI, no changes to the badge/selector interaction.
    Neutral gray (K) is the base for both themes. MRT line-color codes,
@@ -1019,30 +919,13 @@ html[data-theme="light"] .recommend-drawer .recommend-distance-pill-icon{color:#
 .recommend-drawer .recommend-mode-button .recommend-mode-return,
 .recommend-drawer .recommend-advanced-plus,
 .recommend-drawer .recommend-active-chip-remove{color:var(--reco-accent)!important;}
-html[data-theme="light"] .recommend-drawer{--reco-purple:#585858;--reco-accent:#686868;--reco-line:#C2C2C1;--reco-muted:#707070;}
-html[data-theme="light"] .recommend-drawer .recommend-native-chevron,
-html[data-theme="light"] .recommend-drawer .recommend-caption-icon,
-html[data-theme="light"] .recommend-drawer .recommend-location-pin,
-html[data-theme="light"] .recommend-drawer .recommend-control-arrow{color:#686868!important;}
-html[data-theme="light"] .recommend-drawer .recommend-guide-tag{
-  background:#F3F3F2!important;color:#454545!important;border-color:#CECECD!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-option[aria-pressed="true"],
-html[data-theme="light"] .recommend-drawer .recommend-pill[aria-pressed="true"]{
-  background:#505050!important;border-color:#505050!important;color:#FCFCFB!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-pill[aria-pressed="false"]{
-  background:#FCFCFB!important;color:#484848!important;border-color:#BBBBBB!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-mode-button .recommend-mode-return,
-html[data-theme="light"] .recommend-drawer .recommend-advanced-plus,
-html[data-theme="light"] .recommend-drawer .recommend-active-chip-remove{color:var(--reco-accent)!important;}
+
 
 /* Badge artwork keeps the user's exact six-petal vector silhouette. */
 .recommend-drawer .recommend-card-star svg path{fill:#868686!important;}
-html[data-theme="light"] .recommend-drawer .recommend-card-star svg path{fill:#777777!important;}
+
 .recommend-drawer .recommend-relaxed{background:#252525;border-color:#555555;color:#CDCDCD;}
-html[data-theme="light"] .recommend-drawer .recommend-relaxed{background:#F2F2F1;border-color:#CECECD;color:#656565;}
+
 
 /* v30.9.108 — Keep the original chip size; fix the misalignment (not height).
    An earlier mobile rule top:5px moved only the + summary downward. Once
@@ -1082,12 +965,7 @@ html[data-theme="light"] .recommend-drawer .recommend-relaxed{background:#F2F2F1
 .recommend-drawer .recommend-guide-tag-caution{
   color:#F4A89B!important;background:#3F3032!important;border-color:#725252!important;
 }
-html[data-theme="light"] .recommend-drawer .recommend-guide-tag-featured{
-  color:#815A1B!important;background:#F8EEDB!important;border-color:#DDC79E!important;
-}
-html[data-theme="light"] .recommend-drawer .recommend-guide-tag-caution{
-  color:#A94338!important;background:#FFF1EF!important;border-color:#DBB7B3!important;
-}
+
 /* Restaurant names move down 5px, grow by 1pt (1.333px) at each breakpoint.
    Keep the 3 result cards and their other contents at their former size. */
 
@@ -1153,11 +1031,7 @@ html[data-theme="light"] .recommend-drawer .recommend-guide-tag-caution{
 .recommend-drawer .recommend-opening-closed{color:#F4A69F;}
 .recommend-drawer .recommend-opening-irregular,
 .recommend-drawer .recommend-opening-unknown{color:#BFBFBF;}
-html[data-theme="light"] .recommend-drawer .recommend-opening-open{color:#247D4B;}
-html[data-theme="light"] .recommend-drawer .recommend-opening-soon{color:#B7650C;}
-html[data-theme="light"] .recommend-drawer .recommend-opening-closed{color:#B23E39;}
-html[data-theme="light"] .recommend-drawer .recommend-opening-irregular,
-html[data-theme="light"] .recommend-drawer .recommend-opening-unknown{color:#707070;}
+
 
   .recommend-drawer .recommend-opening-status{font-size:10.333px!important;line-height:1.1!important;gap:3px;}
   .recommend-drawer .recommend-opening-status::before{content:"";flex:0 0 auto;border-radius:50%;background:currentColor;width:4px;height:4px}
@@ -1168,9 +1042,7 @@ html[data-theme="light"] .recommend-drawer .recommend-opening-unknown{color:#707
 .recommend-drawer .recommend-guide-tag-veg{
   color:#A8DDB1!important;background:#263629!important;border-color:#4A7552!important;
 }
-html[data-theme="light"] .recommend-drawer .recommend-guide-tag-veg{
-  color:#2D6A3A!important;background:#ECF7EE!important;border-color:#A9D3B1!important;
-}
+
 .recommend-drawer .recommend-result-head.is-advanced-open{z-index:32;}
   .recommend-drawer #recommend-mood-title{font-size:14px!important;line-height:1.3!important;margin:0 0 12px!important;}
 /* Station numbers with a letter (G03A, R22A): two digits on top, the letter below. */
@@ -1194,12 +1066,10 @@ html[data-theme="light"] .recommend-drawer .recommend-guide-tag-veg{
 .recommend-drawer .recommend-station-search-input::placeholder{color:#9A9A9A;opacity:1;font-weight:500;}
 .recommend-drawer .recommend-station-search-input:focus-visible{outline:2px solid var(--reco-accent);outline-offset:1px;}
 .recommend-drawer .recommend-native-list{display:grid;gap:3px;}
-html[data-theme="light"] .recommend-drawer .recommend-station-search-input{color:#2E2E2E;}
-html[data-theme="light"] .recommend-drawer .recommend-station-search-input::placeholder{color:#8A8A8A;}
+
 .recommend-drawer .recommend-opening-opening{color:#FFB967;}
 .recommend-drawer .recommend-opening-next{color:#D9D9D9;}
-html[data-theme="light"] .recommend-drawer .recommend-opening-opening{color:#B7650C;}
-html[data-theme="light"] .recommend-drawer .recommend-opening-next{color:#4A4A4A;}
+
 .recommend-drawer #recommend-time-caption,
 .recommend-drawer #recommend-area-label,
 .recommend-drawer .recommend-sort-option{font-size:11px!important;}
@@ -1230,7 +1100,7 @@ html[data-theme="light"] .recommend-drawer .recommend-opening-next{color:#4A4A4A
   color:#E6E6E6;background:transparent;border:1px solid #5A5A5A;-webkit-tap-highlight-color:transparent;
 }
 .food-flip-toggle:focus-visible{outline:2px solid #CCCCCC;outline-offset:2px;}
-html[data-theme="light"] .food-flip-toggle{color:#3A3A3A;border-color:#BDBDBD;}
+
 .food-flip-front .recommend-drawer.is-inline #recommend-title{padding-right:100px;}
 .food-flip-back-head{position:relative;flex:none;min-height:40px;display:flex;align-items:center;padding:2px 110px 10px 0;}
 .food-flip-back-title{margin:0;font-size:15px;font-weight:800;letter-spacing:.02em;}
@@ -1291,21 +1161,9 @@ html[data-theme="light"] .food-flip-toggle{color:#3A3A3A;border-color:#BDBDBD;}
 #food-recommend-section .food-directory-tag--caution{color:#F4A89B;background:#3F3032;border-color:#725252;}
 #food-recommend-section .food-directory-tag--veg{color:#A8DDB1;background:#263629;border-color:#4A7552;}
 #food-recommend-section .food-directory-message{font-size:13px;padding:15px 4px;color:#BDBDBD;}
-html[data-theme="light"] #food-recommend-section .food-directory-tab{color:#505050;border-color:#B9B9B9;}
-html[data-theme="light"] #food-recommend-section .food-directory-tab[aria-selected="true"]{background:#343434;border-color:#343434;color:#FCFCFB;}
-html[data-theme="light"] #food-recommend-section .food-directory-summary{border-bottom-color:#D4D4D3;}
-html[data-theme="light"] #food-recommend-section .food-directory-summary-title{color:#2B2B2B;}
-html[data-theme="light"] #food-recommend-section .food-directory-summary-count{color:#707070;}
-html[data-theme="light"] #food-recommend-section .food-directory-row{border-bottom-color:#E3E3E2;}
-html[data-theme="light"] #food-recommend-section .food-directory-number{color:#929292;}
-html[data-theme="light"] #food-recommend-section .food-directory-link{color:#303030;}
 
-html[data-theme="light"] #food-recommend-section .food-directory-tag{color:#555;border-color:#D8D8D7;background:#F4F4F3;}
 
-html[data-theme="light"] #food-recommend-section .food-directory-tag--featured{color:#96620B;background:#FFF7E6;border-color:#E6C785;}
-html[data-theme="light"] #food-recommend-section .food-directory-tag--caution{color:#A94338;background:#FFF1EF;border-color:#DBB7B3;}
-html[data-theme="light"] #food-recommend-section .food-directory-tag--veg{color:#2D6A3A;background:#ECF7EE;border-color:#A9D3B1;}
-html[data-theme="light"] #food-recommend-section .food-directory-message{color:#666;}
+
 @media(max-width:365px){
   #food-recommend-section .food-directory-tab{font-size:11px;padding:6px 10px;}
   #food-recommend-section .food-directory-row{grid-template-columns:21px minmax(0,1fr);}
@@ -1386,9 +1244,7 @@ html[data-theme="light"] #food-recommend-section .food-directory-message{color:#
 #food-recommend-section .food-directory[data-fade-bottom="true"]::after{
   opacity:1;visibility:visible;
 }
-html[data-theme="light"] #food-recommend-section .food-directory::after{
-  background:linear-gradient(to bottom,rgba(248,248,248,0) 0%,rgba(248,248,248,.72) 68%,#F8F8F7 100%);
-}
+
 @media(prefers-reduced-motion:reduce){
   #food-recommend-section .food-directory::after{transition:none;}
 }
@@ -1486,7 +1342,7 @@ html[data-theme="light"] #food-recommend-section .food-directory::after{
   flex:none;box-sizing:content-box;height:32px;overflow:hidden;margin:10px 0 0;padding:0;
   font-size:11px;line-height:16px;color:#9A9A9A;
 }
-html[data-theme="light"] #food-recommend-section .food-directory-note{color:#696969;}
+
 #food-recommend-section .food-flip[data-face="front"] .food-directory::after{visibility:hidden!important;opacity:0!important;}
 #food-recommend-section .recommend-drawer.is-inline #recommend-title{
   margin:0 0 20px!important;
@@ -1644,23 +1500,14 @@ html[data-theme="light"] #food-recommend-section .food-directory-note{color:#696
 #food-recommend-section .recommend-drawer.is-inline #recommend-more{border:1.5px solid rgba(255,255,255,.28)!important;border-radius:7px!important;background:transparent!important;}
 
 #food-recommend-section .recommend-drawer.is-inline .recommend-chain-pill{flex:none;font-size:10px;line-height:1.4;border:1px solid #555;border-radius:999px;padding:2px 7px;color:#D3D3D3;white-space:nowrap;position:relative;z-index:2;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-current-location,html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline .recommend-picker-station,html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-time-trigger,html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-area-trigger{border-color:rgba(0,0,0,.34)!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-time-trigger,html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-area-trigger{color:#2B2B2B!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-advanced > summary{border-color:rgba(0,0,0,.2)!important;}
-html[data-theme="light"] #food-recommend-section .food-flip-front .food-flip-toggle{border-color:rgba(0,0,0,.26)!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-results .recommend-card{border-color:rgba(0,0,0,.24)!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-results .recommend-guide-tag-featured{background:#F3E4C4!important;border-color:#D9BF8C!important;color:#6F4D16!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-more{border-color:rgba(0,0,0,.24)!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline .recommend-chain-pill{color:#555;border-color:#C6C6C5;}
+
 #food-recommend-section .recommend-drawer.is-inline .recommend-type-row{display:flex;flex-wrap:wrap;align-items:center;gap:3px 7px;min-width:0;}
 #food-recommend-section .recommend-drawer.is-inline .recommend-type-row .recommend-card-type{margin:0!important;}
 #food-recommend-section .recommend-drawer.is-inline .recommend-type-row .recommend-chain-pill{font-size:9.5px;padding:1px 6px;}
 #food-recommend-section .recommend-drawer.is-inline #recommend-results .recommend-card-main{margin-top:5px!important;}
 
 #food-recommend-section .recommend-drawer.is-inline #recommend-results .recommend-venue{font-size:17.3px!important;font-weight:690!important;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline .recommend-source-caption,
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-time-caption,
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-area-label{color:#2B2B2B!important;}
+
 
 /* =================== v30.9.210 — recommendation cards =================== */
 /* Alignment offsets are measured in recommend.js (alignCards):
@@ -1676,9 +1523,7 @@ html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #re
   top:0!important; /* centred with the チェーン店 pill by the row itself */
   color:#A3A3A3!important; /* secondary information */
 }
-html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #recommend-results .recommend-card-main .recommend-card-type{
-  color:#6B6B6B!important; /* v30.9.211: 5.3:1 on the white card (#767676 was 4.27:1) */
-}
+
 #food-recommend-section .recommend-drawer.is-inline #recommend-results .recommend-card .recommend-venue{
   padding-top:max(0px,var(--rc-venue-y,0px))!important;
 }
@@ -1692,22 +1537,19 @@ html[data-theme="light"] #food-recommend-section .recommend-drawer.is-inline #re
 #food-recommend-section .food-directory-branches{
   font-size:9.5px;line-height:1.4;padding:1px 6px;border:1px solid #555;border-radius:999px;color:#D3D3D3;font-weight:400;
 }
-html[data-theme="light"] #food-recommend-section .food-directory-branches{color:#555;border-color:#C6C6C5;}
+
 /* Neutral greys instead of the faint purple left in dark mode. */
 #food-recommend-section .recommend-drawer .recommend-sort-option{color:#A6A6A6;}
 #food-recommend-section .recommend-drawer .recommend-sort-option[aria-pressed="true"]{color:#D4D4D4;border-bottom-color:#B6B6B6;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer .recommend-sort-option{color:#6B6B6B;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer .recommend-sort-option[aria-pressed="true"]{color:#676767;border-bottom-color:#8E8E8E;}
+
 #food-recommend-section .recommend-drawer .recommend-sort-option:focus-visible{outline-color:#B4B4B4;}
 #food-recommend-section .recommend-drawer .recommend-distance-pill,
 #food-recommend-section .recommend-drawer .recommend-distance-pill-label{color:#FAFAFA;}
-html[data-theme="light"] #food-recommend-section .recommend-drawer .recommend-distance-pill,
-html[data-theme="light"] #food-recommend-section .recommend-drawer .recommend-distance-pill-label{color:#2D2D2D;}
+
 #food-recommend-section .recommend-native-empty{color:#EAEAEA;}
 #food-recommend-section .recommend-native-empty small{color:#B5B5B5;}
 #food-recommend-section .recommend-native-code.is-empty{border-color:#444;}
-html[data-theme="light"] #food-recommend-section .recommend-native-empty{color:#3A3A3A;background-color:#F5F5F4;}
-html[data-theme="light"] #food-recommend-section .recommend-native-empty small{color:#707070;}
+
 /* 時間帯指定中: the chosen band breathes together with its caption. */
 .recommend-drawer #recommend-time-label.is-breathing{animation:recommend-caption-breathe 1s ease-in-out infinite;}
 @media (prefers-reduced-motion:reduce){.recommend-drawer #recommend-time-label.is-breathing{animation:none;}}
@@ -1731,7 +1573,7 @@ html[data-theme="light"] #food-recommend-section .recommend-native-empty small{c
   text-decoration-line:underline;text-decoration-style:solid;text-decoration-thickness:1px;text-underline-offset:2.5px;
   text-decoration-color:#BDBDBD; /* v30.9.237: a light grey solid line invites the tap */
 }
-html[data-theme="light"] #food-recommend-section button.is-dish{text-decoration-color:#B4B4B4;}
+
 #food-recommend-section button.is-dish:active{opacity:.7;}
 #food-recommend-section button.is-dish:focus-visible{outline:2px solid currentColor;outline-offset:2px;}
 /* 🥢 before まずはこの3軒！ */
@@ -1746,6 +1588,5 @@ html[data-theme="light"] #food-recommend-section button.is-dish{text-decoration-
 #food-recommend-section .recommend-drawer .recommend-active-chip:not(#_) .recommend-active-chip-remove{
   display:grid!important;place-items:center!important;flex:none!important;width:17px!important;height:17px!important;border-radius:50%!important;
   background:#363636!important;color:#EDEDED!important;font-size:11px!important;line-height:1!important}
-html[data-theme="light"] #food-recommend-section .recommend-drawer .recommend-active-chip:not(#_){border-color:#A9A9A8!important;color:#2B2B2B!important}
-html[data-theme="light"] #food-recommend-section .recommend-drawer .recommend-active-chip:not(#_) .recommend-active-chip-remove{background:#DEDEDC!important;color:#2B2B2B!important}
+
 @media(max-width:360px){#food-recommend-section .recommend-drawer .recommend-active-chip:not(#_){padding:0 3px 0 9px!important;font-size:11.5px!important}}
