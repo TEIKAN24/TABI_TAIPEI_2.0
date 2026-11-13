@@ -602,6 +602,9 @@
   });
 
   function fontReady(limit){
+    /* v2.0.90: the greeting uses the site's text Mincho now (css/home-greeting-v290.css);
+       the 1.0 greeting font is no longer waited for or downloaded. */
+    return Promise.resolve();
     if(!document.fonts||!document.fonts.load)return Promise.resolve();
     const text=lines.join('');
     const load=document.fonts.load('400 20px "'+FONT_FAMILY+'"',text).catch(()=>{});
