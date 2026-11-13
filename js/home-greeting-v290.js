@@ -1,5 +1,5 @@
 /* TABI TAIPEI v2.0.91 — the 1.0 greeting (js/hero-intro.js) on the 2.0 home, small, centred
-   at the bottom, at most two lines (css/home-greeting-v290.css).
+   at the bottom, at most two lines (styles in css/tt2-home.css since 2.0.93).
    hero-intro.js still picks and changes the greeting (time of day, special days, no repeats,
    double / triple tap replies; since 2.0.91 the hello of the time of day on line 1 and the
    message on line 2). It lived in .hero-stage, which 2.0 hides, so the element is moved out to

@@ -153,20 +153,9 @@ html body.food-drawer-settled .food-drawer-backdrop {
    CSS blur is pixels, not percent: 40px is 50% of old 80px radius.
    No brightness() filter may be added to the underlying site. The panel
    itself is translucent so the blurred page is not hidden behind opaque black. */
-html.tt-fwave .tt-menu-backdrop,
-html.tt2-fidelity .tt-menu-backdrop {
-  background:rgba(0,0,0,.20)!important;
-  -webkit-backdrop-filter:blur(40px)!important;
-  backdrop-filter:blur(40px)!important;
-  filter:none!important;
-}
+
 
 /* Previously the side panel itself had an opaque #030303 surface, concealing
    the blur almost entirely. Let the single full-screen backdrop own the
    20%-black + 40px-blur treatment (no second dark/blur layer). */
-html.tt-fwave .tt-side-menu,
-html.tt2-fidelity .tt-side-menu {
-  background:transparent!important;
-  -webkit-backdrop-filter:none!important;
-  backdrop-filter:none!important;
-}
+
