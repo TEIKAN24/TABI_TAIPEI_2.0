@@ -2141,3 +2141,18 @@ html.tt-fwave.tt-route-chapter body:is(.food-swipe-active,.tt2d-on) #guide:not(.
    each) 14px. */
 html.tt2-fidelity #guide :is(.tt2-chapter-tab, [data-tt-travel-tab], .daytrip-destination-button, .daytrip-destination-button-name):not(#_a):not(#_b) {font-size:13px!important;}
 html.tt2-fidelity #guide .tt2-chapter-tab[data-tt2-chapter='city-walk']:not(#_a):not(#_b) {font-size:14px!important;}
+
+/* v2.0.111 — the glows at the top of a list open the way 撮影スポット's do: 0.3s after the list
+   shows (guide.js gives 見所 / 体験 .venue-glow-in after 0.3s); the others started at once. The
+   home glow keeps its own timing. Raised specificity: these rules live in later chapter files. */
+html.tt2-fidelity[data-tt-view='sights'] #event-calendar .ec-list-box:not(#_g1):not(#_g2)::before,
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #taipei-recommender #recommend-results:not(#_g1):not(#_g2)::before,
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #food-flip-back .food-directory-summary:not(#_g1):not(#_g2)::after,
+html.tt2-fidelity[data-tt-view='experiences'] #guide .tt2-directory-section .tab:not(#_g1):not(#_g2)::before,
+html.tt2-fidelity[data-tt-view='souvenirs'] #guide .tt2-directory-section .tab:not(#_g1):not(#_g2)::before,
+html.tt2-fidelity[data-tt-view='day-trips'] #guide .tt221-glow:not(#_g1):not(#_g2),
+html.tt2-fidelity #guide #night-markets-section .nm-glow:not(#_g1):not(#_g2),
+html.tt2-fidelity #guide #walk-area-host .nm-glow:not(#_g1):not(#_g2) {animation-delay:.3s!important;}
+/* … except 味わい 一覧 after a turn of its wheel (js/tt2-motion.js .tt2-still): its summary is built
+   again on every turn, and its glow stays as it is. */
+html.tt2-fidelity[data-tt-view='food'] #food-recommend-section #food-flip-back.tt2-still .food-directory-summary:not(#_g1):not(#_g2):not(#_g3)::after {animation:none!important;}
