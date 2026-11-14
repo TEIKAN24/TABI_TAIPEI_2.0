@@ -269,13 +269,18 @@
       readLines();
       if (!lines.length) return;           // stations not loaded yet
       if (!wheel.children.length) buildWheel();
-      line = $('recommend-line-code')?.textContent.trim() || line;
+      const code = $('recommend-line-code')?.textContent.trim() || '';
+      line = lines.some(l => l.id === code) ? code : (lines.some(l => l.id === line) ? line : ''); // v2.0.103: 「--」 is no line
       if (line && !stationMenu?.querySelector('.recommend-native-option-station')) lineButton(line)?.click();
       panel.hidden = false;
       panel.classList.toggle('is-searching', searching());
       paintList();
       quiet = true;
-      center(midChip(line) || wheel.children[Math.floor(wheel.children.length / 2)], false);
+      const resting = midChip(line) || wheel.children[Math.floor(wheel.children.length / 2)];
+      // v2.0.103: with no line chosen yet the wheel rests on the middle one (板南線); that line is
+      // now chosen too, so its stations show at once (was: 「路線を選ぶと駅が表示されます」)
+      if (!line && resting) choose(resting.dataset.id);
+      center(resting, false);
       requestAnimationFrame(() => { quiet = false; });
       placeBtn.setAttribute('aria-expanded', 'true');
       later();
