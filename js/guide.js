@@ -2227,6 +2227,8 @@ let airportFocusTimer=0,airportFocusFrame=0,airportFocusCorrect=0,airportFocusVe
 window.addEventListener('touchstart',()=>clearTimeout(airportFocusCorrect),{passive:true});
 window.addEventListener('wheel',()=>clearTimeout(airportFocusCorrect),{passive:true});
 function focusAirportResult(preferTabs=false){
+  // v2.0.103: in the 空港アクセス sheet the page itself must not move
+  if(root.closest('#tt2-airport-sheet'))return;
   clearTimeout(airportFocusTimer);
   clearTimeout(airportFocusCorrect);
   cancelAnimationFrame(airportFocusFrame);

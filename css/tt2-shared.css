@@ -1956,15 +1956,16 @@ html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .recommend-opening-op
 html.tt2-fidelity[data-tt-view='food'] #taipei-recommender .recommend-opening-status[data-until]::after {color:#8a8a8a!important;}
 
 /* P2-5 空港アクセス: with no route yet, the 出発地／目的地 row waits in the middle of the
-   page box (45% down, a little above centre); once a route opens it slides back to the top. */
-html.tt2-fidelity #airport-route-selector .airsel-route-fields {
+   page box (45% down, a little above centre); once a route opens it slides back to the top.
+   v2.0.103: the airport page only (#guide); the 空港アクセス sheet keeps the row at its top. */
+html.tt2-fidelity #guide #airport-route-selector .airsel-route-fields {
   transition:transform .55s cubic-bezier(.22,1,.36,1)!important;
 }
-html.tt2-fidelity #airport-route-selector:not(:has(.airsel-results-clip.is-open)) .airsel-route-fields {
+html.tt2-fidelity #guide #airport-route-selector:not(:has(.airsel-results-clip.is-open)) .airsel-route-fields {
   transform:translateY(calc(45cqh - 56px))!important;
 }
 @media (prefers-reduced-motion:reduce) {
-  html.tt2-fidelity #airport-route-selector .airsel-route-fields {transition:none!important;}
+  html.tt2-fidelity #guide #airport-route-selector .airsel-route-fields {transition:none!important;}
 }
 
 /* ================= v2.0.76 — P2-1 type ================= */
