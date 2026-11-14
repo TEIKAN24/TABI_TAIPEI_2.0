@@ -2097,3 +2097,8 @@ html.tt2-fidelity {
 }
 
 }
+
+/* v2.0.104 — until view-router.js has chosen the screen (html[data-tt-view]), the chapters stay
+   unseen: on reload the top of 01 旅支度 (its heading and glow) peeked in under the home on
+   phones whose home box ends a few px short of the screen. Laid out as before (visibility). */
+html.tt2-fidelity:not([data-tt-view]) #guide {visibility:hidden!important;}
