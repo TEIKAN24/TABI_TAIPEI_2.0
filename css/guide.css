@@ -3126,21 +3126,11 @@ html:has(body.food-swipe-active)::after{top:auto;bottom:0;height:calc(26px + env
 
 
 
-#guide hr.chapter-glow{
-  display:block!important;box-sizing:border-box;height:72px!important;margin:40px -24px -46px!important;padding:0;
-  border:0!important;border-radius:0;background:none;color:transparent;opacity:1;
-  background-image:linear-gradient(to bottom,rgba(var(--chapter-glow),.40) 0,rgba(var(--chapter-glow),.15) 42%,rgba(var(--chapter-glow),0) 100%)!important;
-  -webkit-mask-image:linear-gradient(to right,transparent,#000 20%,#000 80%,transparent);
-  mask-image:linear-gradient(to right,transparent,#000 20%,#000 80%,transparent);
-}
-#guide > hr.chapter-glow{}
-#guide hr.chapter-glow--travel{--chapter-glow:126,149,170;}
-#guide hr.chapter-glow--gourmet{--chapter-glow:166,124,84;}
-#guide hr.chapter-glow--sights{--chapter-glow:138,158,122;}
-#guide hr.chapter-glow--citywalk{--chapter-glow:142,131,162;}
-#guide hr.chapter-glow--emergency{--chapter-glow:188,112,98;}
+/* v2.0.102: the 1.0 chapter glows (hr.chapter-glow--…, one colour per chapter) are not part of
+   2.0. They showed for a moment on reload, before view-router.js hides the other chapters, and
+   under the 旅支度 notes. The <hr> stay (view-router.js finds the chapters by them). */
+#guide hr.chapter-glow{display:none!important;}
 
-@media (min-width:600px){#guide hr.chapter-glow{margin-left:-40px!important;margin-right:-40px!important;}}
 .food-theme-dock{
   position:fixed;z-index:260;right:12px;
   top:max(calc(env(safe-area-inset-top,0px) + 8px),calc(max(calc(12px + env(safe-area-inset-top,0px)),calc(50dvh - 245px)) - 52px));
@@ -3161,7 +3151,6 @@ body.food-drawer-open .food-theme-dock .theme-preview-toggle{pointer-events:auto
 .food-theme-dock .theme-dot{width:15px;height:15px;border-radius:50%;background:#EDEDED;flex:none;}
 
 /* more room between 03 SIGHTS and 04 CITY WALK */
-#guide hr.chapter-glow--citywalk{margin-top:78px!important;}
 /* 撮影スポット: its own block under 名所・博物館 */
 
 #guide .venue-directory-section .tab-panel.list-can-scroll:not([data-list-end="true"]){
@@ -3169,7 +3158,6 @@ body.food-drawer-open .food-theme-dock .theme-preview-toggle{pointer-events:auto
   mask-image:linear-gradient(to bottom,#000 calc(100% - 64px),transparent);
 }
 
-#guide > hr.chapter-glow{margin-top:64px!important;}
 
 
 
@@ -3219,9 +3207,6 @@ body.food-drawer-open .food-theme-dock .theme-preview-toggle{pointer-events:auto
 
 
 
-/* v30.9.178: two new chapter separators, using existing chapter-glow styling and colors. */
-#guide hr.chapter-glow--experiences{--chapter-glow:188,112,98;}
-#guide hr.chapter-glow--daytrips{--chapter-glow:126,149,170;}
 
 /* v30.9.182 — CITY WALK ONLY: color-coded 8-area index swaps with inline browser.
    Open header tightens; each area has a tone (card bar + detail list glow).
@@ -3660,7 +3645,6 @@ html body #guide .venue-secondary-links a:not(#_):hover{opacity:1;}
    DIN Alternate Bold ("03 - SIGHTS") sits high in the chapter glow, a 19.5px
    title, an 11.75px lead close under it, then the first menu. Measured
    against the design screenshot on the same device. */
-#guide hr.chapter-glow{margin-bottom:-65.4px!important;}
 #guide .chapter-eyebrow{
   margin:5px 0 12px!important;padding-left:5.2px!important;
   /* v30.9.234: 5px lower (the title stays put) and drawn 110% wide; the
