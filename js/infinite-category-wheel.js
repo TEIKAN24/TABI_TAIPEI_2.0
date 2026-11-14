@@ -21,10 +21,12 @@
   const now = () => performance.now();
   const instances = [];
   function mount(source) {
-    const original = source.original ? document.querySelector(source.original)
+    // v2.0.112: a strip handed over as an element (商圏 detail: window.tt2WheelOn)
+    const own = source.el || (source.original ? document.querySelector(source.original) : null);
+    const original = (source.el || source.original) ? own
       : document.querySelector('#guide > '+source.root)?.querySelector('.tab')?.querySelector(':scope > .tab-pills');
-    const root = source.original ? original?.parentElement : document.querySelector('#guide > '+source.root);
-    const tab = source.original ? original?.parentElement : root?.querySelector('.tab');
+    const root = (source.el || source.original) ? original?.parentElement : document.querySelector('#guide > '+source.root);
+    const tab = (source.el || source.original) ? original?.parentElement : root?.querySelector('.tab');
     const selector = ':scope > ' + (source.button || 'button.tab-pill');
     // Fresh lookup each time: the food tabs are replaced whenever one is chosen.
     const liveButtons = () => original ? [...original.querySelectorAll(selector)] : [];
@@ -42,7 +44,7 @@
     original.before(wheel);
     const track = wheel.querySelector('.tt2-wheel-track');
     const announcer = wheel.querySelector('.tt2-wheel-announcement');
-    const labels = buttons.map(b => b.textContent.replace(/\s+/g,' ').trim());
+    const labels = buttons.map(b => (source.label ? source.label(b) : b.textContent).replace(/\s+/g,' ').trim());
     const panelIds = buttons.map(b => b.getAttribute('aria-controls'));
     const widths = [];
     let centers = [], cycle = 1, pos = 0, viewportWidth = 393;
@@ -223,12 +225,14 @@
       if(!entries[0].contentRect.width)return;
       if(Math.abs(viewportWidth-entries[0].contentRect.width)>1) {stop();layout()}
     });resize.observe(wheel);
-    instances.push({source,root,wheel,buttons,layout,snapTo,nearest,get selected(){return current}});
+    if (!source.el) instances.push({source,root,wheel,buttons,layout,snapTo,nearest,get selected(){return current}});
     layout();
   }
   function start(){ SOURCES.filter(s=>!s.lazy).forEach(mount); }
   window.tt2WheelInstances=instances; // design QA only; no data writes
   window.tt2WheelMount=view=>{const s=SOURCES.find(x=>x.view===view);if(s)mount(s);};
+  // v2.0.112: any strip of buttons → the wheel (商圏 detail). {button: ':scope > selector', label: b => text}
+  window.tt2WheelOn=(el,opt={})=>{if(el)mount({view:opt.view||'',el,button:opt.button,label:opt.label});return el?.previousElementSibling?.classList.contains('tt2-wheel')?el.previousElementSibling:null;};
   if(window.tabiDirectoryReady)Promise.resolve(window.tabiDirectoryReady).then(start);
   else if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});
   else start();

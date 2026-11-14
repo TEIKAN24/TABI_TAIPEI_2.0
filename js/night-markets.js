@@ -141,19 +141,24 @@ function tabiSpotMap(cfg) {
       specialties.forEach(s => {
         const label = str(s.label);
         const li = node('li');
-        li.append(node('button', {type: 'button', class: 'nm-specialty', 'data-food-query': str(s.query) || label,
-          'aria-label': label + 'を料理辞典で見る'}, label));
+        const chip = node('button', {type: 'button', class: 'nm-specialty', 'data-food-query': str(s.query) || label,
+          'aria-label': label + 'を料理辞典で見る'}, label);
+        // v2.0.112 (Figma N2A): a pill with a chevron
+        const more = svg('svg', {class: 'nm-specialty-more', viewBox: '0 0 7 12', width: 7, height: 12, 'aria-hidden': 'true', focusable: 'false'});
+        more.append(svg('path', {d: 'M1 1L6 6L1 11', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.2}));
+        chip.append(more);
+        li.append(chip);
         ul.append(li);
       });
       out.push(node('p', {class: 'nm-feature-label nm-specialty-label'}, '名物'), ul);
     }
     const destination = str(m.destination) || str(m.name);
-    out.push(node('a', {class: 'nm-go', href: mapsUrl(destination), rel: 'noopener noreferrer', target: '_blank'}, 'さっそく出発！'));
+    out.push(node('a', {class: 'nm-go', href: mapsUrl(destination), rel: 'noopener noreferrer', target: '_blank'}, 'マップで見る'));
     return out;
   }
   const backIcon = () => {
-    const icon = svg('svg', {viewBox: '0 0 24 24', width: 22, height: 22, 'aria-hidden': 'true', focusable: 'false'});
-    icon.append(svg('path', {d: 'M15 5l-7 7 7 7', fill: 'none', stroke: 'currentColor', 'stroke-width': 2.2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}));
+    const icon = svg('svg', {viewBox: '0 0 9 16', width: 9, height: 16, 'aria-hidden': 'true', focusable: 'false'});
+    icon.append(svg('path', {d: 'M8 1L1 8L8 15', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.6})); // v2.0.112: Figma N2A
     return icon;
   };
   function detailParts(m, withIds) {
@@ -1093,13 +1098,8 @@ function tabiSpotMap(cfg) {
     stopMotion();
     returnFocus = from;
     title.textContent = m.name;
-    // Spare height is shared evenly between the groups: info · 特徴 · 名物 · さっそく出発！
-    const parts = detailContent(m.data), spaced = [];
-    parts.forEach(el => {
-      if (el.matches('.nm-feature-label, .nm-go')) spaced.push(node('div', {class: 'nm-gap', 'aria-hidden': 'true'}));
-      spaced.push(el);
-    });
-    body.replaceChildren(node('div', {class: 'nm-glow', 'aria-hidden': 'true'}), ...spaced);
+    // v2.0.112 (Figma N2A): fixed gaps from the top (were spacers sharing the spare height)
+    body.replaceChildren(node('div', {class: 'nm-glow', 'aria-hidden': 'true'}), ...detailContent(m.data));
     body.scrollTop = 0;
     setView('detail');
     requestAnimationFrame(() => back.focus({preventScroll: true}));

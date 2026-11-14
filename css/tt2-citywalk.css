@@ -622,3 +622,126 @@ html.tt2-fidelity[data-tt-view='city-walk'] #walk-area-host .nm-map {
   max-height:calc(100dvh - var(--tt2-sitebar-height,104px) - 141px)!important;
   min-height:0!important;border-radius:16px;
 }
+
+/* ════════ v2.0.112 — 夜市 detail (Figma N2A 290:3729) ════════
+   Content at x20 (stage 16 + 4); title row: 9×16 chevron, 12px, 22px medium name; the 2.0 green
+   glow (73px, blur 9) under the title; info rows with rules; 特徴 as text with “·”; a rule;
+   名物 as pills with a chevron; 「マップで見る」 46px pill 24px below. */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) {
+  --nm2-off:#8a8a8a;--nm2-rule:#3e3e3e;
+}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-head {padding:32px 20px 0 4px;gap:0;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-back {width:21px;height:40px;place-items:center start;border-radius:0;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-back:active {background:transparent!important;opacity:.6;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-title {font-size:22px!important;font-weight:500!important;line-height:26px!important;letter-spacing:0!important;color:#fff!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body {padding:0 4px 20px;}
+/* the glow: the site's own, as 見所 名所・博物館's (tt2-shared.css --tt2-glow, 56px, side mask, blur 2,
+   0.7s widening entrance; 0.3s late as in v2.0.111) at Figma's y 269, 8px under the title row;
+   商圏 has the same one at the same height (below). */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-glow {
+  height:56px;margin:8px -4px -64px;
+  background:var(--tt2-glow);-webkit-mask-image:var(--tt2-glow-mask);mask-image:var(--tt2-glow-mask);filter:blur(2px);
+  transform-origin:50% 0;animation:tt2-glow-in .7s cubic-bezier(.2,.7,.3,1) .3s both;
+}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-lead {margin:25px 0 0!important;font-size:13px!important;line-height:18px!important;color:#bdbdbd!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-info {grid-template-columns:84px minmax(0,1fr);column-gap:0;row-gap:0;margin:32px 0 0!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > :is(dt,dd) {display:flex;align-items:center;min-height:41px;padding:0;box-sizing:border-box;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > :is(dt,dd):nth-child(n+3) {border-top:1px solid var(--nm2-rule);min-height:42px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > dt {padding-right:12px;font-size:12px;line-height:15px;font-weight:400;color:var(--nm2-off)!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > dd {flex-wrap:wrap;gap:4px 6px;font-size:13px;line-height:17px;letter-spacing:0;color:#ebebeb!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) :is(.nm-station,.nm-exit) {gap:6px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-station {font-size:14px;color:#fff;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-exit {font-size:13px;color:#cfcfcf;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) :is(.nm-line,.nm-exit-no) {
+  min-width:0;height:auto;padding:2px 5px;border:0;border-radius:3px;font-size:11px;font-weight:700;line-height:14px;
+}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-line {background:var(--nm-line);color:#fff;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-exit-no {background:#f2c200;color:#111;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-feature-label {margin:48px 0 6px!important;font-size:11px!important;line-height:13px!important;color:var(--nm2-off)!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-features {gap:4px 6px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-features li {padding:0!important;border-radius:0;background:none!important;font-size:12px;line-height:15px;color:#bebebe!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-features li:not(:last-child)::after {content:'·';margin-left:6px;color:#5a5a5a;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-specialty-label {margin:18px 0 8px!important;padding-top:18px;border-top:1px solid var(--nm2-rule);}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-specialties {display:flex;flex-wrap:wrap;gap:8px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-specialty {
+  display:inline-flex;gap:5px;width:auto;min-height:0;padding:7px 12px 7px 14px;border:1px solid #464646;border-radius:100px;
+  background:transparent;font-size:13px;font-weight:400;line-height:16px;color:#e6e6e6!important;text-decoration:none!important;
+}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-specialty:is(:hover,:active) {background:rgba(255,255,255,.06);}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-specialty-more {flex:none;color:var(--nm2-off);}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-go {
+  min-height:46px;margin:24px 0 0!important;border-radius:100px;background:#f2f2f2!important;color:#111!important;
+  font-size:15px;font-weight:700;letter-spacing:0;
+}
+
+/* ════════ v2.0.112 — 商圏 detail (Figma S2A 290:4038) ════════
+   Title like N2A; the lead under it from x16; the site's category wheel (js/guide.js mounts
+   it over the hidden bubbles); numbered rows; a foot fade under a 「マップで見る」 pill that
+   stays at the bottom while the list scrolls behind it. */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) {height:100%;--walk-cta-low:clamp(12px,calc(100svh - 793px),59px);} /* the pill ends at Figma's y 737 on 852; less room under it on shorter screens */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-inner {position:relative;height:100%!important;padding:0;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-inner::before {
+  content:'';position:absolute;left:0;right:0;top:80px;height:56px;z-index:0;pointer-events:none;
+  background:var(--tt2-glow);-webkit-mask-image:var(--tt2-glow-mask);mask-image:var(--tt2-glow-mask);filter:blur(2px);
+  transform-origin:50% 0;animation:tt2-glow-in .7s cubic-bezier(.2,.7,.3,1) .3s both;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) :is(.walk-inline-top,.walk-inline-host) {position:relative;z-index:1;}
+@media (prefers-reduced-motion:reduce){
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-inner::before,
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-glow {animation:none;}
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-top {
+  display:grid;grid-template-columns:21px minmax(0,1fr);grid-template-rows:auto;min-height:0;gap:0;align-items:center;margin:0!important;padding:30px 0 0 4px!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-copy {display:contents;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-back {grid-row:auto;width:21px;height:40px;margin:0;place-items:center start;border-radius:0;color:#fff;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-back:is(:hover,:active) {background:transparent;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-heading {font-size:22px!important;font-weight:500;line-height:26px;letter-spacing:0;color:#fff;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-description {
+  grid-column:1/-1;margin:15px 0 0 -4px!important;font-size:13px!important;line-height:19px;letter-spacing:0!important;white-space:normal!important;color:#bdbdbd;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-host {margin-top:28px;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-panel {display:flex!important;flex-direction:column;padding:0!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-cats.tt2-wheel-source {display:none!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .tt2-wheel {position:relative!important;top:auto!important;flex:none;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-cat-panes {
+  flex:1 1 auto;min-height:0;margin:12px 0 0!important;padding:0 0 135px!important; /* the last row ends where the foot fade starts */
+  -webkit-mask-image:none!important;mask-image:none!important;scrollbar-width:none;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-cat-panes::-webkit-scrollbar {display:none;}
+/* the area's own purple (tone) glow over the list: gone (the user's call); the site glow above the lead stays */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-cat-panes::before {content:none!important;display:none!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-cat-pane :is(ol,li) {margin:0!important;padding:0!important;list-style:none!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) li.venue-row {
+  display:flex!important;align-items:flex-start;gap:12px!important;min-height:0!important;padding:15px 4px!important;
+  border:0!important;border-bottom:1px solid #3e3e3e!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) li.venue-row::before,
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) li.venue-row::marker {content:none!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-row-index {
+  position:static!important;flex:none;width:auto!important;margin:0!important;padding:0!important;
+  font:400 11px/19px 'Noto Serif JP',serif!important;color:#6e6e6e!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-row-body {display:flex;flex-direction:column;gap:4px!important;flex:1 1 auto;min-width:0;margin:0!important;padding:0!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) :is(.venue-name-line,.venue-primary-links) {display:block!important;margin:0!important;padding:0!important;line-height:19px!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.venue-main-link {
+  display:inline!important;padding:0!important;font-size:16px!important;font-weight:500!important;line-height:19px!important;letter-spacing:0!important;
+  color:#fff!important;-webkit-text-fill-color:#fff;text-decoration:none!important;background:none!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.venue-main-link::after {content:none!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-tag-list {display:flex!important;flex-wrap:wrap;gap:0 6px!important;margin:0!important;padding:0!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-tag-list .venue-tag {
+  display:inline!important;min-height:0!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:none!important;box-shadow:none!important;
+  font-size:11px!important;font-weight:500!important;line-height:13px!important;letter-spacing:0!important;color:#8a8a8a!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-tag-list .venue-tag:is(.venue-tag--featured,.venue-tag--tone-gold) {color:#cca46e!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-tag-list .venue-tag + .venue-tag::before {content:'·';margin-right:6px;font-weight:400;color:#5a5a5a;}
+/* foot fade (Figma: 120px, ends 15px above the pill's bottom) and the pill on it */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-inner::after {
+  content:'';position:absolute;left:0;right:0;bottom:0;height:calc(120px + 15px + var(--walk-cta-low,20px));z-index:2;pointer-events:none;
+  background:linear-gradient(to bottom,rgba(0,0,0,0) 0,rgba(0,0,0,.92) 48px,#000 120px,#000 100%); /* and black on down to the box's end */
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.walk-inline-go.walk-go-bottom {
+  position:relative!important;z-index:3;min-height:46px;margin:-46px 0 var(--walk-cta-low,20px)!important;border-radius:100px!important;
+  background:#f2f2f2!important;color:#111!important;-webkit-text-fill-color:#111;font-size:15px!important;font-weight:700!important;letter-spacing:0;
+}
