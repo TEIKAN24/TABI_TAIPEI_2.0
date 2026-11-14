@@ -2123,3 +2123,21 @@ html.tt2-fidelity #guide li.venue-row.tt2l-row:not(#_a):not(#_b):not(#_c) > .ven
   border:1px solid #464646!important;border-radius:100px!important;background:none!important;box-shadow:none!important;opacity:1!important;
   font:400 11px/14px var(--tt2-ui)!important;color:#9e9e9e!important;-webkit-text-fill-color:#9e9e9e!important;white-space:nowrap!important;
 }
+
+/* v2.0.109 — into a chapter from the home: a slower fade, no movement (was .26s from .65 opacity and
+   5px lower). It starts a moment late and from nothing, so what a chapter builds on arrival
+   (遠出 lays out its destination page, a little later still) happens unseen. No end state is
+   kept (fill backwards): an identity transform or opacity left on #guide is not wanted (see
+   the dictionary note above). The header (#tt-sitebar, sticky, z-index 120) is never animated
+   and stays above. */
+@media (prefers-reduced-motion:no-preference) {
+  html.tt-fwave.tt-route-chapter #guide:not(.tt-view-hidden) {animation:tt2-chapter-in .6s ease-out .06s backwards!important;}
+  html.tt-fwave.tt-route-chapter[data-tt-view='day-trips'] #guide:not(.tt-view-hidden) {animation:tt2-chapter-in .7s ease-out .18s backwards!important;}
+  @keyframes tt2-chapter-in {from {opacity:0;} to {opacity:1;}}
+}
+html.tt-fwave.tt-route-chapter body:is(.food-swipe-active,.tt2d-on) #guide:not(.tt-view-hidden) {animation:none!important;}
+
+/* v2.0.109 — the tab rows a little larger: 12px → 13px; 散策's two tabs (夜市 / 商圏, half the width
+   each) 14px. */
+html.tt2-fidelity #guide :is(.tt2-chapter-tab, [data-tt-travel-tab], .daytrip-destination-button, .daytrip-destination-button-name):not(#_a):not(#_b) {font-size:13px!important;}
+html.tt2-fidelity #guide .tt2-chapter-tab[data-tt2-chapter='city-walk']:not(#_a):not(#_b) {font-size:14px!important;}

@@ -15,6 +15,15 @@
       const source = row.querySelector('.venue-main-link')?.textContent?.trim() || '';
       return /レトロ衣装|旗袍|変身体験/.test(source) ? '変身体験' : 'プリクラ';
     }
+    // v2.0.109 (the user's labels): 手作り has none; 占い・カラオケ and the シャンプー・マッサージ
+    // list name each place by what it is (from its name / its own tag)
+    if (panelLabel.includes('手作り')) return '';
+    if (panelLabel.includes('占い')) return /占い/.test(row.querySelector('.venue-main-link')?.textContent || '') ? '占い' : 'カラオケ';
+    if (/シャンプー|マッサージ/.test(panelLabel)) {
+      const tags = [...row.querySelectorAll('.venue-tag')].map(t => t.textContent.trim());
+      if (tags.includes('マッサージ')) return 'マッサージ';
+      if (tags.includes('台湾式シャンプー')) return '台湾式シャンプー';
+    }
     return panelLabel;
   }
   function initChapter(source) {
@@ -45,6 +54,12 @@
           kicker.className = 'tt2-directory-kicker';
           kicker.textContent = label;
           body.prepend(kicker);
+          // v2.0.109: the tag that now stands above (マッサージ / 台湾式シャンプー) leaves the tag line
+          if (/^(マッサージ|台湾式シャンプー)$/.test(label)) {
+            row.querySelectorAll('.venue-tag').forEach(t => { if (t.textContent.trim() === label) t.remove(); });
+            const list = row.querySelector('.venue-tag-list');
+            list?.classList.toggle('tt2l-empty', !list.querySelector('.venue-tag'));
+          }
         } else row.classList.add('tt2-directory-no-kicker');
         // Designer's visible tag order, with both original source tags intact.
         if (source.view === 'experiences' && panelLabel.includes('プリクラ')) {
