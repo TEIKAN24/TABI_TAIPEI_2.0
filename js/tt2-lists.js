@@ -27,21 +27,16 @@
       if (a.textContent.trim() === '公式') a.textContent = '公式サイト';
       a.classList.add('tt2l-link');
     });
-    let kind = body.querySelector(':scope > .tt2-directory-kicker');
-    if (kind) kind.classList.add('tt2l-kind');
-    else {
-      const original = li.querySelector('.tt2-museum-zh, .tt2-sight-extra-zh')?.textContent.trim() || '';
-      const shown = li.querySelector('.tt2-museum-ja, .tt2-sight-extra-ja')?.textContent.trim() || '';
-      const text = original && original !== shown ? original : '';
-      if (text) { kind = el('span', 'tt2l-kind', text); body.prepend(kind); } // v2.0.107: no empty line for the links
+    // 体験・おみやげ: the category line. 名所: no original (Chinese) name line since v2.0.108; it
+    // existed for only part of the list, and filling it in left it patchy (the user's call).
+    body.querySelector(':scope > .tt2-directory-kicker')?.classList.add('tt2l-kind');
+    li.classList.toggle('tt2l-has-link', !!links);
+    // v2.0.107 (Figma 「見所リスト 改善案 C」): the links are capsules in a column of their own at
+    // the right of the row, centred; the official site comes first.
+    if (links) {
+      [...links.querySelectorAll('a')].filter(a => /^公式/.test(a.textContent.trim())).reverse().forEach(a => links.prepend(a));
+      li.append(links);
     }
-li.classList.toggle('tt2l-has-link', !!links);
-// v2.0.107 (Figma 「見所リスト 改善案 C」): the links are capsules in a column of their own at
-// the right of the row, centred; the official site comes first.
-if (links) {
-  [...links.querySelectorAll('a')].filter(a => /^公式/.test(a.textContent.trim())).reverse().forEach(a => links.prepend(a));
-  li.append(links);
-}
     const desc = li.querySelector('.tt2-photo-desc')?.textContent.trim();
     if (desc) body.querySelector(':scope > .venue-name-line')?.after(el('div', 'tt2l-sub', desc));
     const tags = body.querySelector(':scope > .venue-tag-list');

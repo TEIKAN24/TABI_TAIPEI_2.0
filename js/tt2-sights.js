@@ -16,8 +16,7 @@
     ['國立故宮博物院','国立故宮博物院'],
     ['北投溫泉博物館','北投温泉博物館'],
     ['國家鐵道博物館','国家鉄道博物館'],
-    ['國立臺灣博物館','国立台湾博物館'],
-    ['自來水博物館','自来水博物館'] // v2.0.107
+    ['國立臺灣博物館','国立台湾博物館']
   ]);
   const order = ['國立故宮博物院','北投溫泉博物館','國家鐵道博物館','國立臺灣博物館'];
   function enhanceMuseum() {
@@ -35,9 +34,7 @@
       a.textContent = '';
       const ja = document.createElement('span');
       ja.className = 'tt2-museum-ja'; ja.lang = 'ja'; ja.textContent = displayNames.get(original);
-      const zh = document.createElement('span');
-      zh.className = 'tt2-museum-zh'; zh.lang = 'zh-Hant'; zh.textContent = original;
-      a.append(ja, zh);
+      a.append(ja); // original-name small line removed (user, 2026-11-14)
       a.title = original;
       const red = row.querySelector('.venue-tag--tone-red');
       if (red && original === '北投溫泉博物館') {
