@@ -1,16 +1,19 @@
-/* TABI TAIPEI v2.0.109 — js/tt2-motion.js: motion inside a chapter.
-   1. Switching inside a chapter (the chapter tabs, the category wheel, sub tabs): what appears
-      comes in from top to bottom — each row / card fades in and rises 6px, 0.48s, 70ms apart (v2.0.109, was 0.28s / 45ms),
-      at most 10. The site's own easing (cubic-bezier(.22,1,.36,1)), nothing that slows a tap.
-      How: a capture listener notes what is on screen before the switch; two frames later the
-      blocks that are new (rows, cards, notes; else the new box itself) are animated.
-   2. 味わい: the three restaurants slide in from the left one after another, top to bottom
-      (28px, 0.56s, 0.15s apart; v2.0.109, was a drop from the top), as if the list had just
-      been run — when the result changes, on 味わい's tabs and on entering the chapter. A refresh
-      of the same three (open-now text) does not replay.
-   `translate` and `filter: opacity()` are animated (not `transform` / `opacity`): elements that are
-   already transformed keep it, and a card whose opacity is pinned !important still fades.
-   Nothing moves under prefers-reduced-motion. */
+/* TABI TAIPEI v2.0.110 — js/tt2-motion.js: motion between and inside chapters.
+   1. Chapter to chapter (the menu, links): #guide fades in like the way in from the home
+      (css/tt2-shared.css tt2-chapter-in): 0.6s from 60ms, 遠出 0.7s from 180ms, opacity only.
+   2. A chapter's own tabs (名所・博物館 / 撮影スポット / イベント, 現在地 / 駅から探す / 一覧, 夜市 /
+      商圏, 旅支度's 注意事項 / 入国カード / 交通パス): what appears fades in, 0.4s (1.5× the chapter
+      fade), no movement. How: a capture listener notes what is on screen before the switch;
+      two frames later the new boxes are faded.
+   3. The category wheel (and its pills) changes the list with no motion; a list only comes in
+      with its chapter (v2.0.110, the user's call; was a row-by-row rise).
+   4. 味わい: the three restaurants slide in from the left one after another, top to bottom
+      (28px, 0.56s, 0.15s apart), as if the list had just been run — when the result changes,
+      on 味わい's tabs and on entering the chapter. A refresh of the same three does not replay.
+   Inside #guide only opacity-like changes that never make it a box for position:fixed children:
+   #guide itself takes `opacity`; blocks and cards take `filter: opacity()` and `translate`
+   (a card whose opacity is pinned !important still fades). Nothing moves under
+   prefers-reduced-motion. */
 (() => {
   'use strict';
   const guide = document.getElementById('guide');
@@ -18,8 +21,8 @@
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const EASE = 'cubic-bezier(.22,1,.36,1)';
   const SWITCH = '[role="tab"], .ct-tab, .tt2-chapter-tab, .tab-pill, .tt2-wheel, [data-tt-travel-tab]';
+  const WHEEL = '.tab-pill, .tt2-wheel, .tab-pills';
   const SKIP = '.ct-tabs, .tt2-chapter-tabs, .tt-travel-tabs, .tt2-wheel, .tab-pills, [role="tablist"], .nm-map, #recommend-results, #food-search, .tt-chapter-heading';
-  const ROWS = 'li, article, .tt2-note';
 
   const shown = e => e.getClientRects().length > 0;
   const onScreen = e => { const r = e.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && (r.width || r.height); };
@@ -29,12 +32,12 @@
     return set;
   }
 
-  /* ---------- 1. switches ---------- */
+  /* ---------- 2. a chapter's own tabs ---------- */
   let before = null, frame = 0, food = false;
   addEventListener('click', e => {
     if (reduce.matches || !(e.target instanceof Element)) return;
     const control = e.target.closest(SWITCH);
-    if (!control || !guide.contains(control)) return;
+    if (!control || !guide.contains(control) || control.closest(WHEEL)) return; // 3. the wheel: no motion
     before = visibleSet();
     food = !!control.closest('[data-tt2-food-tab]');
     cancelAnimationFrame(frame);
@@ -48,22 +51,23 @@
     for (const e of guide.querySelectorAll('*')) if (!was.has(e) && shown(e) && !e.closest(SKIP)) fresh.add(e);
     if (!fresh.size) { if (food) dropCards(true); return; }
     const tops = [...fresh].filter(e => { for (let p = e.parentElement; p && p !== guide; p = p.parentElement) if (fresh.has(p)) return false; return true; });
-    let units = [];
-    for (const t of tops) {
-      if (t.matches(ROWS)) { units.push(t); continue; }
-      const rows = [...t.querySelectorAll(ROWS)].filter(r => shown(r) && !r.parentElement.closest(ROWS));
-      if (rows.length >= 2) units.push(...rows); else units.push(t);
-    }
-    // the results of 味わい came back into view: their own drop-in
-    // 味わい's own tabs (現在地 / 駅から探す): the three that show drop in again
+    // 味わい's own tabs (現在地 / 駅から探す): the three that show come in again
     if (food || [...fresh].some(e => e.contains?.(results))) dropCards(true);
-    units = units.filter(onScreen).sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top).slice(0, 10);
-    units.forEach((u, i) => u.animate(
-      [{filter: 'opacity(0)', translate: '0 6px'}, {filter: 'opacity(1)', translate: '0 0'}],
-      {duration: 480, delay: i * 70, easing: EASE, fill: 'backwards'}));
+    tops.filter(onScreen).forEach(t => t.animate([{filter: 'opacity(0)'}, {filter: 'opacity(1)'}],
+      {duration: 400, easing: 'ease-out', fill: 'backwards'}));
   }
 
-  /* ---------- 2. 味わい: three restaurants, from the left, top to bottom ---------- */
+  /* ---------- 1. chapter to chapter ---------- */
+  let view = document.documentElement.dataset.ttView || '';
+  document.addEventListener('tt:viewchange', () => {
+    const next = document.documentElement.dataset.ttView || '';
+    const from = view; view = next;
+    if (reduce.matches || !next || next === from || next === 'home' || !from || from === 'home') return; // the home → chapter fade is css
+    const trip = next === 'day-trips';
+    guide.animate([{opacity: 0}, {opacity: 1}], {duration: trip ? 700 : 600, delay: trip ? 180 : 60, easing: 'ease-out', fill: 'backwards'});
+  });
+
+  /* ---------- 4. 味わい: three restaurants, from the left, top to bottom ---------- */
   const results = document.getElementById('recommend-results');
   let lastSig = '', forceUntil = 0;
   function dropCards(force) {
