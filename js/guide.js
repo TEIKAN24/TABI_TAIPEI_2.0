@@ -4055,7 +4055,7 @@ update();
   detail.setAttribute('aria-label','街歩きエリア詳細');
   detail.innerHTML=`<div class="walk-inline-inner">
     <div class="walk-inline-top">
-      <button class="walk-inline-back" type="button" aria-label="エリア一覧に戻る"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false"><path d="M14.5 5.5 8 12l6.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      <button class="walk-inline-back" type="button" aria-label="エリア一覧に戻る"><svg viewBox="0 0 9 16" width="9" height="16" aria-hidden="true" focusable="false"><path d="M8 1L1 8L8 15" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></button>
       <div class="walk-inline-copy"><h4 class="walk-inline-heading"></h4><p class="walk-inline-description"></p></div>
       <a class="walk-inline-go" target="_blank" rel="noopener noreferrer">出発！</a>
     </div><div class="walk-inline-host"></div>
@@ -4162,7 +4162,7 @@ update();
     chips.forEach((chip,i)=>{
       chip.id=`walk-inline-tab-${index}-${i}`;
       chip.setAttribute('aria-controls',`walk-inline-pane-${index}-${i}`);
-      chip.addEventListener('click',()=>{if(i!==current)choose(i,false,i>current?44:-44);});
+      chip.addEventListener('click',()=>{if(i!==current)choose(i);}); // v2.0.112: turned by the wheel, no motion
     });
     // v30.9.188: swipe the list left/right to move between categories.
     // The list follows the finger, then slides out while the next one slides in.
@@ -4234,6 +4234,8 @@ update();
     root.classList.add('walk-viewing-detail');
     buttons.forEach((button,i)=>button.setAttribute('aria-expanded',String(index===i)));
     choose(Math.min(remembered.get(index)||0,chips.length-1),false,0,false);
+    // v2.0.112 (Figma S2A): the site's category wheel in place of the bubbles (they stay, hidden, as its source)
+    window.tt2WheelOn?.(row,{view:'areas',button:'button.area-cat',label:b=>[...b.childNodes].filter(n=>n.nodeType===3).map(n=>n.textContent).join('')});
     // The pressed card disappears; keyboard users continue from the back button.
     if(fromKeyboard)detail.querySelector('.walk-inline-back').focus({preventScroll:true});
     keepInView();
