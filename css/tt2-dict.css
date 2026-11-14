@@ -597,9 +597,14 @@ html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none {padding:13px 15p
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none-title {margin:0;font:400 12px/17px var(--tt2-ui);color:#bdbdbd;}
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none-hint {margin:3px 0 0;font:400 11px/16px var(--tt2-ui);color:#8a8a8a;}
 
-/* v2.0.102 — a lighter sheet: the side menu's glass (black 65 %, the page behind blurred 28px),
-   as in Figma 「料理辞典 V4-b glass style」 (277:1406). Border, corners and cards are unchanged. */
+/* v2.0.103 — 料理辞典 V4-b glass style (Figma 277:1406), as the user settled it: the sheet's skin is
+   not black, only glass (the page blurs through it), and the page behind darkens 30 %
+   (was brightness .68 and a solid #111 sheet). Border, corners and cards are unchanged. */
 html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
-  background:rgba(0,0,0,.65)!important;
-  -webkit-backdrop-filter:blur(28px)!important;backdrop-filter:blur(28px)!important;
+  background:transparent!important;
+  -webkit-backdrop-filter:blur(20px)!important;backdrop-filter:blur(20px)!important;
+}
+html.tt2-fidelity body:not(#_a) .food-drawer-backdrop,
+html.tt2-fidelity body.food-drawer-settled:not(#_a) .food-drawer-backdrop {
+  -webkit-backdrop-filter:brightness(.7)!important;backdrop-filter:brightness(.7)!important;
 }
