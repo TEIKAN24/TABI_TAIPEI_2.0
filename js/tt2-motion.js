@@ -1,12 +1,13 @@
-/* TABI TAIPEI v2.0.108 — js/tt2-motion.js: motion inside a chapter.
+/* TABI TAIPEI v2.0.109 — js/tt2-motion.js: motion inside a chapter.
    1. Switching inside a chapter (the chapter tabs, the category wheel, sub tabs): what appears
-      comes in from top to bottom — each row / card fades in and rises 6px, 0.28s, 45ms apart,
+      comes in from top to bottom — each row / card fades in and rises 6px, 0.48s, 70ms apart (v2.0.109, was 0.28s / 45ms),
       at most 10. The site's own easing (cubic-bezier(.22,1,.36,1)), nothing that slows a tap.
       How: a capture listener notes what is on screen before the switch; two frames later the
       blocks that are new (rows, cards, notes; else the new box itself) are animated.
-   2. 味わい: the three restaurants drop in one after another from the top (18px, 0.42s,
-      0.12s apart), as if the list had just been run — when the result changes, or when the
-      results come back into view. A refresh of the same three (open-now text) does not replay.
+   2. 味わい: the three restaurants slide in from the left one after another, top to bottom
+      (28px, 0.56s, 0.15s apart; v2.0.109, was a drop from the top), as if the list had just
+      been run — when the result changes, on 味わい's tabs and on entering the chapter. A refresh
+      of the same three (open-now text) does not replay.
    `translate` and `filter: opacity()` are animated (not `transform` / `opacity`): elements that are
    already transformed keep it, and a card whose opacity is pinned !important still fades.
    Nothing moves under prefers-reduced-motion. */
@@ -59,10 +60,10 @@
     units = units.filter(onScreen).sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top).slice(0, 10);
     units.forEach((u, i) => u.animate(
       [{filter: 'opacity(0)', translate: '0 6px'}, {filter: 'opacity(1)', translate: '0 0'}],
-      {duration: 280, delay: i * 45, easing: EASE, fill: 'backwards'}));
+      {duration: 480, delay: i * 70, easing: EASE, fill: 'backwards'}));
   }
 
-  /* ---------- 2. 味わい: three restaurants, top to bottom ---------- */
+  /* ---------- 2. 味わい: three restaurants, from the left, top to bottom ---------- */
   const results = document.getElementById('recommend-results');
   let lastSig = '', forceUntil = 0;
   function dropCards(force) {
@@ -75,8 +76,8 @@
     if (!force && sig === lastSig) return;
     lastSig = sig;
     cards.forEach((c, i) => c.animate(
-      [{filter: 'opacity(0)', translate: '0 -18px'}, {filter: 'opacity(1)', translate: '0 0'}],
-      {duration: 420, delay: 80 + i * 120, easing: EASE, fill: 'backwards'}));
+      [{filter: 'opacity(0)', translate: '-28px 0'}, {filter: 'opacity(1)', translate: '0 0'}],
+      {duration: 560, delay: 80 + i * 150, easing: EASE, fill: 'backwards'}));
   }
   if (results) {
     let queued = 0;
