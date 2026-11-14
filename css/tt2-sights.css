@@ -973,3 +973,10 @@ html.tt2-fidelity[data-tt-view='sights'] #guide > details:is([data-tt2-panel-key
   height:calc(100dvh - var(--tt2l-gap) - var(--tt2-sitebar-height,104px) - 177px)!important;
   max-height:none!important;min-height:0!important;
 }
+
+/* v2.0.108 — 撮影スポット: the sub-tab row (映えスポット | ロケ地・聖地巡礼) was pulled 6px up under the
+   chapter tabs, but its box (#photo-spots-tabs, overflow hidden) cut those 6px off, leaving a gap
+   between the chapter-tab rule and the divider between the two sub tabs. The whole box moves up
+   instead (85px → 79px); the row sits where it did, now whole. */
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'] .tab-pills {margin-top:0!important;}
+html.tt2-fidelity[data-tt-view='sights'] #guide > details[data-tt2-panel-key='photo'][data-tt2-panel='sights'].tt2-panel-current {top:79px!important;}
