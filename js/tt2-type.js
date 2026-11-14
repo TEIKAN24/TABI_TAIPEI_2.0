@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-type.js: type: the outlined display type (.tt2o)
+   Was js/figma-type-v276.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.76 — Figma's display type as outlines.
    かすみ青嵐明朝 and 石井明朝 オールドスタイル are not installed on phones, so these fixed
    words are drawn from outline SVGs exported from the Figma file

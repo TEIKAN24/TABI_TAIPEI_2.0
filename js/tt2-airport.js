@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-airport.js: 空港アクセス: the route finder
+   Was js/figma-airport-v259.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.59 — 空港アクセス, Figma 「空港アクセス 新案 A1 / A2」 (css/figma-airport-v255.css).
  * guide.js rebuilds the timeline for every route; after each build this adds what the markup lacks:
  *   - 台北MRT station codes as a square two-line badge (BR / 13); 空港MRT codes stay as they are

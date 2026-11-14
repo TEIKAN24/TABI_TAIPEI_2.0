@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-menu.js: side menu: the angled drawer
+   Was js/figma-side-angled-v227.js until 2.0.101 (cleanup phase 3). */
 /* TAIPEI CITY GUIDE v2.0.28 — close-only swipe for full-screen side menu.
    The original hamburger and view-router own opening, closing and navigation.
    We do not install any closed-state or document-wide open-swipe listeners. */

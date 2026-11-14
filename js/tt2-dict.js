@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-dict.js: 料理辞典: the bottom sheet
+   Was js/figma-dict-v245.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.45 — 料理辞典 V4 (Figma 「料理辞典 V4-a / b / c」, 2026-11-11).
  * The dictionary drawer becomes a bottom sheet (css/figma-dict-v245.css) and shows one of
  * three states. The search itself stays in guide.js (JS 03); this layer reads it through
