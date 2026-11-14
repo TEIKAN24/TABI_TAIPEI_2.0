@@ -1998,10 +1998,9 @@ loadData();
   function lockPage(){
     if(savedStyle)return;
     // iOS Safari samples the page surface for its top/bottom browser chrome.
-    // The search view is bright when light mode is selected.
     // The floating window leaves the page visible; the browser bars keep the page's colour.
     const theme=drawer.classList.contains('is-floating')?null:document.querySelector('meta[name="theme-color"]');
-    if(theme)theme.setAttribute('content',html.dataset.theme==='light'?'#F7F8F7':'#0D0D0D');
+    if(theme)theme.setAttribute('content','#0D0D0D'); // dark only since 2.0.49
     savedY=window.scrollY;
     savedStyle={position:body.style.position,top:body.style.top,width:body.style.width,overflow:body.style.overflow};
     previousFocus=document.activeElement;
@@ -2010,7 +2009,7 @@ loadData();
   }
   function syncChrome(active){
     const meta=drawer.classList.contains('is-floating')?null:document.querySelector('meta[name="theme-color"]');
-    if(meta)meta.setAttribute('content',active?(html.dataset.theme==='light'?'#F7F8F7':'#0D0D0D'):(html.dataset.theme==='light'?'#F7F8F7':'#111417'));
+    if(meta)meta.setAttribute('content',active?'#0D0D0D':'#111417');
   }
   function unlockPage(){
     if(!savedStyle)return;
@@ -3973,8 +3972,7 @@ update();
       meta=document.querySelector('meta[name="theme-color"]');
       if(meta){anchor=meta.nextSibling;meta.remove();}
     }else if(!open&&meta){
-      // The theme may have been switched meanwhile (the switch sits above the window).
-      meta.content=document.documentElement.dataset.theme==='light'?'#F7F8F7':'#111417';
+      meta.content='#111417';
       document.head.insertBefore(meta,anchor&&anchor.parentNode===document.head?anchor:null);
       meta=null;anchor=null;
     }

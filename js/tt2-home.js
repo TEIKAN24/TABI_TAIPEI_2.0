@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-home.js: home: the greeting at the foot of the home
+   Was js/home-greeting-v290.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.91 — the 1.0 greeting (js/hero-intro.js) on the 2.0 home, small, centred
    at the bottom, at most two lines (styles in css/tt2-home.css since 2.0.93).
    hero-intro.js still picks and changes the greeting (time of day, special days, no repeats,

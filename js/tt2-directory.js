@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-directory.js: 体験・おみやげ: the directory screens
+   Was js/figma-directory-v211.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI 2.0.11 — Figma 5-1 and 7-1: presentation only.
  * Retain original data/experiences.json and data/souvenirs.json, existing
  * links, labels, working original tab controller and source row identities. */

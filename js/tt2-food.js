@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-food.js: 味わい: the food screens
+   Was js/figma-food-v232.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.32 — 02 味わい, Figma 2-1 (現在地) / 2-2 (駅から探す) / 2-3 (一覧).
  * Presentation layer only. js/recommend.js still owns the data, the ranking, GPS, stations,
  * time bands, conditions and the 一覧 list; every control here clicks the original one.
@@ -464,4 +466,3 @@
   document.addEventListener('tt:viewchange', event => { if (event.detail?.view === 'food') sync(); setNotes(false); });
   sync();
 })();
-

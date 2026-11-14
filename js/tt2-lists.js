@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-lists.js: venue lists: rows, tags, links
+   Was js/figma-lists-v243.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.43 — one list row for 名所・博物館 / 撮影スポット / 体験 / おみやげ
  * (Figma proposal 「Proposal / List Row」, 2026-11-11). Presentation only: rows are built by
  * js/directory.js + guide.js and decorated by the 2.0 layers; this reorders what they made.

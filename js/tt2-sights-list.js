@@ -1,3 +1,5 @@
+/* TABI TAIPEI v2.0.101 — js/tt2-sights-list.js: 見所: the shared, editable sightseeing list (defer)
+   Was js/figma-sights-v210.js until 2.0.101 (cleanup phase 3). */
 /* TABI-TAIPEI v2.0.10.1 — Shared, editable sightseeing list presentation.
    Figma 4-1-2 (アート・デザイン) supplies exact first-four display labels and
    geometry. Other categories inherit the established 4-1 list component;
