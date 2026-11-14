@@ -24,6 +24,7 @@
   sheet.setAttribute('role', 'dialog');
   sheet.setAttribute('aria-modal', 'true');
   sheet.setAttribute('aria-label', '空港アクセス');
+  sheet.tabIndex = -1; // v2.0.106: the sheet takes the focus when it opens (no ring on 閉じる)
   const head = el('div', 'tt2-airsheet-head');
   const titles = el('div', 'tt2-airsheet-titles');
   titles.append(el('h2', 'tt2-airsheet-title', '空港アクセス'), el('p', 'tt2-airsheet-sub', '桃園・松山の空港と台北駅のあいだの行き方'));
@@ -73,7 +74,7 @@
     syncSize(); syncRail();
     root.classList.add('tt2-airsheet-open');
     sheet.inert = false; sheet.setAttribute('aria-hidden', 'false');
-    requestAnimationFrame(() => close.focus({preventScroll: true}));
+    requestAnimationFrame(() => sheet.focus({preventScroll: true}));
   }
   function shut() {
     if (!isOpen()) return;

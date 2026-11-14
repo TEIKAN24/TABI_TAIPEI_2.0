@@ -91,3 +91,8 @@ html.tt2-fidelity.tt2-airsheet:not([data-tt-x1]):not([data-tt-x2]) #tt2-airport-
 html.tt2-fidelity.tt2-airsheet:not([data-tt-x1]):not([data-tt-x2]) #tt2-airport-sheet:not(#_x1):not(#_x2) #airport-route-selector .rail-title #airsel-rail-head-name {display:none!important;}
 html.tt2-fidelity.tt2-airsheet:not([data-tt-x1]):not([data-tt-x2]) #tt2-airport-sheet:not(#_x1):not(#_x2) #airport-route-selector .rail-title {display:none!important;}
 html.tt2-fidelity.tt2-airsheet:not([data-tt-x1]):not([data-tt-x2]) #tt2-airport-sheet:not(#_x1):not(#_x2) #airport-route-selector .route-panel {margin-top:18px!important;padding-top:0!important;}
+/* v2.0.106: the old page's tab underline (::after, 2px white) under the chosen chip, and no focus
+   ring on the sheet itself (it takes the focus when it opens) */
+html.tt2-fidelity.tt2-airsheet:not([data-tt-x1]):not([data-tt-x2]) #tt2-airport-sheet:not(#_x1):not(#_x2) #airport-route-selector .airsel-transport-tab::before,
+html.tt2-fidelity.tt2-airsheet:not([data-tt-x1]):not([data-tt-x2]) #tt2-airport-sheet:not(#_x1):not(#_x2) #airport-route-selector .airsel-transport-tab::after {content:none!important;display:none!important;}
+html.tt2-fidelity #tt2-airport-sheet:focus {outline:none;}
