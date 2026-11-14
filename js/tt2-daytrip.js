@@ -466,6 +466,7 @@
     }
     if (!open) return;
     way.classList.add('is-open'); head.setAttribute('aria-expanded', 'true'); way.querySelector('.tt269-way-body').hidden = false;
+    window.tt2Reveal?.(way, {settle: page}); // v2.0.102: an opened way rises into sight
   });
 
   const current = () => Math.max(0, destinations.findIndex(b => b.getAttribute('aria-expanded') === 'true'));
