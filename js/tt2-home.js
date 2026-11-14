@@ -12,8 +12,8 @@
      goes. The untyped rest is already laid out (transparent), so centred lines never shift.
      Typed again when the greeting changes or the home is opened again; shown at once under
      prefers-reduced-motion;
-   - the greeting stays hidden whenever it would come within 20px of the index (short screens,
-     Safari's toolbars). */
+   - on short screens (Safari's toolbars) it moves up to 20px under the index, and is hidden
+     only when even that does not fit (v2.0.102; was: hidden). */
 (function () {
   'use strict';
   var doc = document, root = doc.documentElement;
@@ -79,18 +79,27 @@
     timer = setTimeout(step, delay);
   }
 
-  var queued = 0;
+  /* v2.0.102: Safari's toolbars leave less height than the home-screen app, and the greeting
+     used to vanish there. Now it keeps its place at the foot when there is room; when it would
+     come within 20px of the index it sits 20px under the index instead, as long as it stays
+     8px clear of the bottom; only when even that does not fit is it hidden. */
+  var queued = 0, GAP = 20, FOOT = 8;
   function check() {
     queued = 0;
     if (!root.classList.contains('tt-route-home')) return;
     greet.classList.remove('tt290-off');
+    greet.style.removeProperty('bottom');
     var items = doc.querySelectorAll('.tt-home-item'), bottom = 0, i, r;
     for (i = 0; i < items.length; i++) {
       r = items[i].getBoundingClientRect();
       if (r.height) bottom = Math.max(bottom, r.bottom);
     }
     var g = greet.getBoundingClientRect();
-    if (!g.height || g.top < bottom + 20) greet.classList.add('tt290-off');
+    if (!g.height) { greet.classList.add('tt290-off'); return; }
+    if (g.top >= bottom + GAP) return;
+    var foot = hero.getBoundingClientRect().bottom - (bottom + GAP + g.height);
+    if (foot >= FOOT) greet.style.setProperty('bottom', foot + 'px', 'important');
+    else greet.classList.add('tt290-off');
   }
   function later() { if (!queued) queued = requestAnimationFrame(check); }
 

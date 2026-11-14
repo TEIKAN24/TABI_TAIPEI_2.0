@@ -71,6 +71,9 @@
     if (note.open && !note.classList.contains('is-closing')) { close(note); return; }
     for (const other of list.querySelectorAll(':scope > .tt2-note[open]')) if (other !== note) close(other);
     open(note);
+    // v2.0.102: a note opened near the foot of the pane rises into sight (above the fade)
+    const fade = pane.querySelector('.tt2n-fade');
+    window.tt2Reveal?.(note, {settle: list, bottom: fade ? fade.getBoundingClientRect().height : 0});
   });
   // Our own toggles must not reach figma-stage1.js's capture listener on the list
   // (it would snap the other note shut). This capture listener sits above it.
