@@ -18,6 +18,22 @@
     ['臺北市立美術館', ['台北市立美術館','臺北市立美術館']],
     ['台北當代藝術館', ['台北当代芸術館 MOCA Taipei','台北當代藝術館 MOCA Taipei']]
   ]);
+// v2.0.107: Japanese name + original (Chinese) name for the rest of 名所. Only the shinjitai
+// spelling (or 郵局 → 郵便局) of the source name; a pair whose two names are the same shows
+// no original line (js/tt2-lists.js). 臺北表演藝術中心: Japanese name to be confirmed.
+const nameAliases = new Map([
+  ['臺北表演藝術中心', ['台北表演芸術中心','臺北表演藝術中心']],
+  ['國立中正紀念堂', ['国立中正紀念堂','國立中正紀念堂']],
+  ['總統府', ['総統府','總統府']],
+  ['日星鑄字行', ['日星鋳字行','日星鑄字行']],
+  ['臺灣新文化運動紀念館', ['台湾新文化運動紀念館','臺灣新文化運動紀念館']],
+  ['臺北北門郵局', ['台北北門郵便局','臺北北門郵局']],
+  ['國史館', ['国史館','國史館']],
+  ['二二八國家紀念館', ['二二八国家紀念館','二二八國家紀念館']],
+  ['猫空', ['猫空','貓空']],
+  ['猴硐猫村', ['猴硐猫村','猴硐貓村']],
+  ['鶯歌・三峽老街', ['鶯歌・三峡老街','鶯歌・三峽老街']]
+]);
   const artCategory = '3f56bda0-4caa-808e-9bda-e62f8014d993';
   const photoFilmCategory = 'photo-spots-artist';
 
@@ -46,7 +62,7 @@
         const sourceName = link.textContent.trim();
         row.classList.add('tt2-sight-extra-row');
         row.dataset.tt2OriginalName = sourceName;
-        const label = isArt ? artAliases.get(sourceName) : null;
+        const label = (isArt ? artAliases.get(sourceName) : null) || nameAliases.get(sourceName);
         if (label) {
           const jp = create('span','tt2-sight-extra-ja',label[0],'ja');
           const zh = create('span','tt2-sight-extra-zh',label[1],'zh-Hant');
