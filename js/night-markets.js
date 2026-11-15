@@ -104,6 +104,22 @@ function tabiSpotMap(cfg) {
   const allItems = nmItems.slice();
 
   // ---- Details ----------------------------------------------------------------
+  // v2.0.117: a line code on a light line colour (中和新蘆線 orange, 萬大線 light blue…) takes dark text
+  const lineInk = hex => { const v = parseInt(hex.slice(1), 16), c = [v >> 16, v >> 8 & 255, v & 255].map(x => { x /= 255; return x <= .03928 ? x / 12.92 : ((x + .055) / 1.055) ** 2.4; }); return .2126 * c[0] + .7152 * c[1] + .0722 * c[2] > .35 ? '#111' : '#fff'; };
+  // v2.0.117 (Figma 詳細頁提案 B): 営業時間 and 混雑時間帯 side by side. The time large, what follows it
+  // (（目安）, 年中無休…) small under it; a market open on some days only (「（火・金のみ）」) in red.
+  function whenBlock(m) {
+    const h = str(m.hours), mm = h.match(/^([^（(]+)(?:[（(]([^）)]*)[）)])?(?:・(.*))?$/);
+    const notes = mm ? [mm[2], mm[3]].filter(Boolean) : [];
+    const hours = node('div', {class: 'nm-when-cell'});
+    hours.append(node('p', {class: 'nm-when-label'}, '営業時間'), node('span', {class: 'nm-when-time'}, mm ? mm[1].trim() : h));
+    if (notes.length) hours.append(node('span', {class: 'nm-when-note' + (/のみ/.test(mm[2] || '') ? ' is-alert' : '')}, notes.join('・')));
+    const crowd = node('div', {class: 'nm-when-cell'});
+    crowd.append(node('p', {class: 'nm-when-label'}, '混雑時間帯'), node('span', {class: 'nm-when-value'}, str(m.crowded)));
+    const when = node('div', {class: 'nm-when'});
+    when.append(hours, crowd);
+    return when;
+  }
   function detailContent(m) {
     const out = [];
     const lead = node('p', {class: 'nm-lead'});
@@ -118,7 +134,7 @@ function tabiSpotMap(cfg) {
     } else {
       const dd = node('dd');
       const station = node('span', {class: 'nm-station'});
-      station.append(node('span', {class: 'nm-line', style: '--nm-line:' + color(access.color)}, str(access.code)), str(access.station));
+      station.append(node('span', {class: 'nm-line', style: '--nm-line:' + color(access.color) + ';--nm-line-ink:' + lineInk(color(access.color))}, str(access.code)), str(access.station));
       dd.append(station);
       if (str(access.exit)) {
         const exit = node('span', {class: 'nm-exit'});
@@ -127,8 +143,7 @@ function tabiSpotMap(cfg) {
       }
       info.append(node('dt', {}, '最寄り駅'), dd);
     }
-    info.append(node('dt', {}, '営業時間'), node('dd', {}, str(m.hours)), node('dt', {}, '混雑時間帯'), node('dd', {}, str(m.crowded)));
-    out.push(info);
+    out.push(info, whenBlock(m)); // v2.0.117: 営業時間 / 混雑時間帯 as one block (詳細頁提案 B)
     const features = (Array.isArray(m.features) ? m.features : []).map(str).filter(Boolean);
     if (features.length) {
       const ul = node('ul', {class: 'nm-features'});

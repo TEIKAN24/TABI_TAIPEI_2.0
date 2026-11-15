@@ -4129,10 +4129,13 @@ update();
     };
     const ease='cubic-bezier(.22,.8,.3,1)';
     let current=-1;
+    // v2.0.117 (詳細頁提案 A as the user edited it): 「掲載 N件」 under the wheel
+    const count=document.createElement('p');count.className='walk-count';row.after(count);
     // `enter` is the offset (px) the new list slides in from; 0 = no motion.
     const choose=(i,focus=false,enter=0,smooth=true)=>{
       current=i;
       remembered.set(index,i);
+      count.textContent='掲載 '+panes[i].querySelectorAll('li.venue-row').length+'件';
       chips.forEach((chip,j)=>{chip.setAttribute('aria-selected',String(i===j));chip.tabIndex=i===j?0:-1;});
       panes.forEach((pane,j)=>pane.hidden=j!==i);
       scroller.scrollTop=0;
