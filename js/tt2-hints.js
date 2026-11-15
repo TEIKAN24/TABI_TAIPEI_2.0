@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.122 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
+/* TABI TAIPEI v2.0.123 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
    Tried out first in experiments/hints (the lab, not published).
    One hint per kind of control, shown the first time that control is on screen anywhere on the
    site (the wheel: on whichever page a wheel is first met), never again (localStorage). It appears
@@ -41,6 +41,15 @@
       d.animate([{transform: 'translate(-50%,-50%) scale(.35)', opacity: .75}, {transform: 'translate(-50%,-50%) scale(2.4)', opacity: 0}],
         {duration: 1100, delay: Math.floor(k / 2) * 1300 + (k % 2) * 380, easing: 'ease-out', fill: 'both'}).finished.then(() => d.remove(), () => d.remove());
     }
+  }
+  function ringBox(el) {                               // a rounded outline spreading off a box (the 料理辞典 card)
+    const r = el.getBoundingClientRect(), d = document.createElement('i');
+    d.className = 'tt2-hint-ring';
+    Object.assign(d.style, {left: r.left + 'px', top: r.top + 'px', width: r.width + 'px', height: r.height + 'px',
+      borderRadius: getComputedStyle(el).borderRadius});
+    document.body.append(d);
+    d.animate([{transform: 'scale(1)', opacity: .9}, {transform: `scale(${1 + 16 / r.width}, ${1 + 16 / r.height})`, opacity: 0}],
+      {duration: 900, easing: 'ease-out', fill: 'both'}).finished.then(() => d.remove(), () => d.remove());
   }
   function fingers(el) {                                // two fingertips over the map: pinch out, back, then a drag
     const [x, y] = at(el);
@@ -155,7 +164,8 @@
       async run() {
         const el = chip(); if (!el) return;
         ripple(el, 40, 1); await pause(1300);
-        ripple(el, 40, 1); el.click(); target = dq('.tt2d-chips') || target;   // a ring as it is tapped; the chips are drawn anew
+        el.click(); target = dq('.tt2d-chips') || target;   // the chips are drawn anew
+        await pause(120); const c = dq('.tt2d-card'); if (c) ringBox(c);   // the card it opened (蟹粉小籠包) rings once
         spots = () => [dq('.tt2d-card'), dq('.tt2d-chips')]; await pause(900);
       }},
     {text: 'スペースで区切ると、複数まとめて調べられます', side: 'above', find: () => dq('.search-shell'), spot: () => [dq('.search-shell'), dq('.tt2d-view')],
