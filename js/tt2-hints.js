@@ -114,8 +114,7 @@
       motion: el => ripple(el, 44)},
     {id: 'specialty', text: 'タップで料理辞典を開く',
       find: () => first('#guide .nm-detail .nm-specialty'),
-      motion: el => el.querySelector('.nm-specialty-more')?.animate(
-        [{translate: '0 0'}, {translate: '3px 0'}, {translate: '0 0'}], {duration: 600, iterations: 2, easing: 'ease-in-out'})},
+      motion: el => ripple(el, 40)},   // v2.0.130: the chip has no chevron to nudge any more
     {id: 'route', text: 'タップで路線図を表示', wait: 2200,
       find: () => first('#guide .tt269-way-head'),
       motion: el => openClose(el, () => el.getAttribute('aria-expanded') === 'true')},

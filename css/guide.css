@@ -3026,8 +3026,9 @@ body.food-drawer-open .food-theme-dock{pointer-events:auto!important;visibility:
 
 
 #guide .walk-inline-detail .area-panel{flex:1;max-height:none!important;
+  margin:0!important;border:0!important;background:transparent!important;
 }
-#guide .walk-inline-detail .area-cats{overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
+#guide .walk-inline-detail .area-cats{flex-wrap:nowrap;overflow-y:hidden;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;
   margin:0!important;padding:0 0 14px!important;
   -webkit-mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);
   mask-image:linear-gradient(to right,#000 calc(100% - 24px),transparent);
@@ -3043,11 +3044,20 @@ body.food-drawer-open .food-theme-dock{pointer-events:auto!important;visibility:
 #guide .walk-inline-detail .area-cat-panes{
   position:relative;
   overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  border-top:0;margin:0;
   -webkit-mask-image:none!important;mask-image:none!important;
 }
 #guide .walk-inline-detail .area-cat-panes::before{
+  content:"";position:sticky;top:0;display:block;height:56px;margin:0 -2px -56px;
+  pointer-events:none;z-index:0;
+  background:linear-gradient(to bottom,
+    rgba(var(--walk-tone,161,161,161),calc(.92 * var(--walk-glow,1))) 0,
+    rgba(var(--walk-tone,161,161,161),calc(.5 * var(--walk-glow,1))) 22%,
+    rgba(var(--walk-tone,161,161,161),calc(.18 * var(--walk-glow,1))) 52%,
+    rgba(var(--walk-tone,161,161,161),0) 100%);
   -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
   mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
+  filter:blur(2px);
   animation:walk-glow-in .45s ease-out both;
 }
 
