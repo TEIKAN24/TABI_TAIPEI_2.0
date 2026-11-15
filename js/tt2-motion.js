@@ -1,9 +1,10 @@
-/* TABI TAIPEI v2.0.111 — js/tt2-motion.js: motion between and inside chapters.
+/* TABI TAIPEI v2.0.115 — js/tt2-motion.js: motion between and inside chapters.
    1. Chapter to chapter (the menu, links): #guide fades in like the way in from the home
       (css/tt2-shared.css tt2-chapter-in): 0.6s from 60ms, 遠出 0.7s from 180ms, opacity only.
    2. A chapter's own tabs (名所・博物館 / 撮影スポット / イベント, 現在地 / 駅から探す / 一覧, 夜市 /
       商圏): what appears fades in, 0.4s (1.5× the chapter fade), no movement; 旅支度's 注意事項 /
-      入国カード / 交通パス at the chapter speed, 0.6s (v2.0.111). How: a capture listener notes what is on screen before the switch;
+      入国カード / 交通パス at the chapter speed, 0.6s (v2.0.111); 見所's 名所・博物館 / 撮影スポット / イベント and 遠出's
+      four places too (v2.0.115; 遠出's 1.0 slide in guide.js removed). How: a capture listener notes what is on screen before the switch;
       two frames later the new boxes are faded.
    3. The category wheels (and their pills; 味わい 一覧 too) change the list with no motion; a list only comes in
       with its chapter (v2.0.110, the user's call; was a row-by-row rise).
@@ -20,7 +21,9 @@
   if (!guide || !Element.prototype.animate) return;
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
   const EASE = 'cubic-bezier(.22,1,.36,1)';
-  const SWITCH = '[role="tab"], .ct-tab, .tt2-chapter-tab, .tab-pill, .tt2-wheel, [data-tt-travel-tab]';
+  const SWITCH = '[role="tab"], .ct-tab, .tt2-chapter-tab, .tab-pill, .tt2-wheel, [data-tt-travel-tab], .daytrip-destination-button';
+  // v2.0.115: 旅支度's three tabs, 見所's three and 遠出's four places fade at the chapter speed (0.6s)
+  const SLOW = '[data-tt-travel-tab], .tt2-chapter-tab[data-tt2-chapter="sights"], .daytrip-destination-button';
   const WHEEL = '.tab-pill, .tt2-wheel, .tab-pills, .food-directory-tab, .food-directory-tabs'; // + 味わい 一覧's wheel (v2.0.111)
   const SKIP = '.ct-tabs, .tt2-chapter-tabs, .tt-travel-tabs, .tt2-wheel, .tab-pills, [role="tablist"], .nm-map, #recommend-results, #food-search, .tt-chapter-heading';
 
@@ -34,7 +37,7 @@
   }
 
   /* ---------- 2. a chapter's own tabs ---------- */
-  let before = null, frame = 0, food = false, slow = false;
+  let before = null, frame = 0, food = false, slow = false, tabInTimer = 0;
   addEventListener('click', e => {
     if (reduce.matches || !(e.target instanceof Element)) return;
     const control = e.target.closest(SWITCH);
@@ -45,7 +48,11 @@
     if (control.closest('[data-tt2-food-tab="list"]') && flipBack) { flipBack.classList.add('tt2-still'); requestAnimationFrame(() => requestAnimationFrame(() => flipBack.classList.remove('tt2-still'))); } // 一覧 opened: its glow plays (again)
     before = visibleSet();
     food = !!control.closest('[data-tt2-food-tab]');
-    slow = !!control.closest('[data-tt-travel-tab]');
+    slow = !!control.closest(SLOW);
+    if (slow) { // their own older entrances (イベント's bars growing) stay still: this fade is the only motion
+      document.documentElement.classList.add('tt2-tab-in');
+      clearTimeout(tabInTimer); tabInTimer = setTimeout(() => document.documentElement.classList.remove('tt2-tab-in'), 900);
+    }
     cancelAnimationFrame(frame);
     frame = requestAnimationFrame(() => { frame = requestAnimationFrame(play); });
   }, true);
@@ -62,6 +69,18 @@
     tops.filter(onScreen).forEach(t => t.animate([{filter: 'opacity(0)'}, {filter: 'opacity(1)'}],
       {duration: slow ? 600 : 400, easing: 'ease-out', fill: 'backwards'}));
   }
+
+  /* ---------- 1a. the fade from the home plays once ---------- */
+  // css/tt2-shared.css tt2-chapter-in. The 料理辞典 sheet stops it (animation:none) while open, and a
+  // stopped CSS animation starts over when the rule matches again: closing the sheet looked like a
+  // reload (v2.0.115). Once it has ended — or the sheet stopped it — the rule is switched off.
+  const html = document.documentElement;
+  const markShown = () => html.classList.add('tt2-chapter-shown');
+  guide.addEventListener('animationend', e => { if (e.target === guide && e.animationName === 'tt2-chapter-in') markShown(); });
+  guide.addEventListener('animationcancel', e => {
+    if (e.target === guide && e.animationName === 'tt2-chapter-in' && document.body.matches('.tt2d-on, .food-swipe-active')) markShown();
+  });
+  document.addEventListener('tt:viewchange', e => { if (e.detail?.view === 'home') html.classList.remove('tt2-chapter-shown'); });
 
   /* ---------- 1. chapter to chapter ---------- */
   // only a real change of chapter (view-router also tells of a refresh: changed false)

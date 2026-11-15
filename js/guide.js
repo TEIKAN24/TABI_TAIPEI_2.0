@@ -3596,23 +3596,7 @@ update();
     const from=before.get(detail);before.delete(detail);
     if(detail.open)animate(detail,from,detail.getBoundingClientRect().height);
   });
-  // When changing destinations, give the newly revealed itinerary a short
-  // downward reveal. Does not scroll the viewport or affect transit animations.
-  const trip=root.querySelector('.sights-day-trips');
-  if(trip){
-    const buttons=trip.querySelectorAll('.daytrip-destination-buttons > .daytrip-destination-button');
-    trip.addEventListener('click',e=>{
-      if(!e.target.closest('.daytrip-destination-buttons > .daytrip-destination-button'))return;
-      if(reduce.matches)return;
-      const visible=trip.querySelector('.daytrip-destination-panel:not([hidden])');
-      if(!visible)return;
-      visible.getAnimations().filter(a=>a.effect?.getTiming?.().duration===360).forEach(a=>a.cancel());
-      visible.animate([
-        {opacity:0,transform:'translate3d(0,-8px,0)'},
-        {opacity:1,transform:'translate3d(0,0,0)'}
-      ],{duration:360,easing:'cubic-bezier(.22,1,.36,1)'});
-    });
-  }
+  // v2.0.115: the destination change no longer slides here; js/tt2-motion.js fades the 遠出 page.
 })();
 
 

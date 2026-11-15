@@ -60,6 +60,8 @@
 }
 #guide .ec-card.is-grown .ec-bars i {transform:none;transition:transform .55s cubic-bezier(.22,1,.36,1) calc(var(--i,0) * 55ms)}
 #guide .ec-bars i.is-zero {opacity:.3}
+/* v2.0.115: opened from 見所's tabs the bars are simply there (js/tt2-motion.js .tt2-tab-in); they still grow when a month is swiped */
+html.tt2-tab-in #guide .ec-bars i {transition:none!important;}
 #guide .ec-heat-head {display:flex;gap:12px;font-size:10.5px;line-height:1.3;color:var(--ec-sub);letter-spacing:.03em}
 #guide .ec-heat-head span:nth-child(2) {color:var(--ec-ink)}
 #guide .ec-grid {position:relative;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:3px;margin-top:8px;transition:row-gap .28s cubic-bezier(.22,1,.36,1)}
