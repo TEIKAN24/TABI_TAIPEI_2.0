@@ -8,7 +8,7 @@
 html.tt2-fidelity.tt2-airsheet #guide .airport-access-subheading {display:none!important;}
 
 html.tt2-fidelity .tt2-airsheet-backdrop {
-  position:fixed;inset:0;z-index:196;background:rgba(0,0,0,.3);
+  position:fixed;inset:0;z-index:196;background:rgba(0,0,0,.5); /* v2.0.114: the page behind 50 % darker (was 30 %), as 料理辞典's */
   opacity:0;visibility:hidden;transition:opacity .42s ease,visibility 0s linear .43s;
 }
 html.tt2-fidelity.tt2-airsheet-open .tt2-airsheet-backdrop {opacity:1;visibility:visible;transition:opacity .62s cubic-bezier(.22,1,.36,1),visibility 0s;}
