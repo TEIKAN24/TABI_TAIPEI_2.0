@@ -818,3 +818,25 @@ html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.walk-inline-g
 }
 /* v2.0.118: a rule above the 商圏 wheel too (the user: steadier) — the same #666464 as the one under it */
 html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .tt2-wheel {box-shadow:inset 0 1px 0 #666464;}
+
+/* v2.0.120: the 夜市・商圏 maps — square corners, so a numbered bubble's pointer is not cut off in a
+   corner by the rounded clip; and 6px more room under the chapter tabs: the map's top edge comes down
+   6px, its bottom stays where it was (the map is 6px shorter, not moved). */
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #night-markets-tabs:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #night-markets-section .nm-map:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-map:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host .nm-stage:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host .nm-map:not(#_x) {border-radius:0!important;}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #night-markets-tabs:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #night-markets-section .nm-stage:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #night-markets-section .nm-map:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-map:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host .nm-stage:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host .nm-map:not(#_x) {
+  height:calc(100dvh - var(--tt2-sitebar-height,104px) - 147px)!important;
+  max-height:calc(100dvh - var(--tt2-sitebar-height,104px) - 147px)!important;
+}
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #night-markets-tabs:not(#_x),
+html.tt2-fidelity[data-tt-view='city-walk'] #guide #walk-area-host:not(#_x) {margin-top:6px!important;}
