@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.101 — js/tt2-dict.js: 料理辞典: the bottom sheet
+/* TABI TAIPEI v2.0.120 — js/tt2-dict.js: 料理辞典: the bottom sheet
    Was js/figma-dict-v245.js until 2.0.101 (cleanup phase 3). */
 /* TABI TAIPEI v2.0.45 — 料理辞典 V4 (Figma 「料理辞典 V4-a / b / c」, 2026-11-11).
  * The dictionary drawer becomes a bottom sheet (css/figma-dict-v245.css) and shows one of
@@ -46,7 +46,7 @@
   titles.append(title, sub);
   head.append(titles, close);
   panel.prepend(grab, head);
-  input.placeholder = '料理名・漢字で検索（スペースで複数）';
+  input.placeholder = '料理名・漢字で検索';
 
   // The original shortcuts are emoji buttons in a pop-up; here they are one row of words
   // (kanji in the serif) that press the same buttons, so their toggling stays as it was.

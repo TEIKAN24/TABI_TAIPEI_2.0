@@ -268,7 +268,7 @@ body.food-swipe-dragging .food-drawer-backdrop {transition:none!important;}
 #guide #food-search.food-drawer::after {
   top:auto!important;bottom:0!important;
   height:calc(26px + env(safe-area-inset-bottom, 0px))!important;
-  background:linear-gradient(to top,#0D0D0D 0%,transparent 100%)!important;
+  background:linear-gradient(to top,#000 0%,rgba(0,0,0,0) 100%)!important;
 }
 body.food-swipe-active #guide #food-search.food-drawer::before,
 body.food-swipe-active #guide #food-search.food-drawer::after {opacity:0!important;}
@@ -515,7 +515,7 @@ html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-list {position:relativ
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-list::before {content:none!important;}
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .food-list::after {
   content:'';position:absolute;left:0;right:0;bottom:0;height:90px;pointer-events:none;z-index:3;
-  background:linear-gradient(to bottom,rgba(17,17,17,0),#111);
+  background:linear-gradient(to bottom,rgba(0,0,0,0),#000); /* v2.0.120: black (was #111, which read as grey) */
 }
 html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .results-head {
   display:flex!important;justify-content:flex-start!important;align-items:baseline!important;gap:8px!important;
