@@ -896,31 +896,6 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
 .site-content .area-directory-section .area-intro-description {
   margin:0;color:#AEBCC5;font-size:12px;line-height:1.65;
 }
-.site-content .area-directory-section .tab-panel > .area-category-list {
-  margin:0;padding:0;overflow:hidden;
-  background:#222D35;border:1px solid #3C4951;border-radius:12px;
-}
-.site-content .area-directory-section .tab-panel .area-category-list > details.nested-accordion {
-  margin:0;border:0;border-bottom:1px solid #35414A;border-radius:0;
-  background:transparent;box-shadow:none;
-}
-.site-content .area-directory-section .tab-panel .area-category-list > details.nested-accordion:last-child {
-  border-bottom:0;
-}
-.site-content .area-directory-section .tab-panel .area-category-list > details.nested-accordion > summary {
-  padding:13px 36px 13px 14px;
-  font-size:13px;line-height:1.5;
-  background:transparent;
-}
-.site-content .area-directory-section .tab-panel .area-category-list > details.nested-accordion > summary h4 {
-  margin:0;font-size:13px;line-height:1.5;font-weight:690;
-}
-.site-content .area-directory-section .tab-panel .area-category-list > details.nested-accordion[open] > summary {
-  border-bottom:1px solid #35414A;
-}
-.site-content .area-directory-section .tab-panel .area-category-list > details.nested-accordion > .indented {
-  padding:3px 2px 12px;
-}
 @media(max-width:365px){
   .site-content .area-directory-section .area-intro-description {font-size:11.5px;}
 }
@@ -1248,7 +1223,6 @@ html, body, .nav-button, .site-content a:not(:where(#taipei-recommender *)), .si
 .site-content .area-directory-section .tab-panel,.site-content .area-directory-section .area-category-list {
   overflow-anchor:none;
 }
-.site-content .area-directory-section .area-category-list > details[open] > summary{color:#FAFAFA!important;box-shadow:inset 2px 0 0 #EAEAEA}
 
 /* =================== CSS 22: nightmarket-and-editorial-tags-20261015 =================== */
 

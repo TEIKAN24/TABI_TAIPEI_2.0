@@ -330,7 +330,6 @@
 }
 #guide #night-markets-section #night-markets-tabs .nm-detail-body > .nm-lead {margin:12px 0 0!important;}
 #guide #night-markets-section #night-markets-tabs .nm-detail-body > .nm-info {margin:26px 0 0!important;}
-#guide #night-markets-section .nm-detail-body > .nm-gap {flex:1 1 0;min-height:24px;}
 #guide #night-markets-section #night-markets-tabs .nm-detail-body > .nm-feature-label {margin:0 0 10px!important;}
 #guide #night-markets-section #night-markets-tabs .nm-detail-body > .nm-go {flex:none;margin:0!important;}
 #guide #night-markets-section .nm-fallback {padding:22px;cursor:auto;}
@@ -356,49 +355,7 @@
   --nm-me-rgb:242,242,242;--nm-glow:138,158,122;--nm-glow-strength:1;
 }
 #guide #walk-area-host #walk-area-map .nm-title {margin:0!important;font-size:20px!important;font-weight:800!important;line-height:1.3!important;letter-spacing:.02em;color:#F2F2F2!important;}
-#guide #walk-area-host #walk-area-map .nm-lead {margin:14px 0 0!important;font-size:13px!important;line-height:1.75!important;color:#8E8E8E!important;}
-#guide #walk-area-host #walk-area-map .nm-info {display:grid;grid-template-columns:auto 1fr;column-gap:26px;row-gap:9px;margin:30px 0 0!important;padding:0;}
-#guide #walk-area-host #walk-area-map .nm-info dt {margin:0;font-size:14px;line-height:1.5;color:#DADADA!important;font-weight:500;white-space:nowrap;}
-#guide #walk-area-host #walk-area-map .nm-info dd {margin:0;font-size:14px;line-height:1.5;color:#EDEDED!important;letter-spacing:.03em;display:flex;flex-wrap:wrap;align-items:center;gap:4px 12px;}
 #guide #walk-area-host #walk-area-map .nm-station {display:inline-flex;align-items:center;gap:5px;}
-#guide #walk-area-host #walk-area-map .nm-line {
-  display:inline-flex;align-items:center;justify-content:center;min-width:28px;height:18px;padding:0 4px;box-sizing:border-box;
-  border:2px solid var(--nm-line);border-radius:6px;background:#FFFFFF;color:#1A1A1A;font-size:10.5px;font-weight:800;line-height:1;letter-spacing:0;
-}
-#guide #walk-area-host #walk-area-map .nm-exit {display:inline-flex;align-items:center;gap:3px;}
-#guide #walk-area-host #walk-area-map .nm-exit-no {
-  display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:18px;padding:0 3px;box-sizing:border-box;
-  background:#FFD200;color:#111111;font-size:12px;font-weight:800;line-height:1;
-}
-#guide #walk-area-host #walk-area-map .nm-feature-label {margin:30px 0 10px!important;font-size:14px!important;line-height:1.4!important;color:#DADADA!important;}
-#guide #walk-area-host #walk-area-map .nm-features {display:flex;flex-wrap:wrap;gap:7px;margin:0!important;padding:0!important;list-style:none!important;}
-#guide #walk-area-host #walk-area-map .nm-features li {margin:0!important;padding:5px 10px!important;border-radius:6px;background:#333333!important;color:#BDBDBD!important;font-size:13px;line-height:1.35;list-style:none!important;}
-#guide #walk-area-host #walk-area-map .nm-features li::before,
-#guide #walk-area-host #walk-area-map .nm-features li::marker {content:none!important;}
-#guide #walk-area-host #walk-area-map .nm-go {display:flex;align-items:center;justify-content:center;margin:44px 0 6px;background:#F3F3F3!important;color:#151515!important;font-size:16px;font-weight:800;letter-spacing:.06em;text-decoration:none!important;-webkit-tap-highlight-color:transparent}
-#guide #walk-area-host #walk-area-map .nm-go:focus-visible {outline:2px solid #CCCCCC;outline-offset:3px;}
-#guide #walk-area-host #walk-area-map .nm-specialty-label {margin:18px 0 8px!important;}
-#guide #walk-area-host #walk-area-map .nm-specialties {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:0!important;padding:0!important;list-style:none!important;}
-#guide #walk-area-host #walk-area-map .nm-specialties>li {align-items:center;justify-content:center;margin:0!important;box-sizing:border-box;border-radius:6px;color:#EEEEEE!important;font-size:clamp(13.5px,4vw,15px)!important;font-weight:500;line-height:1.3!important;text-align:center;letter-spacing:.02em;overflow-wrap:anywhere;list-style:none!important}
-#guide #walk-area-host #walk-area-map .nm-specialties>li::before,
-#guide #walk-area-host #walk-area-map .nm-specialties>li::marker {content:none!important;}
-#guide #walk-area-host #walk-area-map .nm-specialties + .nm-go {margin-top:14px!important;}
-#guide #walk-area-host #walk-area-map .nm-specialties>li {display:block!important;min-height:0!important;padding:0!important;background:none!important;}
-#guide #walk-area-host #walk-area-map .nm-specialty {display:flex;align-items:center;justify-content:center;width:100%;margin:0;box-sizing:border-box;border:0;border-radius:6px;background:#3A3A3A;color:#EEEEEE;cursor:pointer;-webkit-tap-highlight-color:transparent;font:inherit;font-size:clamp(13.5px,4vw,15px);font-weight:500;line-height:1.3;letter-spacing:.02em;text-align:center;overflow-wrap:anywhere;transition:background-color .15s ease}
-#guide #walk-area-host #walk-area-map .nm-specialty:active {background:#4A4A4A;}
-#guide #walk-area-host #walk-area-map .nm-specialty:focus-visible {outline:2px solid #CCCCCC;outline-offset:2px;}
-@media (hover:hover){
-#guide #walk-area-host #walk-area-map .nm-specialty:hover {background:#444444;}
-}
-#guide #walk-area-host #walk-area-map .night-market-panel > .nm-info {margin-bottom:30px!important}
-#guide #walk-area-host #walk-area-map .night-market-panel > .nm-info + .nm-feature-label {margin-top:auto!important}
-#guide #walk-area-host #walk-area-map .nm-specialty {min-height:41.4px;padding:5.4px 2.7px}
-#guide #walk-area-host #walk-area-map .nm-go {min-height:50.4px}
-#guide #walk-area-host #walk-area-map .nm-go {border-radius:7px;}
-#guide #walk-area-host #walk-area-map .nm-specialty {
-  text-decoration-line:underline!important;text-decoration-style:solid!important;text-decoration-thickness:1px!important;
-  text-underline-offset:4px!important;text-decoration-color:#BDBDBD!important;
-}
 #guide #walk-area-host .nm-stage {position:relative;height:600px;overflow:clip;}
 #guide #walk-area-host .nm-sr {position:absolute!important;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0;}
 #guide #walk-area-host .nm-map {
@@ -533,8 +490,6 @@
   position:absolute;inset:0;display:flex;flex-direction:column;
   opacity:0;visibility:hidden;transform:translateY(10px);transition:opacity .24s ease,transform .24s ease,visibility 0s .24s;
 }
-#guide #walk-area-host .nm-stage[data-view="detail"] .nm-map {opacity:0;visibility:hidden;transform:scale(.985);transition:opacity .22s ease,transform .22s ease,visibility 0s .22s;}
-#guide #walk-area-host .nm-stage[data-view="detail"] .nm-detail {opacity:1;visibility:visible;transform:none;transition:opacity .3s ease .05s,transform .3s ease .05s;}
 #guide #walk-area-host .nm-measure {position:absolute;left:0;top:0;visibility:hidden;pointer-events:none;}
 #guide #walk-area-host .nm-measure .tab-pills {overflow:hidden;}
 #guide #walk-area-host .nm-detail-head {flex:none;display:flex;align-items:center;gap:4px;padding:10px 18px 6px 8px;}
@@ -548,24 +503,6 @@
   position:relative;flex:1;min-height:0;display:flex;flex-direction:column;
   padding:0 22px 20px;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
 }
-#guide #walk-area-host .nm-detail-body > :not(.nm-glow) {position:relative;z-index:1;}
-#guide #walk-area-host .nm-glow {
-  position:sticky;top:0;display:block;flex:none;height:56px;margin:0 -22px -56px;pointer-events:none;z-index:0;
-  background:linear-gradient(to bottom,
-  rgba(var(--nm-glow),calc(.92 * var(--nm-glow-strength))) 0,
-  rgba(var(--nm-glow),calc(.5 * var(--nm-glow-strength))) 22%,
-  rgba(var(--nm-glow),calc(.18 * var(--nm-glow-strength))) 52%,
-  rgba(var(--nm-glow),0) 100%);
-  -webkit-mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
-  mask-image:linear-gradient(to right,transparent 0,rgba(0,0,0,.35) 4%,#000 14%,#000 86%,rgba(0,0,0,.35) 96%,transparent 100%);
-  filter:blur(2px);
-  animation:walk-glow-in .45s ease-out both;
-}
-#guide #walk-area-host #walk-area-map .nm-detail-body > .nm-lead {margin:12px 0 0!important;}
-#guide #walk-area-host #walk-area-map .nm-detail-body > .nm-info {margin:26px 0 0!important;}
-#guide #walk-area-host .nm-detail-body > .nm-gap {flex:1 1 0;min-height:24px;}
-#guide #walk-area-host #walk-area-map .nm-detail-body > .nm-feature-label {margin:0 0 10px!important;}
-#guide #walk-area-host #walk-area-map .nm-detail-body > .nm-go {flex:none;margin:0!important;}
 #guide #walk-area-host .nm-fallback {padding:22px;cursor:auto;}
 #guide #walk-area-host .nm-fallback-note {margin:0 0 14px!important;font-size:13px!important;color:#8E8E8E!important;}
 #guide #walk-area-host .nm-fallback ul {display:flex;flex-wrap:wrap;gap:8px;margin:0!important;padding:0!important;list-style:none!important;}
@@ -576,7 +513,6 @@
 @media (prefers-reduced-motion:reduce){
 #guide #walk-area-host .nm-me-core {animation:none;opacity:1;box-shadow:0 0 10px 3px rgba(var(--nm-me-rgb),.4);}
 #guide #walk-area-host .nm-me-wave {animation:none;opacity:0;}
-#guide #walk-area-host .nm-glow {animation:none;}
 #guide #walk-area-host :is(.nm-map,.nm-detail) {transition:none!important;}
 }
 
