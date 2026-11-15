@@ -158,10 +158,7 @@ function tabiSpotMap(cfg) {
         const li = node('li');
         const chip = node('button', {type: 'button', class: 'nm-specialty', 'data-food-query': str(s.query) || label,
           'aria-label': label + 'を料理辞典で見る'}, label);
-        // v2.0.112 (Figma N2A): a pill with a chevron
-        const more = svg('svg', {class: 'nm-specialty-more', viewBox: '0 0 7 12', width: 7, height: 12, 'aria-hidden': 'true', focusable: 'false'});
-        more.append(svg('path', {d: 'M1 1L6 6L1 11', fill: 'none', stroke: 'currentColor', 'stroke-width': 1.2}));
-        chip.append(more);
+        // v2.0.130: the pill's chevron is gone (it was added in 2.0.112, Figma N2A)
         li.append(chip);
         ul.append(li);
       });
