@@ -599,12 +599,13 @@ html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-none-hint {margin:3px 
 
 /* v2.0.103 — 料理辞典 V4-b glass style (Figma 277:1406), as the user settled it: the sheet's skin is
    not black, only glass (the page blurs through it), and the page behind darkens 30 %
-   (was brightness .68 and a solid #111 sheet). Border, corners and cards are unchanged. */
+   (was brightness .68 and a solid #111 sheet). Border, corners and cards are unchanged.
+   v2.0.114: the page behind darkens 50 % (as 空港アクセス's). */
 html.tt2-fidelity #guide #food-search.tt2d.is-floating:not(#_a) {
   background:transparent!important;
   -webkit-backdrop-filter:blur(20px)!important;backdrop-filter:blur(20px)!important;
 }
 html.tt2-fidelity body:not(#_a) .food-drawer-backdrop,
 html.tt2-fidelity body.food-drawer-settled:not(#_a) .food-drawer-backdrop {
-  -webkit-backdrop-filter:brightness(.7)!important;backdrop-filter:brightness(.7)!important;
+  -webkit-backdrop-filter:brightness(.5)!important;backdrop-filter:brightness(.5)!important;
 }
