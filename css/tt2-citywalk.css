@@ -735,3 +735,84 @@ html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.walk-inline-g
   position:relative!important;z-index:3;min-height:46px;margin:-46px 0 var(--walk-cta-low,20px)!important;border-radius:100px!important;
   background:#f2f2f2!important;color:#111!important;-webkit-text-fill-color:#111;font-size:15px!important;font-weight:700!important;letter-spacing:0;
 }
+
+/* ════════ v2.0.117 — 夜市 / 商圏 details per 詳細頁提案 (Figma 306–309:1752), as the user chose ════════
+   夜市: proposal A (one spacing scale 8·12·16·20·24·32, 11px labels +.06em, 13/22 reading text, 44px touch
+   areas, the spare height above the pill) with B's 営業時間 / 混雑時間帯 block and C's outlined pill.
+   商圏: proposal A with the user's edits (lead right under the title, the wheel 20px below it, 「掲載 N件」
+   10px under the wheel; the site's own endless wheel), C's pill, 予約 as in 体験's lists. */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-head {padding:22px 20px 0 4px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-back {position:relative;width:20px;height:44px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-back::before {content:'';position:absolute;inset:0 -12px 0 -16px;} /* 48×44 */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-title {line-height:26px!important;letter-spacing:.02em!important;word-break:keep-all;overflow-wrap:anywhere;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-lead {margin:12px 0 0!important;line-height:22px!important;letter-spacing:.02em;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-info {grid-template-columns:80px minmax(0,1fr);margin:24px 0 0!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > :is(dt,dd) {min-height:44px;padding:10px 0;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > dt {padding-right:0;font-size:11px;line-height:16px;letter-spacing:.06em;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-info > dd {font-size:14px;line-height:20px;letter-spacing:.02em;color:#ededed!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-line {color:var(--nm-line-ink,#fff);}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-exit {font-size:13px;color:#bdbdbd;}
+/* 営業時間 / 混雑時間帯 (B) */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when {display:grid;grid-template-columns:1.35fr 1fr;border-top:1px solid #3e3e3e;border-bottom:1px solid #3e3e3e;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-cell {padding:10px 0;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-cell + .nm-when-cell {padding-left:14px;border-left:1px solid #3e3e3e;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-label {margin:0!important;font:400 11px/16px var(--tt2-ui)!important;letter-spacing:.06em;color:#8a8a8a!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-time {display:block;margin-top:4px;font:500 17px/24px var(--tt2-ui);letter-spacing:.01em;color:#fff;font-variant-numeric:tabular-nums;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-note {display:block;margin-top:2px;font:400 11px/16px var(--tt2-ui);letter-spacing:.04em;color:#8a8a8a;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-note.is-alert {font-weight:600;color:#d0645c;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-when-value {display:block;margin-top:4px;font:400 14px/24px var(--tt2-ui);color:#ededed;}
+/* 特徴 / 名物 */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-feature-label {margin:32px 0 6px!important;line-height:16px!important;letter-spacing:.06em;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-features li {font-size:13px;line-height:22px;letter-spacing:.02em;color:#bdbdbd!important;white-space:nowrap;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-features {gap:0 6px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-specialty-label {margin:20px 0 8px!important;padding-top:20px;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-specialty {position:relative;height:36px;gap:6px;padding:0 12px 0 14px;line-height:18px;letter-spacing:.02em;color:#ededed!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-specialty::before {content:'';position:absolute;inset:-4px 0;} /* 44px tall */
+/* the spare height sits above the pill; the pill (C) is outlined */
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > :has(+ .nm-go) {margin-bottom:24px!important;}
+html.tt2-fidelity #guide :is(#night-markets-tabs,#walk-area-map) .nm-detail:not(#_n1):not(#_n2) .nm-detail-body > .nm-go {
+  margin:auto 0 var(--nm2-cta-low)!important;box-sizing:border-box;border:1px solid #fff!important;background:#000!important;color:#fff!important;
+  font-size:14px;font-weight:400;letter-spacing:.08em;
+}
+
+/* 商圏 */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-top {padding:22px 0 0 4px!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-back {position:relative;height:44px;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-back::before {content:'';position:absolute;inset:0 -12px 0 -16px;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-heading {line-height:26px;letter-spacing:.02em;word-break:keep-all;overflow-wrap:anywhere;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-description {margin:0 0 0 -4px!important;line-height:22px;letter-spacing:.02em!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-inline-host {margin-top:20px;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .walk-count {flex:none;margin:0!important;padding:12px 4px 2px;font:400 10px/14px var(--tt2-ui);color:#9e9e9e;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .area-cat-panes {margin-top:0!important;}
+/* rows: one grid — number | name over tags | 予約; the whole row opens the place (its name link) */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) li.venue-row {
+  position:relative;display:grid!important;grid-template-columns:24px minmax(0,1fr) auto;gap:3px 8px!important;align-items:start;
+  min-height:48px!important;padding:13px 4px 12px!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) :is(.venue-row-body,.venue-name-line) {display:contents!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-row-index {grid-column:1;grid-row:1;font:400 11px/22px 'Noto Serif JP',serif!important;color:#8a8a8a!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-primary-links {grid-column:2;grid-row:1;font-size:16px;line-height:22px!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.venue-main-link {line-height:22px!important;letter-spacing:.01em!important;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.venue-main-link::after {content:''!important;position:absolute;inset:0;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-tag-list {grid-column:2;grid-row:2;}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-tag-list .venue-tag {line-height:16px!important;letter-spacing:.02em!important;}
+/* 予約: the 体験 list's link (outlined capsule, 11px, the link arrow), on the right, centred */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-secondary-links {
+  grid-column:3;grid-row:1 / span 2;align-self:center;position:relative!important;z-index:1;inset:auto!important;transform:none!important;
+  display:flex!important;flex-direction:column;align-items:flex-end;gap:6px;width:auto!important;margin:0!important;padding:0!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-secondary-links a {
+  position:relative;display:inline-flex!important;align-items:center!important;gap:4px!important;width:auto!important;height:auto!important;min-width:0!important;
+  margin:0!important;padding:5px 10px 5px 11px!important;border:1px solid #464646!important;border-radius:100px!important;background:none!important;box-shadow:none!important;
+  font:400 11px/14px var(--tt2-ui)!important;letter-spacing:0!important;color:#9e9e9e!important;-webkit-text-fill-color:#9e9e9e!important;white-space:nowrap!important;text-decoration:none!important;
+}
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-secondary-links a::before {content:''!important;position:absolute!important;inset:-10px -8px!important;display:block!important;background:none!important;border:0!important;} /* 44px tall touch */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) .venue-secondary-links a::after {
+  content:''!important;display:block!important;flex:none;width:9px;height:9px;margin:0!important;position:static!important;
+  background:currentColor!important;border:0!important;transform:none!important;
+  -webkit-mask:url('../assets/figma/icons/link-arrow.svg') center/9px 9px no-repeat;mask:url('../assets/figma/icons/link-arrow.svg') center/9px 9px no-repeat;
+}
+/* the pill (C): outlined, on black so the list never shows through it */
+html.tt2-fidelity #guide .walk-inline-detail:not(#_w1):not(#_w2) a.walk-inline-go.walk-go-bottom {
+  border:1px solid #fff!important;background:#000!important;color:#fff!important;-webkit-text-fill-color:#fff;font-size:14px!important;font-weight:400!important;letter-spacing:.08em;
+}
