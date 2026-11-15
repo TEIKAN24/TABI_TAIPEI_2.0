@@ -51,7 +51,7 @@
     switching = null;
   }
   addEventListener('click', e => {
-    if (reduce.matches || !(e.target instanceof Element)) return;
+    if (reduce.matches || window.tt2Resetting || !(e.target instanceof Element)) return; // js/tt2-reset.js clicks unseen
     const control = e.target.closest(SWITCH);
     if (!control || !guide.contains(control)) return;
     // 3. the wheel: no motion. 味わい 一覧 rebuilds its summary (and so its glow) on every turn:

@@ -4073,6 +4073,8 @@ update();
     focusOrigin=null;
     if(!quiet)keepInView();
   };
+  // v2.0.119 (js/tt2-reset.js): leaving 散策 or 商圏 closes the area and forgets the categories chosen
+  document.addEventListener('tt2:reset-places',()=>{back({quiet:true});remembered.clear();});
   const show=(index,trigger,fromKeyboard=false)=>{
     if(index===active){back({restoreFocus:true});return;}
     if(active===-1)focusOrigin=trigger;
