@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.121 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
+/* TABI TAIPEI v2.0.122 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
    Tried out first in experiments/hints (the lab, not published).
    One hint per kind of control, shown the first time that control is on screen anywhere on the
    site (the wheel: on whichever page a wheel is first met), never again (localStorage). It appears
@@ -146,7 +146,7 @@
   }
   const chip = () => [...document.querySelectorAll('#food-search .tt2d-chip')].find(c => c.textContent === '蟹粉小籠包') || dq('.tt2d-chip');
   const DICT_STEPS = [
-    {text: '料理名・漢字を入力して検索', side: 'above', find: () => dq('.search-shell'),
+    {text: '料理名を入力して検索（中国語・日本語どちらでも）', side: 'above', find: () => dq('.search-shell'),
       async run(el) { ripple(el.querySelector('.search-svg') || el, 36, 1); await pause(700); await typeIn('小籠包'); await pause(700); }},
     {text: 'いちばん近い料理の説明', side: 'below', find: () => dq('.tt2d-card'), spot: () => [dq('.tt2d-card')],
       async run() { await pause(500); }},
@@ -155,7 +155,7 @@
       async run() {
         const el = chip(); if (!el) return;
         ripple(el, 40, 1); await pause(1300);
-        el.click(); target = dq('.tt2d-chips') || target;   // the chips are drawn anew
+        ripple(el, 40, 1); el.click(); target = dq('.tt2d-chips') || target;   // a ring as it is tapped; the chips are drawn anew
         spots = () => [dq('.tt2d-card'), dq('.tt2d-chips')]; await pause(900);
       }},
     {text: 'スペースで区切ると、複数まとめて調べられます', side: 'above', find: () => dq('.search-shell'), spot: () => [dq('.search-shell'), dq('.tt2d-view')],
@@ -201,7 +201,7 @@
     tourOn = false; demo = false; spots = null;
     tourNow?.end?.(); tourNow = null;
     block.hidden = true;
-    const out = () => { dim.hidden = true; tip.classList.remove('is-tour', 'has-step'); };
+    const out = () => { dim.hidden = true; tip.classList.remove('is-tour', 'has-step'); tip.querySelector('.tt2-hint-step').textContent = ''; };
     if (reduce.matches) out(); else dim.animate([{opacity: 1}, {opacity: 0}], {duration: 220, easing: 'ease-out'}).finished.then(out, out);
     hide();
   }

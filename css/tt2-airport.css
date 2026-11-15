@@ -1114,3 +1114,16 @@ html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-
 html.tt2-fidelity.tt2-airsheet:not([data-tt-airsheet-off]) #tt2-airport-sheet #airport-route-selector .facts {margin-top:clamp(12px, calc(100cqh - 630px), 23px)!important;}
 html.tt2-fidelity.tt2-airport-open[data-tt-view='travel'] #guide #airport-route-selector .footnote,
 html.tt2-fidelity.tt2-airsheet:not([data-tt-airsheet-off]) #tt2-airport-sheet #airport-route-selector .footnote {margin-top:clamp(16px, calc(100cqh - 637px), 36px)!important;}
+
+/* v2.0.122: a field still to choose (出発地を選択 / 目的地を選択) breathes — its words brighten and glow,
+   then settle, every 2.4s — to show where to tap; it stops once something is chosen (guide.js drops
+   .is-empty). The words' colour is set !important above, so the breath is a filter. */
+@keyframes tt2-air-breathe {
+  0%, 100% {filter:brightness(1) drop-shadow(0 0 0 rgba(255,255,255,0));}
+  50% {filter:brightness(1.75) drop-shadow(0 0 6px rgba(255,255,255,.45));}
+}
+html.tt2-fidelity #airport-route-selector .selrow.is-empty select.sel-value:not(#_x) {animation:tt2-air-breathe 2.4s ease-in-out infinite;}
+html.tt2-fidelity #airport-route-selector .selrow.is-empty select.sel-value:not(#_x):focus {animation:none;}
+@media (prefers-reduced-motion:reduce) {
+  html.tt2-fidelity #airport-route-selector .selrow.is-empty select.sel-value:not(#_x) {animation:none;}
+}
