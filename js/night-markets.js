@@ -1231,6 +1231,12 @@ function tabiSpotMap(cfg) {
       else if (!start()) sizeWaiter = start;
     }).catch(showFallbackList);
   }
+  // v2.0.119 (js/tt2-reset.js): leaving 散策 or its 夜市 / 商圏 tab — no detail page; with {map: true}
+  // (leaving the chapter) the map also goes back to the view it opens with.
+  document.addEventListener('tt2:reset-places', e => {
+    if (stage.dataset.view === 'detail') setView('map');
+    if (e.detail?.map && W) { stopMotion(); intro(); }
+  });
   function onClose() { introToken++; stopMotion(); sizeWaiter = null; }
   new ResizeObserver(() => {
     if (!isLive()) return;

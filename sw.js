@@ -18,7 +18,7 @@
    Maintenance: nothing is required. If a file is renamed or removed, the old entry
    simply drops out at the next daily check. */
 'use strict';
-const CACHE = 'tabi-taipei-2.0-stage1-v2.0.118';
+const CACHE = 'tabi-taipei-2.0-stage1-v2.0.119';
 const DAY = 24 * 60 * 60 * 1000;
 const PRECACHE = [
   'assets/figma/side-v227/chapter-01.svg',
@@ -156,6 +156,7 @@ const PRECACHE = [
   'css/tt2-airsheet.css',
   'js/tt2-home.js',
   'js/tt2-motion.js',
+  'js/tt2-reset.js',
   'js/tt2-type.js',
   'assets/figma/outlines/type/name-emergency.svg',
   'assets/figma/outlines/type/name-sights.svg',
