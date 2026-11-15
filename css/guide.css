@@ -1251,17 +1251,6 @@ html, body, .nav-button, .site-content a:not(:where(#taipei-recommender *)), .si
 
 /* Drinks and night markets share the same in-list focus treatment as area directories.
    Do not change other food bubbles or make the entire page a nested scrollport. */
-.site-content .venue-directory-section .tab-panel.guided-focus-panel {
-  scroll-padding-top:10px;
-  overflow-anchor:none;
-}
-.site-content .venue-directory-section .tab-panel.guided-focus-panel > .indented {
-  overflow-anchor:none;
-}
-.site-content .venue-directory-section .tab-panel.guided-focus-panel > .indented > details[open] > summary {
-  color:#FAFAFA!important;
-  box-shadow:inset 2px 0 0 #EAEAEA;
-}
 
 /* =================== CSS 24: daytrips-editorial-redesign-20261015 =================== */
 
@@ -2619,36 +2608,13 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 /* Short scrollports: first three complete options plus part of a fourth.
    Gradient is only present while there is more content below. */
 
-#guide .venue-directory-section .tab-panel.four-row-teaser.teaser-can-scroll:not([data-teaser-end="true"]){
-  -webkit-mask-image:linear-gradient(to bottom, #000 0%,#000 73%,transparent 100%)!important;
-  mask-image:linear-gradient(to bottom, #000 0%,#000 73%,transparent 100%)!important;
-}
-#guide .venue-directory-section .tab-panel.four-row-teaser[data-teaser-end="true"]{
-  -webkit-mask-image:none!important;mask-image:none!important;
-}
 /* Expanded dish descriptions retain the original sentence, with an explicit new
    second paragraph containing up to 50 Japanese characters of added context. */
 
 /* =================== v30.9.46 — pinned directory headings & scroll hints =================== */
 /* The region's title and the selected bubble bar live outside the scrolling
    rows: only the results themselves scroll, not the entire tab panel. */
-#guide .venue-directory-section .tab-panel.four-row-teaser{overflow-y:auto!important;overscroll-behavior:contain;max-height:none!important;overflow:visible!important;-webkit-mask-image:none!important;mask-image:none!important}
-#guide .venue-directory-section .tab-panel.four-row-teaser > .teaser-scroll-body{
-  min-height:0;
-  overflow-y:auto!important;
-  overflow-x:hidden!important;
-  overscroll-behavior-y:contain;
-  overflow-anchor:none;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:thin;
-  scrollbar-color:#646464 transparent;
-
-}
 /* Mask only the rows (never the region title) until the actual scroll-end. */
-#guide .venue-directory-section .tab-panel.four-row-teaser > .teaser-scroll-body[data-teaser-end="true"]{
-  -webkit-mask-image:none!important;
-  mask-image:none!important;
-}
 /* Recommendation-list active pills settle in the second slot, leaving half
    the preceding bubble visible through a subtle left-edge fade. */
 #guide .venue-directory-section:not(.area-directory-section) .tab-pills::after{
@@ -2681,9 +2647,6 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 }
 
 /* =================== v30.9.47 — list heading transition and frameless theme toggle =================== */
-#guide .venue-directory-section .tab-panel.four-row-teaser > .teaser-scroll-body{
-  scroll-behavior:smooth;
-}
 /* Retain a touch-friendly target but never draw the button's old circular
    backdrop/border/outline while it is being pressed or focused. */
 .hero.wrapper .theme-preview-toggle,.hero.wrapper .theme-preview-toggle:hover,.hero.wrapper .theme-preview-toggle:active,.hero.wrapper .theme-preview-toggle:focus,.hero.wrapper .theme-preview-toggle:focus-visible{
@@ -2695,52 +2658,12 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 }
 /* Keyboard focus highlights only the pictogram, never a circle around it. */
 .hero.wrapper .theme-preview-toggle:focus-visible svg{opacity:1;filter:drop-shadow(0 0 2px currentColor);}
-@media(prefers-reduced-motion:reduce){
-  #guide .venue-directory-section .tab-panel.four-row-teaser > .teaser-scroll-body{scroll-behavior:auto!important;}
-}
 
 /* ================= v30.9.48: pinned directory heading and animated food detail ================= */
 /* Expanded heading lives OUTSIDE the inner list scrollport, beneath the pills
    and any region intro. Only the content below it scrolls or fades. */
-#guide .venue-directory-section .tab-panel > .guided-fixed-heading{
-  position:relative;z-index:2;
-  margin:0;
-  padding:0;
-  max-height:0;
-  overflow:hidden;
-  opacity:0;
-  transform:translateY(7px);
-  transition:opacity .27s ease,transform .32s cubic-bezier(.22,1,.36,1),
-    max-height .32s ease,margin .32s ease;
-}
-#guide .venue-directory-section .tab-panel > .guided-fixed-heading.is-active{
-  opacity:1;transform:translateY(0);
-  max-height:80px;
-  margin:7px 0 2px;
-}
-#guide .venue-directory-section .tab-panel > .guided-fixed-heading > button{
-  width:100%;box-sizing:border-box;display:flex;align-items:center;
-  min-height:41px;padding:10px 28px 10px 12px;
-  border:1px solid var(--line,#414141);border-radius:9px;
-  color:var(--ink,#f6f6f6);background:var(--paper,#202020);
-  font:700 13px/1.45 inherit;text-align:left;cursor:pointer;
-  -webkit-tap-highlight-color:transparent;
-}
-#guide .area-directory-section .tab-panel > .guided-fixed-heading > button{
-  font-size:14px;font-weight:700;
-}
-#guide .venue-directory-section .tab-panel > .guided-fixed-heading > button::after{
-  content:"+";position:absolute;right:13px;top:50%;transform:translateY(-50%) rotate(45deg);line-height:1;
-  color:var(--muted,#a0a0a0);font-size:18px;font-weight:400;
-}
-#guide .venue-directory-section .tab-panel > .guided-fixed-heading > button:focus-visible{
-  outline:2px solid var(--accent,#83d3b0);outline-offset:2px;
-}
 
 /* Keep the faded fourth row below the fixed heading, never fade the heading. */
-#guide .venue-directory-section .tab-panel.four-row-teaser > .teaser-scroll-body{
-  scroll-padding-top:0!important;
-}
 #guide #food-explorer .food-entry-toggle .desc{
   display:grid;
   grid-template-rows:minmax(0,1fr) minmax(0,0fr);
@@ -2766,7 +2689,6 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 /* Grid animation cannot work if the legacy `[hidden]` display:none is set;
    JavaScript now uses aria-hidden while keeping both elements mounted. */
 @media(prefers-reduced-motion:reduce){
-  #guide .venue-directory-section .tab-panel > .guided-fixed-heading,
   #guide #food-explorer .food-entry-toggle .desc,
   #guide #food-explorer .food-desc-preview,
   #guide #food-explorer .food-desc-full{transition:none!important;}
@@ -2852,10 +2774,6 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
     transition:none!important;
   }
 }
-#guide .venue-directory-section .tab-panel.four-row-teaser > .teaser-scroll-body.teaser-can-scroll:not([data-teaser-end="true"]){
-  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 83%,transparent 100%)!important;
-  mask-image:linear-gradient(to bottom,#000 0%,#000 83%,transparent 100%)!important;
-}
 #guide .travel-twac a.external-action-link {
   padding-inline:5px!important;
   gap:3px!important;
@@ -2866,12 +2784,8 @@ body.food-drawer-open .hero.wrapper .theme-preview-toggle{
 
 
 
-#guide .venue-directory-section .tab-panel .teaser-scroll-body > details.guided-title-pinned > summary{visibility:hidden;display:none!important}
 /* Preserve a small reading gap after the pinned title, but not the old summary's
    full-height placeholder. Leave other accordion spacing completely unchanged. */
-#guide .area-directory-section .tab-panel .teaser-scroll-body > details.guided-title-pinned > .indented {
-  margin-top:4px!important;
-}
 
 /* The full document is very tall. Translating it a whole drawer width and
    applying a filter forces the browser to repaint large raster surfaces. */
@@ -2940,9 +2854,6 @@ html:has(body.food-swipe-active)::after{top:auto;bottom:0;height:calc(26px + env
 
 /* v30.9.129 — an open nested menu (e.g. 雑貨) keeps its own title at the top of
    that menu while its items scroll, and lets go when the menu ends. */
-#guide .venue-directory-section .tab-panel .teaser-scroll-body > details[open] > summary{
-  position:sticky;top:0;z-index:3;background:#0D0D0D!important;
-}
 
 #guide hr.chapter-divider{margin:40px 0 28px!important;}
 #guide .chapter-eyebrow{padding:0!important;text-transform:uppercase}
