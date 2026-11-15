@@ -61,7 +61,6 @@
 .tt2-airsheet-body :is(.airport-access-subheading,.airport-mode-name,.airport-route-stop,.airport-fare-amount,.destination-title,.venue-name-line,.area-intro-title,.travel-topic-title):not(.travel-caution *) {color:var(--mono-main)!important}
 .site-content :is(.airport-fare-label,.airport-fare-time,.airport-root-meta,.airport-direction-text small,.destination-pr,.destination-lead,.destination-guide-label,.destination-info-title,.metro-transfer-note,.metro-route-key-item,.venue-row-index,.venue-extra-note,.area-intro-description,.section-note):not(.travel-caution *):not(.travel-twac *) {color:var(--mono-sub)!important}
 .site-content :is(.airport-direction-text strong,.airport-direction-button,.selected-value,.venue-main-link,.section-jump-button):not(#food-explorer *) {color:var(--mono-main)!important}
-.site-content :is(.airport-direction-icon,.airport-direction-indicator,.airport-mode-icon,.section-jump-arrow) {color:var(--mono-body)!important}
 .site-content .airport-direction-switcher :is(.airport-direction-icon,.airport-direction-indicator,.airport-mode-icon),
 .site-content .airport-direction-switcher .airport-access .tab-pill :is(img,.inline-category-icon,.icon),
 .tt2-airsheet-body .airport-direction-switcher .airport-access .tab-pill :is(img,.inline-category-icon,.icon) {filter:none!important;}
