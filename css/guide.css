@@ -320,7 +320,7 @@ a:hover,.site-content a:hover,.site-content a[href^="https://maps.app.goo.gl"]:h
 
 #food-explorer, #food-explorer *, #food-explorer *::before, #food-explorer *::after{ box-sizing: border-box; }
 
-#food-explorer{-webkit-text-size-adjust:100%;--page:#191a1a;--surface:#252727;--text:#f0f2f0;--muted:#aab0ac;--border:#393d3a;--soft:#2d312e;--accent:#83d3b0;--accent-faint:#233c30;--focus:#4bbf8b;font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif}
+#food-explorer{--page:#191a1a;--surface:#252727;--text:#f0f2f0;--muted:#aab0ac;--border:#393d3a;--soft:#2d312e;--accent:#83d3b0;--accent-faint:#233c30;--focus:#4bbf8b;font-family:-apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif}
 
 
 #food-explorer .search-svg{ display: block; color: var(--muted); width: 20px; height: 20px; flex-shrink: 0; }
