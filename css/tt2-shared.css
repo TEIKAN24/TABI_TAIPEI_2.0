@@ -2131,11 +2131,15 @@ html.tt2-fidelity #guide li.venue-row.tt2l-row:not(#_a):not(#_b):not(#_c) > .ven
    the dictionary note above). The header (#tt-sitebar, sticky, z-index 120) is never animated
    and stays above. */
 @media (prefers-reduced-motion:no-preference) {
-  html.tt-fwave.tt-route-chapter #guide:not(.tt-view-hidden) {animation:tt2-chapter-in .6s ease-out .06s backwards!important;}
-  html.tt-fwave.tt-route-chapter[data-tt-view='day-trips'] #guide:not(.tt-view-hidden) {animation:tt2-chapter-in .7s ease-out .18s backwards!important;}
+  html.tt-fwave.tt-route-chapter:not(.tt2-chapter-shown) #guide:not(.tt-view-hidden) {animation:tt2-chapter-in .6s ease-out .06s backwards!important;}
+  html.tt-fwave.tt-route-chapter[data-tt-view='day-trips']:not(.tt2-chapter-shown) #guide:not(.tt-view-hidden) {animation:tt2-chapter-in .7s ease-out .18s backwards!important;}
   @keyframes tt2-chapter-in {from {opacity:0;} to {opacity:1;}}
 }
 html.tt-fwave.tt-route-chapter body:is(.food-swipe-active,.tt2d-on) #guide:not(.tt-view-hidden) {animation:none!important;}
+/* v2.0.115: the fade plays once per arrival. js/tt2-motion.js puts .tt2-chapter-shown on html when it
+   has ended (or when the 料理辞典 stopped it), so closing the sheet does not start it again; going
+   home takes it off. */
+html.tt-fwave.tt-route-chapter.tt2-chapter-shown #guide:not(.tt-view-hidden) {animation:none!important;} /* nor the 1.0 tt-view-appear under it */
 
 /* v2.0.109 — the tab rows a little larger: 12px → 13px; 散策's two tabs (夜市 / 商圏, half the width
    each) 14px. */

@@ -210,7 +210,9 @@
     const found = hits.filter(hit => hit.found.length).length;
     const summary = found === hits.length ? `${hits.length}語すべて見つかりました`
       : found ? `${found}語が見つかりました` : '見つかりませんでした';
-    const frag = [el('p', 'tt2d-summary', `${hits.length}語を検索　·　${summary}`)];
+    const head = el('p', 'tt2d-summary', `${hits.length}語を検索`); // v2.0.115: · as on the rest of the site
+    head.append(el('span', 'tt2d-dot', '·'), summary);
+    const frag = [head];
     for (const hit of hits) {
       const group = el('section', 'tt2d-group');
       const top = el('div', 'tt2d-group-head');
