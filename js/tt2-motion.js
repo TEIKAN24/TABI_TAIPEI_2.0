@@ -1,11 +1,11 @@
-/* TABI TAIPEI v2.0.115 — js/tt2-motion.js: motion between and inside chapters.
+/* TABI TAIPEI v2.0.116 — js/tt2-motion.js: motion between and inside chapters.
    1. Chapter to chapter (the menu, links): #guide fades in like the way in from the home
       (css/tt2-shared.css tt2-chapter-in): 0.6s from 60ms, 遠出 0.7s from 180ms, opacity only.
    2. A chapter's own tabs (名所・博物館 / 撮影スポット / イベント, 現在地 / 駅から探す / 一覧, 夜市 /
       商圏): what appears fades in, 0.4s (1.5× the chapter fade), no movement; 旅支度's 注意事項 /
       入国カード / 交通パス at the chapter speed, 0.6s (v2.0.111); 見所's 名所・博物館 / 撮影スポット / イベント and 遠出's
       four places too (v2.0.115; 遠出's 1.0 slide in guide.js removed). How: a capture listener notes what is on screen before the switch;
-      two frames later the new boxes are faded.
+      each new box is faded as soon as it appears, before it is first drawn (v2.0.116; was two frames late: a blink).
    3. The category wheels (and their pills; 味わい 一覧 too) change the list with no motion; a list only comes in
       with its chapter (v2.0.110, the user's call; was a row-by-row rise).
    4. 味わい: the three restaurants slide in from the left one after another, top to bottom
@@ -37,7 +37,19 @@
   }
 
   /* ---------- 2. a chapter's own tabs ---------- */
-  let before = null, frame = 0, food = false, slow = false, tabInTimer = 0;
+  // v2.0.116: the fade starts before the new content is first drawn. It used to start two frames
+  // after the click, so the new page showed at full strength for a frame and then went to nothing:
+  // a blink. What appears is now caught, always before a paint, (a) right after the click's own
+  // handlers, (b) on each DOM change for 0.5s — MutationObserver callbacks run before the frame is
+  // drawn, which catches pages built a frame later (遠出, 旅支度, イベント's calendar) — and (c) two
+  // frames on, a last look.
+  let switching = null, tabInTimer = 0;
+  const watcher = new MutationObserver(muts => { if (switching) sweep(switching, muts); });
+  function end() {
+    if (!switching) return;
+    watcher.disconnect(); clearTimeout(switching.timer); cancelAnimationFrame(switching.frame);
+    switching = null;
+  }
   addEventListener('click', e => {
     if (reduce.matches || !(e.target instanceof Element)) return;
     const control = e.target.closest(SWITCH);
@@ -46,28 +58,39 @@
     // it stays still until 一覧 or the chapter is opened again
     if (control.closest(WHEEL)) { if (control.closest('.food-directory-tabs, .food-directory-tab')) flipBack?.classList.add('tt2-still'); return; }
     if (control.closest('[data-tt2-food-tab="list"]') && flipBack) { flipBack.classList.add('tt2-still'); requestAnimationFrame(() => requestAnimationFrame(() => flipBack.classList.remove('tt2-still'))); } // 一覧 opened: its glow plays (again)
-    before = visibleSet();
-    food = !!control.closest('[data-tt2-food-tab]');
-    slow = !!control.closest(SLOW);
-    if (slow) { // their own older entrances (イベント's bars growing) stay still: this fade is the only motion
+    end();
+    const s = switching = {before: visibleSet(), faded: new Set(), food: !!control.closest('[data-tt2-food-tab]'), slow: !!control.closest(SLOW), dropped: false};
+    if (s.slow) { // their own older entrances (イベント's bars growing) stay still: this fade is the only motion
       document.documentElement.classList.add('tt2-tab-in');
       clearTimeout(tabInTimer); tabInTimer = setTimeout(() => document.documentElement.classList.remove('tt2-tab-in'), 900);
     }
-    cancelAnimationFrame(frame);
-    frame = requestAnimationFrame(() => { frame = requestAnimationFrame(play); });
+    addEventListener('click', () => sweep(s), {once: true}); // (a) after the handlers (same click, bubbling)
+    watcher.observe(guide, {subtree: true, childList: true, attributes: true, attributeFilter: ['hidden', 'class', 'style', 'aria-hidden', 'open']}); // (b)
+    s.timer = setTimeout(end, 500);
+    s.frame = requestAnimationFrame(() => { s.frame = requestAnimationFrame(() => { // (c)
+      sweep(s);
+      if (s.food && !s.dropped) { s.dropped = true; dropCards(true); }
+    }); });
   }, true);
 
-  function play() {
-    const was = before; before = null;
-    if (!was) return;
-    const fresh = new Set();
-    for (const e of guide.querySelectorAll('*')) if (!was.has(e) && shown(e) && !e.closest(SKIP)) fresh.add(e);
-    if (!fresh.size) { if (food) dropCards(true); return; }
-    const tops = [...fresh].filter(e => { for (let p = e.parentElement; p && p !== guide; p = p.parentElement) if (fresh.has(p)) return false; return true; });
-    // 味わい's own tabs (現在地 / 駅から探す): the three that show come in again
-    if (food || [...fresh].some(e => e.contains?.(results))) dropCards(true);
-    tops.filter(onScreen).forEach(t => t.animate([{filter: 'opacity(0)'}, {filter: 'opacity(1)'}],
-      {duration: slow ? 600 : 400, easing: 'ease-out', fill: 'backwards'}));
+  // fade what is new on screen since the click: each topmost new box once
+  function sweep(s, muts) {
+    if (s !== switching) return;
+    const roots = muts ? [...new Set(muts.map(m => m.target))].filter(n => n.nodeType === 1 && guide.contains(n)) : [guide];
+    const top = e => { let t = e; for (let p = e.parentElement; p && p !== guide && !s.before.has(p); p = p.parentElement) t = p; return t; };
+    for (const r of roots) {
+      for (const e of r === guide ? r.querySelectorAll('*') : [r, ...r.querySelectorAll('*')]) {
+        if (s.before.has(e) || !shown(e)) continue;
+        const t = top(e);
+        if (s.faded.has(t)) continue;
+        s.faded.add(t);
+        if (t.closest(SKIP)) continue;
+        // 味わい's own tabs (現在地 / 駅から探す): the three that show come in again
+        if (!s.dropped && (s.food || t.contains(results))) { s.dropped = true; dropCards(true); }
+        if (onScreen(t)) t.animate([{filter: 'opacity(0)'}, {filter: 'opacity(1)'}],
+          {duration: s.slow ? 600 : 400, easing: 'ease-out', fill: 'backwards'});
+      }
+    }
   }
 
   /* ---------- 1a. the fade from the home plays once ---------- */
