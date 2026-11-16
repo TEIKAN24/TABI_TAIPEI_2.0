@@ -1188,10 +1188,16 @@ function tabiSpotMap(cfg) {
       }, () => resolve(null), {enableHighAccuracy: false, timeout: 15000, maximumAge: 30000});
     });
   }
+  function forget() {                       // v2.0.137: back to the default — no position, no エリア外
+    userPos = null; located = false; outside = false;
+    clearTimeout(toastTimer); toast.classList.remove('is-on');
+    lastScale = NaN;
+  }
   let introToken = 0, sizeWaiter = null;
   function intro() {
     const token = ++introToken;
     interacted = false;
+    forget();   // v2.0.137: nothing kept from before (the position, エリア外)
     // Figma 3-1: render the Taipei-focused first frame immediately for 夜市.
     // Preserve the existing GPS/fallback glide, map bounds, pin interactions and
     // the wider overview used by the 街歩きエリア map (the same map engine).
@@ -1205,8 +1211,8 @@ function tabiSpotMap(cfg) {
     };
     // v2.0.136: no location prompt on opening (it fought the first-time hints) — only ⌖ asks;
     // a position found earlier in this visit is still used.
-    status.textContent = userPos ? '現在地の周辺を表示しています。' : '台北駅の周辺を表示しています。';
-    setTimeout(() => glideTo(userPos || project(...FALLBACK), 2000), 600);
+    status.textContent = '台北駅の周辺を表示しています。';
+    setTimeout(() => glideTo(project(...FALLBACK), 2000), 600);
   }
   // ?debugLocation=1: a new simulated position moves the map there at once.
   document.addEventListener('tabi:debug-location', () => {
@@ -1282,7 +1288,8 @@ function tabiSpotMap(cfg) {
     const token = ++introToken;
     interacted = false;
     const go = pos => { if (token === introToken && !interacted) flyTo({cx: pos[0], cy: pos[1], s: sFocus}, 1900); };
-    go(userPos || project(...FALLBACK));   // v2.0.136: no location prompt here either (only ⌖ asks)
+    forget();                              // v2.0.137: another tab starts afresh too
+    go(project(...FALLBACK));              // v2.0.136: no location prompt here either (only ⌖ asks)
   }
   function swapTo(S) {
     stopMotion(); introToken++;
