@@ -123,7 +123,7 @@
     {id: 'note', text: 'タップで詳しく表示', wait: 2200,
       find: () => first('#guide .tt2-note-summary'),
       motion: el => openClose(el, () => !!el.parentElement?.open)},
-    {id: 'calendar', text: '左右にスワイプで月を切り替え\nタップでカレンダー表示\n長押しのまま指を動かして日付を選ぶ\nダブルタップで今日に戻る', wait: 2400, // v2.0.137: fuller, one move a line
+    {id: 'calendar', text: '左右にスワイプで月を切り替え\nダブルタップで今月に戻る\nタップでカレンダー表示\n長押しのまま指を動かして日付を選ぶ', wait: 2400, // v2.0.137: fuller, one move a line (今月 second)
       find: () => first('#guide #event-calendar .ec-card', list => {
         const s = document.querySelector('#event-calendar .ec-scroller')?.getBoundingClientRect();
         return s ? list.find(c => { const r = c.getBoundingClientRect(); return Math.abs(r.left + r.width / 2 - (s.left + s.width / 2)) < 20; }) : list[0];
