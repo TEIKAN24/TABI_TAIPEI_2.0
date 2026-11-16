@@ -84,15 +84,7 @@
     .observe(document.body, {attributes: true, attributeFilter: ['class']});
 
   const HINTS = [
-    {id: 'menu', text: 'メニューから各章へ', header: true, wait: 2400,
-      find: () => { const m = document.querySelector('#tt-menu-toggle'); return inView(m, true) ? m : null; },
-      motion: el => {          // open the menu once and close it again
-        const open = () => document.documentElement.classList.contains('tt-nav-open');
-        demo = true;
-        if (!open()) el.click();
-        setTimeout(() => { if (open()) el.click(); }, 1700);
-        setTimeout(() => { demo = false; }, 2400);
-      }},
+    // v2.0.134: the menu hint (open and close once) is gone
     {id: 'home', text: 'ロゴをタップでホームへ', header: true,
       find: () => { const b = document.querySelector('.tt-sitebar .tt-brand'); return view() !== 'home' && inView(b, true) ? b : null; },
       motion: el => ripple(el.querySelector('.tt-brand-main') || el, 46)},
