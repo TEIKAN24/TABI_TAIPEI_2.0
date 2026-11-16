@@ -113,7 +113,7 @@
     {id: 'note', text: 'タップで詳しく表示', wait: 2200,
       find: () => first('#guide .tt2-note-summary'),
       motion: el => openClose(el, () => !!el.parentElement?.open)},
-    {id: 'calendar', text: 'タップでカレンダー表示・長押しで日付を選ぶ', wait: 2400,
+    {id: 'calendar', text: 'タップでカレンダー表示\n長押しで日付を選ぶ', wait: 2400, // v2.0.135: two even lines (11pt left 「ぶ」 alone)
       find: () => first('#guide #event-calendar .ec-card', list => {
         const s = document.querySelector('#event-calendar .ec-scroller')?.getBoundingClientRect();
         return s ? list.find(c => { const r = c.getBoundingClientRect(); return Math.abs(r.left + r.width / 2 - (s.left + s.width / 2)) < 20; }) : list[0];

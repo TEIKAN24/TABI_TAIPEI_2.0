@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.134 — css/tt2-hints.css: the first-time hints (js/tt2-hints.js). A small dark capsule with a caret; only the 料理辞典 walk dims the page around its focus. */
+/* TABI TAIPEI v2.0.135 — css/tt2-hints.css: the first-time hints (js/tt2-hints.js). A small dark capsule with a caret; only the 料理辞典 walk dims the page around its focus. */
 .tt2-hint {
   position: fixed; z-index: 400; left: 0; top: 0; max-width: 320px; box-sizing: border-box;
   padding: 9px 14px; border: 1px solid #363636; border-radius: 10px; background: rgba(17,17,17,.94);
@@ -7,6 +7,7 @@
   pointer-events: none; box-shadow: 0 6px 20px rgba(0,0,0,.45);
 }
 .tt2-hint[hidden] {display: none;}
+.tt2-hint-text {white-space: pre-line;} /* v2.0.135: a \n in a hint's text is a line break */
 .tt2-hint-caret {
   position: absolute; left: var(--caret, 50%); bottom: -5px; width: 9px; height: 9px; margin-left: -4.5px;
   background: rgba(17,17,17,.94); border-right: 1px solid #363636; border-bottom: 1px solid #363636; transform: rotate(45deg);
