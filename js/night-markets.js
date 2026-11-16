@@ -1212,7 +1212,8 @@ function tabiSpotMap(cfg) {
     // v2.0.136: no location prompt on opening (it fought the first-time hints) — only ⌖ asks;
     // a position found earlier in this visit is still used.
     status.textContent = '台北駅の周辺を表示しています。';
-    setTimeout(() => glideTo(project(...FALLBACK), 2000), 600);
+    // v2.0.138: 夜市 already opens on 台北駅 — no glide (an empty 2s glide held back the first-time hint's demo)
+    if (!startAtTaipei) setTimeout(() => glideTo(project(...FALLBACK), 2000), 600);
   }
   // ?debugLocation=1: a new simulated position moves the map there at once.
   document.addEventListener('tabi:debug-location', () => {
