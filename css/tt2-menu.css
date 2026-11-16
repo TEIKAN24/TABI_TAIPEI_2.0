@@ -288,6 +288,7 @@ html.tt2-fidelity .tt226-about p:first-of-type {padding-right:36px;}
 html.tt2-fidelity .tt226-about p:last-of-type {margin-bottom:0;}
 html.tt2-fidelity .tt226-about .tt226-about-gap {margin-top:26px;}
 html.tt2-fidelity .tt226-about a {color:inherit;text-decoration:underline;text-underline-offset:2px;}
+html.tt2-fidelity .tt226-about .tt226-about-ver {margin-top:26px;color:#8a8a8a;font-variant-numeric:tabular-nums;letter-spacing:.04em;} /* v2.0.138 */
 html.tt2-fidelity .tt226-about-close {
   position:absolute;right:8px;top:6px;border:0;background:none;color:#fff;
   width:42px;height:42px;font-size:26px;cursor:pointer;
