@@ -938,6 +938,16 @@ function tabiSpotMap(cfg) {
     };
     anim = requestAnimationFrame(step);
   }
+  // v2.0.136: the first-time hint (js/tt2-hints.js) shows the gestures on the map itself:
+  // zoom in, out, a drag to the left, then back to where it was
+  mapEl.tabiReady = () => new Promise(r => { const t0 = performance.now(); const w = () => (anim && performance.now() - t0 < 3000) ? setTimeout(w, 100) : r(); w(); });   // the opening glide first
+  mapEl.tabiDemo = () => {
+    const from = {...view}, at = (ms, f) => setTimeout(f, ms);
+    at(260, () => flyTo({cx: from.cx, cy: from.cy, s: Math.min(sMax, from.s * 1.8)}, 800));
+    at(1060, () => flyTo({cx: from.cx, cy: from.cy, s: from.s}, 800));
+    at(1990, () => flyTo({cx: from.cx + 60 / from.s, cy: from.cy, s: from.s}, 880));
+    at(3100, () => flyTo({cx: from.cx, cy: from.cy, s: from.s}, 700));
+  };
   function fitMembers(members) {
     interacted = true;
     const xs = members.map(m => m.x), ys = members.map(m => m.y);
@@ -961,18 +971,19 @@ function tabiSpotMap(cfg) {
   }
   // ⌖: back to the visitor's position (asks again), or 台北駅 with a note.
   let toastTimer = 0;
-  function showToast(text) {
+  function showToast(text, stay) {                    // stay: until the next ⌖ (v2.0.136: エリア外)
     toast.textContent = text; toast.classList.add('is-on');
-    clearTimeout(toastTimer); toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2600);
+    clearTimeout(toastTimer); if (!stay) toastTimer = setTimeout(() => toast.classList.remove('is-on'), 2600);
   }
   locateBtn.addEventListener('click', e => {
     e.stopPropagation(); interacted = true;
-    locateBtn.classList.add('is-busy');
+    locateBtn.classList.add('is-busy'); clearTimeout(toastTimer); toast.classList.remove('is-on');
     locate().then(pos => {
       locateBtn.classList.remove('is-busy');
       located = true; userPos = pos;
       const target = pos || project(...FALLBACK);
-      if (!pos) showToast('現在地を取得できません');
+      if (outside) showToast('エリア外', true);
+      else if (!pos) showToast('現在地を取得できません');
       flyTo({cx: target[0], cy: target[1], s: Math.max(view.s, sFocus)}, 800);
     });
   });
@@ -1160,24 +1171,27 @@ function tabiSpotMap(cfg) {
       return saved && Number.isFinite(saved.lat) && Number.isFinite(saved.lng) ? saved : null;
     } catch (_) { return null; }
   }
+  let outside = false;   // v2.0.136: the last position found lay outside the map's area
   function locate() {
     return new Promise(resolve => {
+      outside = false;
       const sim = debugPosition();
-      if (sim) { const [x, y] = project(sim.lat, sim.lng); resolve(inRegion(x, y) ? [x, y] : null); return; }
+      if (sim) { const [x, y] = project(sim.lat, sim.lng); outside = !inRegion(x, y); resolve(outside ? null : [x, y]); return; }
       if (!navigator.geolocation || !window.isSecureContext) { resolve(null); return; }
       navigator.geolocation.getCurrentPosition(p => {
         const {latitude: lat, longitude: lng, accuracy} = p.coords;
         // iPhone without 正確な位置情報 reports a few km of uncertainty: still useful here.
         if (!Number.isFinite(lat) || !Number.isFinite(lng) || !(accuracy <= 10000)) { resolve(null); return; }
         const [x, y] = project(lat, lng);
-        resolve(inRegion(x, y) ? [x, y] : null);
+        outside = !inRegion(x, y);
+        resolve(outside ? null : [x, y]);
       }, () => resolve(null), {enableHighAccuracy: false, timeout: 15000, maximumAge: 30000});
     });
   }
   let introToken = 0, sizeWaiter = null;
   function intro() {
     const token = ++introToken;
-    interacted = false; userPos = null;
+    interacted = false;
     // Figma 3-1: render the Taipei-focused first frame immediately for 夜市.
     // Preserve the existing GPS/fallback glide, map bounds, pin interactions and
     // the wider overview used by the 街歩きエリア map (the same map engine).
@@ -1185,27 +1199,14 @@ function tabiSpotMap(cfg) {
     const [ox, oy] = project(...(startAtTaipei ? FALLBACK : OVERVIEW));
     Object.assign(view, {cx: ox, cy: oy, s: startAtTaipei ? sFocus : sMin});
     clampView(); lastScale = NaN; render();
-    const opened = performance.now();
-    let settled = false, fellBack = false;
     const glideTo = (pos, duration) => {
       if (token !== introToken || interacted) return;
       flyTo({cx: pos[0], cy: pos[1], s: sFocus}, duration);
     };
-    // While the visitor answers the location prompt: show 台北駅 after a while,
-    // then move on to their position if it arrives later.
-    const fallbackTimer = setTimeout(() => {
-      if (settled || token !== introToken) return;
-      fellBack = true; glideTo(project(...FALLBACK), 2000);
-    }, 4200);
-    locate().then(pos => {
-      if (token !== introToken) return;
-      settled = true; clearTimeout(fallbackTimer);
-      userPos = pos; located = true; lastScale = NaN; requestRender();
-      status.textContent = pos ? '現在地の周辺を表示しています。' : '台北駅の周辺を表示しています。';
-      if (fellBack) { if (pos) glideTo(pos, 1200); return; }
-      const hold = Math.max(0, 600 - (performance.now() - opened));
-      setTimeout(() => glideTo(pos || project(...FALLBACK), 2000), hold);
-    });
+    // v2.0.136: no location prompt on opening (it fought the first-time hints) — only ⌖ asks;
+    // a position found earlier in this visit is still used.
+    status.textContent = userPos ? '現在地の周辺を表示しています。' : '台北駅の周辺を表示しています。';
+    setTimeout(() => glideTo(userPos || project(...FALLBACK), 2000), 600);
   }
   // ?debugLocation=1: a new simulated position moves the map there at once.
   document.addEventListener('tabi:debug-location', () => {
@@ -1281,12 +1282,7 @@ function tabiSpotMap(cfg) {
     const token = ++introToken;
     interacted = false;
     const go = pos => { if (token === introToken && !interacted) flyTo({cx: pos[0], cy: pos[1], s: sFocus}, 1900); };
-    if (located) { go(userPos || project(...FALLBACK)); return; }
-    locate().then(pos => {
-      if (token !== introToken) return;
-      userPos = pos; located = true; lastScale = NaN; requestRender();
-      go(pos || project(...FALLBACK));
-    });
+    go(userPos || project(...FALLBACK));   // v2.0.136: no location prompt here either (only ⌖ asks)
   }
   function swapTo(S) {
     stopMotion(); introToken++;

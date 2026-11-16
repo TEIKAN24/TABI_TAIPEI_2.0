@@ -1,9 +1,10 @@
-/* TABI TAIPEI v2.0.123 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
+/* TABI TAIPEI v2.0.136 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
    Tried out first in experiments/hints (the lab, not published).
    One hint per kind of control, shown the first time that control is on screen anywhere on the
    site (the wheel: on whichever page a wheel is first met), never again (localStorage). It appears
    0.6s after the control has been fully in view, at most one at a time, with a small motion on or
-   over the control; a touch, a scroll or 4s takes it away (demos keep it until they end).
+   over the control. v2.0.136: the page takes no touches while a hint is up; it goes with its own
+   button (「次へ」 when another hint is waiting on the same screen, else 「OK」), live once the motion is done.
    No dimming. Reduced motion: text only.
    The 料理辞典 (opened from the menu) is a walk (runTour): steps with 「次へ」 between them, the rest dimmed, no skipping. */
 (() => {
@@ -22,7 +23,8 @@
     if (!el || !el.getClientRects().length) return false;
     const r = el.getBoundingClientRect();
     if (r.width < 4 || r.height < 4 || r.bottom > innerHeight - 8 || r.top < (header ? 0 : headerBottom() + 4)) return false;
-    const hit = document.elementFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+    // v2.0.136: under the hint's own layers (the touch block, the tip) when one is up
+    const hit = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2).find(n => !n.matches('.tt2-hint-block, .tt2-hint-dim') && !n.closest('.tt2-hint'));
     return !!hit && (el === hit || el.contains(hit) || hit.contains(el) || !!hit.closest('.ec-scroller')); // calendar cards lie under its touch layer
   };
   const first = (sel, pick) => { const list = [...document.querySelectorAll(sel)].filter(e => inView(e)); return pick ? pick(list) : list[0]; };
@@ -51,19 +53,26 @@
     d.animate([{transform: 'scale(1)', opacity: .9}, {transform: `scale(${1 + 16 / r.width}, ${1 + 16 / r.height})`, opacity: 0}],
       {duration: 900, easing: 'ease-out', fill: 'both'}).finished.then(() => d.remove(), () => d.remove());
   }
-  function fingers(el) {                                // two fingertips over the map: pinch out, back, then a drag
+  async function fingers(el) {                          // two fingertips over the map: pinch out, in, then a one-finger drag
+    await el.tabiReady?.();
+    if (!showing) return;
     const [x, y] = at(el);
     const g = document.createElement('div'); g.className = 'tt2-hint-fingers';
     Object.assign(g.style, {left: x + 'px', top: y + 'px'});
     g.innerHTML = '<i></i><i></i>';
     document.body.append(g);
-    const [a, b] = g.children, o = {duration: 2600, easing: 'ease-in-out', fill: 'both'};
+    const [a, b] = g.children, o = {duration: 3200, easing: 'linear', fill: 'both'};
+    // v2.0.136: in step with the map's own zoom and pan (night-markets.js, mapEl.tabiDemo)
     const path = s => [
-      {translate: '0 0', opacity: 0, offset: 0}, {translate: '0 0', opacity: 1, offset: .08},
-      {translate: s * 34 + 'px ' + s * -26 + 'px', offset: .35}, {translate: '0 0', offset: .55},
-      {translate: '42px 0', offset: .85, opacity: 1}, {translate: '42px 0', opacity: 0, offset: 1}];
+      {translate: s * 14 + 'px ' + s * -10 + 'px', opacity: 0, offset: 0}, {translate: s * 14 + 'px ' + s * -10 + 'px', opacity: 1, offset: .08},
+      {translate: s * 46 + 'px ' + s * -34 + 'px', offset: .33, easing: 'ease-in-out'}, {translate: s * 14 + 'px ' + s * -10 + 'px', offset: .58, easing: 'ease-in-out'},
+      {translate: s > 0 ? '0 0' : s * 14 + 'px ' + s * -10 + 'px', opacity: s > 0 ? 1 : 0, offset: .62},
+      {translate: s > 0 ? '-60px 0' : s * 14 + 'px ' + s * -10 + 'px', opacity: s > 0 ? 1 : 0, offset: .9, easing: 'ease-in-out'},
+      {translate: s > 0 ? '-60px 0' : s * 14 + 'px ' + s * -10 + 'px', opacity: 0, offset: 1}];
     a.animate(path(-1), o);
-    b.animate(path(1), o).finished.then(() => g.remove(), () => g.remove());
+    const end = b.animate(path(1), o).finished.then(() => g.remove(), () => g.remove());
+    el.tabiDemo?.();                                    // the map itself zooms in, out and pans
+    await end; await new Promise(r => setTimeout(r, 700));   // and glides back
   }
   let demo = false;
   // open, wait, close again — the page's scroll is put back afterwards
@@ -93,7 +102,7 @@
       motion: el => el.querySelector('.tt2-wheel-track')?.animate(
         [{transform: 'translateX(0)'}, {transform: 'translateX(-46px)', offset: .45}, {transform: 'translateX(0)'}],
         {duration: 1000, iterations: 2, easing: EASE, composite: 'add'})},
-    {id: 'map', text: 'ドラッグで移動・2本の指で拡大縮小', wait: 1000,
+    {id: 'map', text: 'ドラッグで移動・2本の指で拡大縮小', wait: 1000, side: 'inside',   // 「OK」 once the map's demo is over; inside the map's top (below it, Safari's bar hid the button)
       find: () => first('#guide .nm-stage[data-view="map"] .nm-map'),
       motion: el => fingers(el)},
     {id: 'pin', text: 'ピンをタップで詳細',
@@ -104,6 +113,10 @@
         return list.sort((a, b) => { const p = at(a), q = at(b); return Math.hypot(p[0] - cx, p[1] - cy) - Math.hypot(q[0] - cx, q[1] - cy); })[0];
       }),
       motion: el => ripple(el, 44)},
+    // v2.0.136: the map asks for the position only through ⌖ (night-markets.js)
+    {id: 'locate', text: 'タップで現在地を表示',
+      find: () => first('#guide .nm-stage[data-view="map"] .nm-locate'),
+      motion: el => ripple(el, 36)},
     {id: 'specialty', text: 'タップで料理辞典を開く',
       find: () => first('#guide .nm-detail .nm-specialty'),
       motion: el => ripple(el, 40)},   // v2.0.130: the chip has no chevron to nudge any more
@@ -223,18 +236,24 @@
   tip.className = 'tt2-hint'; tip.setAttribute('role', 'status'); tip.hidden = true;
   tip.innerHTML = '<span class="tt2-hint-step"></span><span class="tt2-hint-text"></span><button type="button" class="tt2-hint-next">次へ</button><i class="tt2-hint-caret" aria-hidden="true"></i>';
   document.body.append(tip);
-  tip.addEventListener('click', e => { if (e.target.closest('.tt2-hint-next') && nextGo) { const r = nextGo; nextGo = null; r(); } });
-  let showing = null, target = null, hideTimer = 0;
+  let showing = null, target = null, hideTimer = 0, quick = false, quickAt = 0;
+  tip.addEventListener('click', e => {
+    if (!e.target.closest('.tt2-hint-next')) return;
+    if (nextGo) { const r = nextGo; nextGo = null; r(); return; }
+    if (showing && !tourOn) { quick = true; quickAt = performance.now(); hide(); }   // a hint waiting on the same screen comes at once
+  });
   function place() {
     if (!showing || !target) return;
-    if (tourOn) dimAround();
+    if (!dim.hidden) dimAround();   // v2.0.136: every hint has the spotlight, not only the walk
     if (showing.still && stillAt) return;   // a step that changes the page under it: the tip stays where it first stood
     const r = target.getBoundingClientRect(), t = tip.getBoundingClientRect();
+    const inside = showing.side === 'inside';
     const below = showing.side === 'below' || r.top - t.height - 12 < (showing.header ? 4 : headerBottom() + 8);
     const x = Math.max(12, Math.min(innerWidth - t.width - 12, r.left + r.width / 2 - t.width / 2));
     tip.style.left = x + 'px';
-    tip.style.top = (below ? r.bottom + 10 : r.top - t.height - 10) + 'px';
-    tip.classList.toggle('is-below', below);
+    tip.style.top = (inside ? Math.max(r.top, headerBottom()) + 12 : below ? r.bottom + 10 : r.top - t.height - 10) + 'px';
+    tip.classList.toggle('is-below', below && !inside);
+    tip.classList.toggle('is-inside', inside);
     tip.style.setProperty('--caret', Math.max(14, Math.min(t.width - 14, r.left + r.width / 2 - x)) + 'px');
     if (showing.still) stillAt = true;
   }
@@ -248,34 +267,48 @@
     }
     tip.querySelector('.tt2-hint-text').textContent = h.text;
     tip.style.removeProperty('width');
+    // v2.0.136: no touches on the page until the hint's own button
+    const next = tip.querySelector('.tt2-hint-next');
+    tip.classList.add('is-ask'); next.textContent = 'OK'; next.disabled = true; block.hidden = false;
+    spots = () => [target]; dim.hidden = false;           // the spotlight on the control, as in the 料理辞典 walk
+    if (!reduce.matches && !quick) dim.animate([{opacity: 0}, {opacity: 1}], {duration: 300, easing: 'ease-out'});
     tip.hidden = false; place(); follow();
+    let ready = null;                     // a motion that returns a promise holds the button until it is over
     if (!reduce.matches) {
       tip.animate([{opacity: 0, translate: '0 4px'}, {opacity: 1, translate: '0 0'}], {duration: 260, easing: EASE, fill: 'both'});
-      setTimeout(() => { if (showing === h) h.motion?.(el); }, 300);
+      setTimeout(() => { if (showing === h) { const p = h.motion?.(el); if (p && p.then) ready = p; } }, 300);
     }
-    clearTimeout(hideTimer); hideTimer = setTimeout(hide, (h.wait || 0) + 4000);
+    clearTimeout(hideTimer); hideTimer = setTimeout(async () => {
+      if (ready) await ready;
+      if (showing !== h) return;
+      next.textContent = HINTS.some(o => o !== h && !o.tour && !seen(o.id) && o.find()) ? '次へ' : 'OK';
+      next.disabled = false;
+    }, reduce.matches ? 600 : 300 + (h.wait || 1300));
   }
   function hide() {
     if (!showing || tourOn) return;     // the 料理辞典 walk ends only through its own button
     showing = null; target = null; clearTimeout(hideTimer);
+    block.hidden = true; tip.classList.remove('is-ask'); spots = null;
+    const keep = quick && HINTS.some(o => !o.tour && !seen(o.id) && o.find());   // the next one on this screen keeps the dim
+    if (!keep) { if (reduce.matches) dim.hidden = true; else dim.animate([{opacity: 1}, {opacity: 0}], {duration: 220, easing: 'ease-out'}).finished.then(() => { if (!showing) dim.hidden = true; }, () => {}); }
     if (reduce.matches) { tip.hidden = true; return; }
     tip.animate([{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'both'}).finished.then(() => { if (!showing) tip.hidden = true; });
   }
-  addEventListener('pointerdown', () => hide(), true);
-  addEventListener('scroll', () => { if (!demo) hide(); }, true);
-  addEventListener('hashchange', () => hide());
+  addEventListener('hashchange', () => hide());   // (v2.0.136: a touch or a scroll no longer takes a hint away)
 
   // ---------- watching: a control must stay in view 0.6s ----------
   const since = new Map();
   function tick() {
     if (showing || demo || document.hidden) { since.clear(); return; }
+    if (quick && performance.now() - quickAt > 1500) quick = false;
+    if (!quick && !tourOn && !dim.hidden) dim.hidden = true;   // a kept dim whose next hint never came
     const now = performance.now();
     for (const h of HINTS) {
       if (seen(h.id) || (busy() && !(h.sheet && sheetOpen() && !document.documentElement.matches('.tt-nav-open')))) continue;
       const el = h.find();
       if (!el) { since.delete(h.id); continue; }
       if (!since.has(h.id)) { since.set(h.id, now); continue; }
-      if (now - since.get(h.id) >= 600) { since.clear(); show(h, el); return; }
+      if (now - since.get(h.id) >= (quick ? 0 : 600)) { since.clear(); quick = false; show(h, el); return; }
     }
   }
   setInterval(tick, 200);
