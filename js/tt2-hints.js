@@ -1,4 +1,4 @@
-/* TABI TAIPEI v2.0.136 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
+/* TABI TAIPEI v2.0.137 — js/tt2-hints.js: first-time hints (css/tt2-hints.css).
    Tried out first in experiments/hints (the lab, not published).
    One hint per kind of control, shown the first time that control is on screen anywhere on the
    site (the wheel: on whichever page a wheel is first met), never again (localStorage). It appears
@@ -94,10 +94,7 @@
 
   const HINTS = [
     // v2.0.134: the menu hint (open and close once) is gone
-    {id: 'home', text: 'ロゴをタップでホームへ', header: true,
-      find: () => { const b = document.querySelector('.tt-sitebar .tt-brand'); return view() !== 'home' && inView(b, true) ? b : null; },
-      motion: el => ripple(el.querySelector('.tt-brand-main') || el, 46)},
-    {id: 'wheel', text: '左右にスワイプしてカテゴリーを切り替え', side: 'below', // above it would cover the chapter's tabs
+    {id: 'wheel', text: '左右にスワイプしてカテゴリーを切り替え', side: 'below', plain: true, // above it would cover the chapter's tabs
       find: () => first('#guide .tt2-wheel'),
       motion: el => el.querySelector('.tt2-wheel-track')?.animate(
         [{transform: 'translateX(0)'}, {transform: 'translateX(-46px)', offset: .45}, {transform: 'translateX(0)'}],
@@ -126,7 +123,7 @@
     {id: 'note', text: 'タップで詳しく表示', wait: 2200,
       find: () => first('#guide .tt2-note-summary'),
       motion: el => openClose(el, () => !!el.parentElement?.open)},
-    {id: 'calendar', text: 'タップでカレンダー表示\n長押しで日付を選ぶ', wait: 2400, // v2.0.135: two even lines (11pt left 「ぶ」 alone)
+    {id: 'calendar', text: '左右にスワイプで月を切り替え\nタップでカレンダー表示\n長押しのまま指を動かして日付を選ぶ\nダブルタップで今日に戻る', wait: 2400, // v2.0.137: fuller, one move a line
       find: () => first('#guide #event-calendar .ec-card', list => {
         const s = document.querySelector('#event-calendar .ec-scroller')?.getBoundingClientRect();
         return s ? list.find(c => { const r = c.getBoundingClientRect(); return Math.abs(r.left + r.width / 2 - (s.left + s.width / 2)) < 20; }) : list[0];
@@ -140,6 +137,10 @@
       find: () => first('#guide .recommend-advanced-trigger'),
       motion: el => (el.querySelector('.recommend-advanced-plus') || el).animate(
         [{rotate: '0deg'}, {rotate: '90deg'}, {rotate: '0deg'}], {duration: 800, iterations: 1, easing: EASE})},
+    // v2.0.137: the logo comes last on a screen (after that screen's other hints)
+    {id: 'home', text: 'ロゴをタップでホームへ', header: true, plain: true, last: true,   // v2.0.137: plain (no button, no spotlight)
+      find: () => { const b = document.querySelector('.tt-sitebar .tt-brand'); return view() !== 'home' && inView(b, true) ? b : null; },
+      motion: el => ripple(el.querySelector('.tt-brand-main') || el, 46)},
     {id: 'dictionary', sheet: true, tour: 'dictionary',      // a walk through the sheet (DICT_STEPS), only when opened from the menu
       find: () => { const s = document.querySelector('#food-search .search-shell'); return dictFromMenu && document.body.matches('.food-drawer-settled') && s?.getClientRects().length ? s : null; }},   // once the sheet has slid up
   ];
@@ -267,6 +268,16 @@
     }
     tip.querySelector('.tt2-hint-text').textContent = h.text;
     tip.style.removeProperty('width');
+    if (h.plain) {                        // v2.0.137: the logo and the wheel: no button, no spotlight; a touch, a scroll or 4s
+      dim.hidden = true; spots = null;
+      tip.hidden = false; place(); follow();
+      if (!reduce.matches) {
+        tip.animate([{opacity: 0, translate: '0 4px'}, {opacity: 1, translate: '0 0'}], {duration: 260, easing: EASE, fill: 'both'});
+        setTimeout(() => { if (showing === h) h.motion?.(el); }, 300);
+      }
+      clearTimeout(hideTimer); hideTimer = setTimeout(hide, (h.wait || 0) + 4000);
+      return;
+    }
     // v2.0.136: no touches on the page until the hint's own button
     const next = tip.querySelector('.tt2-hint-next');
     tip.classList.add('is-ask'); next.textContent = 'OK'; next.disabled = true; block.hidden = false;
@@ -294,7 +305,10 @@
     if (reduce.matches) { tip.hidden = true; return; }
     tip.animate([{opacity: 1}, {opacity: 0}], {duration: 180, easing: 'ease-out', fill: 'both'}).finished.then(() => { if (!showing) tip.hidden = true; });
   }
-  addEventListener('hashchange', () => hide());   // (v2.0.136: a touch or a scroll no longer takes a hint away)
+  addEventListener('hashchange', () => hide());
+  // a plain hint (v2.0.137) still goes with a touch or a scroll; the others only with their button
+  addEventListener('pointerdown', e => { if (showing?.plain && !(e.target instanceof Element && e.target.closest('.tt2-hint'))) hide(); }, true);
+  addEventListener('scroll', () => { if (showing?.plain && !demo) hide(); }, true);
 
   // ---------- watching: a control must stay in view 0.6s ----------
   const since = new Map();
@@ -308,7 +322,9 @@
       const el = h.find();
       if (!el) { since.delete(h.id); continue; }
       if (!since.has(h.id)) { since.set(h.id, now); continue; }
-      if (now - since.get(h.id) >= (quick ? 0 : 600)) { since.clear(); quick = false; show(h, el); return; }
+      // last (the logo): only once the screen's other hints are done, and after 1.5s (a map, a list may still be loading)
+      if (h.last && (now - since.get(h.id) < 1500 || HINTS.some(o => o !== h && !o.tour && !seen(o.id) && since.has(o.id)))) continue;
+      if (now - since.get(h.id) >= (quick || h.last ? 0 : 600)) { since.clear(); quick = false; show(h, el); return; }
     }
   }
   setInterval(tick, 200);
