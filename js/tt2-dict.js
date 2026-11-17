@@ -135,6 +135,10 @@
     ice: {steps: [['去冰', 0], ['微冰', 30], ['少冰', 70], ['正常冰', 100]], fixed: '冰塊固定'}
   };
   const TICKS = [0, 30, 50, 70, 100];
+  // v2.0.150: 甘さ always before 氷 (in the search, the notes and the rows), the rest keeps its order
+  const DRINK_ORDER = {sugar: 1, ice: 2};
+  const drinkOrder = list => list.map((x, i) => [x, i]).sort((a, b) =>
+    ((DRINK_ORDER[a[0]?.cat] || 0) - (DRINK_ORDER[b[0]?.cat] || 0)) || a[1] - b[1]).map(([x]) => x);
   const LETTER = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{L}ー々]/u;
   let termKeys = new Map(), lex = null;
   function longestTerm(text, atStart) {
@@ -249,16 +253,17 @@
   // A tap in the 甘さ・氷 table: that row's word in the search is swapped for the tapped one.
   function swapDrink(row, word) {
     const segs = segment(input.value);
-    const keep = [];
+    const keep = [];   // [cat, text]
     for (const s of segs) {
       if (s.term && (s.term.cat === row || s.term.cat === 'fixed' || s.term.cat === 'drink')) continue;
-      keep.push(s.term ? s.term.zh[0] : s.key || s.other);
+      keep.push({cat: s.term?.cat, text: s.term ? s.term.zh[0] : s.key || s.other});
     }
     // a lone 固定 stands for both rows: the other row keeps it
-    if (segs.some(s => s.term?.cat === 'fixed')) keep.push(DRINK[row === 'sugar' ? 'ice' : 'sugar'].fixed);
-    keep.push(word);
+    const other = row === 'sugar' ? 'ice' : 'sugar';
+    if (segs.some(s => s.term?.cat === 'fixed')) keep.push({cat: other, text: DRINK[other].fixed});
+    keep.push({cat: row, text: word});
     const y = view.scrollTop;
-    search(keep.join(' '));
+    search(drinkOrder(keep).map(k => k.text).join(' '));
     setTimeout(() => { view.scrollTop = y; }, 120);
   }
   function drinkTable(terms) {
@@ -331,6 +336,7 @@
   }
   // Terms with no dish to hang them on (an unlisted dish, or order options only): one row each.
   function termRows(terms, unlisted) {
+    terms = drinkOrder(terms);
     const head = el('p', 'tt2d-summary', `ことば ${terms.length}語`);
     if (unlisted) head.append(el('span', 'tt2d-dot', '·'), '料理名は辞典に未収録');
     const box = el('div', 'tt2d-terms');
@@ -465,7 +471,7 @@
     if (termKeys.size) {
       const words = [...(extra?.before || [])];
       for (const t of [...nameTerms(best.food, lexicon().dishKeys), ...(extra?.after || [])]) if (!words.includes(t)) words.push(t);
-      if (words.length) card.append(noteBox('名前のことば', words, best.food));
+      if (words.length) card.append(noteBox('名前のことば', drinkOrder(words), best.food));
     }
     // a drink ordered with 微糖・少冰…: the 甘さ・氷 table right under its card
     const typed = [...(extra?.before || []), ...(extra?.after || [])];
