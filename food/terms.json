@@ -1,5 +1,5 @@
 {
-  "about": "料理辞典のメニュー用語（v2.0.144 第1段階）。zh の1つ目が表示用、残りは同じ意味の書き方。cat: cook 調理法 / flavor 味付け / style 料理の形 / cut 部位 / label 表記 / spice 辛さ / sugar 甘さ / ice 氷 / custom 追加 / order 注文・支払い。find: 使った料理が名前から見つからないときに探す文字。",
+  "about": "料理辞典のメニュー用語（v2.0.144 第1段階）。zh の1つ目が表示用、残りは同じ意味の書き方。cat: cook 調理法 / flavor 味付け / style 料理の形 / cut 部位 / label 表記 / spice 辛さ / sugar 甘さ / ice 氷 / fixed 甘さ・氷の固定 / custom 追加 / order 注文・支払い。find: 使った料理が名前から見つからないときに探す文字。",
   "terms": [
     {"id": "hongshao", "zh": ["紅燒"], "ja": "醤油煮込み", "note": "醤油と砂糖で甘辛く煮込む調理法。肉・魚・豆腐によく使われます。", "cat": "cook"},
     {"id": "qingdun", "zh": ["清燉"], "ja": "あっさり煮込み", "note": "醤油を使わず、澄んだスープで煮込む調理法。", "cat": "cook"},
@@ -55,6 +55,9 @@
     {"id": "weibing", "zh": ["微冰"], "ja": "氷ほんの少し", "note": "ドリンクの氷の量の指定。", "cat": "ice"},
     {"id": "shaobing", "zh": ["少冰"], "ja": "氷少なめ", "note": "ドリンクの氷の量の指定。", "cat": "ice"},
     {"id": "zhengchangbing", "zh": ["正常冰"], "ja": "氷ふつう", "note": "ドリンクの氷の量の指定。", "cat": "ice"},
+    {"id": "tiandu-guding", "zh": ["甜度固定", "固定甜度", "固定糖"], "ja": "甘さ固定", "note": "甘さが決まっていて、変えられません。", "cat": "sugar"},
+    {"id": "bing-guding", "zh": ["冰塊固定", "冰量固定", "固定冰"], "ja": "氷の量固定", "note": "氷の量が決まっていて、変えられません。", "cat": "ice"},
+    {"id": "guding", "zh": ["固定"], "ja": "固定（変えられない）", "note": "ドリンクの甘さや氷の量が店で決まっていて、変えられないという意味。", "cat": "fixed"},
     {"id": "changwen", "zh": ["常溫"], "ja": "常温", "note": "冷やさず、温めもしません。", "cat": "ice"},
 
     {"id": "jiadan", "zh": ["加蛋"], "ja": "卵追加", "note": "", "cat": "custom"},
