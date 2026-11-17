@@ -113,11 +113,17 @@
   // at each place, so a whole dish name always wins over a term inside it (甜不辣 never splits
   // into 甜 + 不辣). A search that holds no term keeps the dictionary exactly as before.
   const CAT = {cook: '調理法', flavor: '味付け', style: '料理の形', cut: '部位', label: '表記',
-    spice: '辛さ', sugar: '甘さ', ice: '氷', custom: '追加', order: '注文・支払い'};
+    spice: '辛さ', sugar: '甘さ', ice: '氷', fixed: '甘さ・氷', custom: '追加', order: '注文・支払い'};
   const PREFIX = new Set(['cook', 'flavor', 'style', 'cut', 'label']);   // 紅燒牛肉麵, 招牌…
   const SUFFIX = new Set(['custom', 'label', 'style']);                  // 滷肉飯加蛋, 雞腿便當
-  const SCALES = {spice: ['不辣', '微辣', '小辣', '中辣', '大辣'], sugar: ['無糖', '微糖', '半糖', '少糖', '全糖'],
-    ice: ['去冰', '微冰', '少冰', '正常冰']};
+  const SCALES = {spice: ['不辣', '微辣', '小辣', '中辣', '大辣']};
+  // 甘さ and 氷 share one table on a percentage ruler (a common guide; shops differ a little).
+  // Each row ends in 「固定」: the drink's sugar or ice is set by the shop.
+  const DRINK = {
+    sugar: {steps: [['無糖', 0], ['微糖', 30], ['半糖', 50], ['少糖', 70], ['全糖', 100]], fixed: '甜度固定'},
+    ice: {steps: [['去冰', 0], ['微冰', 30], ['少冰', 70], ['正常冰', 100]], fixed: '冰塊固定'}
+  };
+  const TICKS = [0, 30, 50, 70, 100];
   const LETTER = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{L}ー々]/u;
   let termKeys = new Map(), lex = null;
   function longestTerm(text, atStart) {
@@ -212,19 +218,74 @@
     }
     return box;
   }
-  // 甘さ・氷・辛さ: the whole scale on one line, the chosen steps in gold.
-  function scales(terms) {
-    const cats = [...new Set(terms.map(t => t.cat).filter(c => SCALES[c]))];
-    if (!cats.length) return [];
-    const on = new Set(terms.map(t => t.zh[0]));
-    const frag = [el('p', 'tt2d-section', cats.map(c => CAT[c]).join('と') + 'の目安')];
-    for (const c of cats) {
-      const line = el('p', 'tt2d-scale');
-      line.append(el('span', 'tt2d-scale-head', CAT[c]));
-      for (const step of SCALES[c]) line.append(el('span', 'tt2d-scale-step' + (on.has(step) ? ' is-on' : ''), step));
-      frag.push(line);
+  // A tap in the 甘さ・氷 table: that row's word in the search is swapped for the tapped one.
+  function swapDrink(row, word) {
+    const segs = segment(input.value);
+    const keep = [];
+    for (const s of segs) {
+      if (s.term && (s.term.cat === row || s.term.cat === 'fixed')) continue;
+      keep.push(s.term ? s.term.zh[0] : s.key || s.other);
     }
-    if (cats.includes('sugar')) frag.push(el('p', 'tt2d-scale-note', '割合は店によって少し違います。'));
+    // a lone 固定 stands for both rows: the other row keeps it
+    if (segs.some(s => s.term?.cat === 'fixed')) keep.push(DRINK[row === 'sugar' ? 'ice' : 'sugar'].fixed);
+    keep.push(word);
+    const y = view.scrollTop;
+    search(keep.join(' '));
+    setTimeout(() => { view.scrollTop = y; }, 120);
+  }
+  function drinkTable(terms) {
+    const on = new Set(terms.map(t => t.zh[0]));
+    const both = terms.some(t => t.cat === 'fixed');
+    const table = el('div', 'tt2d-drink');
+    const row = (cat) => {
+      const line = el('div', 'tt2d-drink-row');
+      line.append(el('span', 'tt2d-drink-head', CAT[cat]));
+      const track = el('div', 'tt2d-drink-track');
+      for (const [word, pct] of DRINK[cat].steps) {
+        const b = el('button', 'tt2d-drink-step' + (on.has(word) ? ' is-on' : ''), word);
+        b.type = 'button';
+        b.style.left = pct + '%';
+        b.setAttribute('aria-pressed', String(on.has(word)));
+        b.addEventListener('click', () => swapDrink(cat, word));
+        track.append(b);
+      }
+      const fixedOn = both || on.has(DRINK[cat].fixed);
+      const fixed = el('button', 'tt2d-drink-fixed' + (fixedOn ? ' is-on' : ''), '固定');
+      fixed.type = 'button';
+      fixed.setAttribute('aria-pressed', String(fixedOn));
+      fixed.setAttribute('aria-label', `${CAT[cat]}：固定（変えられない）`);
+      fixed.addEventListener('click', () => swapDrink(cat, DRINK[cat].fixed));
+      line.append(track, fixed);
+      return line;
+    };
+    const ruler = el('div', 'tt2d-drink-ruler');
+    ruler.setAttribute('aria-hidden', 'true');
+    ruler.append(el('span', 'tt2d-drink-head'));
+    const ticks = el('div', 'tt2d-drink-track tt2d-drink-ticks');
+    for (const pct of TICKS) {
+      const tick = el('span', 'tt2d-drink-tick', pct + '%');
+      tick.style.left = pct + '%';
+      ticks.append(tick);
+    }
+    ruler.append(ticks, el('span', 'tt2d-drink-fixed tt2d-drink-gap'));
+    table.append(row('sugar'), ruler, row('ice'));
+    return table;
+  }
+  // 甘さ・氷 (one table, always together) and 辛さ: the chosen steps in gold.
+  function scales(terms) {
+    const cats = new Set(terms.map(t => t.cat));
+    const frag = [];
+    if (cats.has('sugar') || cats.has('ice') || cats.has('fixed')) {
+      frag.push(el('p', 'tt2d-section', '甘さと氷の目安'), drinkTable(terms),
+        el('p', 'tt2d-scale-note', '％は目安です。店によって少し違います。タップで切り替えられます。'));
+    }
+    if (cats.has('spice')) {
+      const on = new Set(terms.map(t => t.zh[0]));
+      const line = el('p', 'tt2d-scale');
+      line.append(el('span', 'tt2d-scale-head', CAT.spice));
+      for (const step of SCALES.spice) line.append(el('span', 'tt2d-scale-step' + (on.has(step) ? ' is-on' : ''), step));
+      frag.push(el('p', 'tt2d-section', '辛さの目安'), line);
+    }
     return frag;
   }
   // A term searched alone: the dish card's own layout, then the dishes that use it.
@@ -368,6 +429,12 @@
       const words = [...(extra?.before || [])];
       for (const t of [...nameTerms(best.food, lexicon().dishKeys), ...(extra?.after || [])]) if (!words.includes(t)) words.push(t);
       if (words.length) card.append(noteBox('名前のことば', words));
+    }
+    // a drink ordered with 微糖・少冰…: the 甘さ・氷 table right under its card
+    const typed = [...(extra?.before || []), ...(extra?.after || [])];
+    if (typed.length) {
+      const frag = [card, ...scales(typed)];
+      if (frag.length > 1) { frag.push(...single(hit, pick).slice(1)); return frag; }
     }
     const frag = [card];
     const show = food => { render(food); view.scrollTop = 0; };
