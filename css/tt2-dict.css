@@ -573,3 +573,23 @@ html.tt2-fidelity body:not(#_a) .food-drawer-backdrop,
 html.tt2-fidelity body.food-drawer-settled:not(#_a) .food-drawer-backdrop {
   -webkit-backdrop-filter:brightness(.5)!important;backdrop-filter:brightness(.5)!important;
 }
+
+/* v2.0.144 — menu terms (js/tt2-dict.js, food/terms.json): 「名前のことば」 inside the dish card,
+   a term's own card, the term rows when there is no dish, and the 甘さ・氷・辛さ scales. */
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-card-prefix {margin-right:6px;font:inherit;font-size:18px;letter-spacing:.02em;color:#6f6f6f;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-notes {margin:12px 0 0;padding:10px 0 0;border-top:1px solid #2a2a2a;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-notes-head {margin:0 0 4px;font:400 11px/16px var(--tt2-ui);letter-spacing:.06em;color:#8a8a8a;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-note {display:flex;align-items:baseline;gap:12px;margin:0;font:400 13px/20px var(--tt2-ui);letter-spacing:.02em;color:#bdbdbd;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-note-zh {flex:none;font:400 14px/20px var(--tt2d-serif);letter-spacing:.02em;color:#f7f7f7;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-terms {margin:4px 0 0;border-top:1px solid #262626;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-term {display:flex;align-items:flex-start;gap:14px;padding:11px 4px;border-bottom:1px solid #262626;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-term-zh {flex:none;width:72px;font:400 17px/24px var(--tt2d-serif);letter-spacing:.02em;color:#f7f7f7;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-term-text {display:flex;flex-direction:column;gap:2px;flex:1 1 auto;min-width:0;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-term-ja {font:400 14px/20px var(--tt2-ui);letter-spacing:.02em;color:#e0e0e0;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-term-note {font:400 12px/18px var(--tt2-ui);letter-spacing:.02em;color:#9e9e9e;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-term-kind {flex:none;padding-top:3px;font:400 11px/16px var(--tt2-ui);letter-spacing:.06em;color:#8a8a8a;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-scale {display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin:0;padding:10px 4px;border-bottom:1px solid #262626;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-scale-head {flex:none;width:28px;font:400 11px/16px var(--tt2-ui);letter-spacing:.06em;color:#8a8a8a;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-scale-step {font:400 15px/22px var(--tt2d-serif);color:#9e9e9e;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-scale-step.is-on {color:#cca46e;}
+html.tt2-fidelity #guide #food-search.tt2d:not(#_a) .tt2d-scale-note {margin:0;padding:10px 4px 0;font:400 11px/16px var(--tt2-ui);color:#8a8a8a;}
