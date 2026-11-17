@@ -306,7 +306,7 @@
       }
       const fixedOn = both || on.has(DRINK[cat].fixed);
       const fixed = stop('tt2d-drink-fixed', '—', '固定', fixedOn, () => swapDrink(cat, DRINK[cat].fixed, food));
-      fixed.setAttribute('aria-label', `${CAT[cat]}：店で固定（変えられない）`);
+      fixed.setAttribute('aria-label', `${CAT[cat]}：調整不可（お店が決めています）`);
       line.append(track, el('span', 'tt2d-drink-gap'), fixed);
       return line;
     };
