@@ -265,7 +265,7 @@
     const value = input.value.trim();
     const terms = N(value).split(/\s+/).filter(Boolean);
     const loaded = dict.foods().length;
-    if (loaded) sub.textContent = `${loaded}品。中国語・日本語どちらの表記でも探せます`;
+    if (loaded) sub.textContent = `${loaded}件。中国語・日本語どちらの表記でも探せます`;
     const shortcut = originals.some(button => button.dataset.example === value);
     pills.querySelectorAll('.tt2d-pill').forEach(p => p.setAttribute('aria-pressed', String(p.dataset.example === value)));
     drawer.classList.toggle('tt2d-searching', Boolean(value) && !shortcut);
