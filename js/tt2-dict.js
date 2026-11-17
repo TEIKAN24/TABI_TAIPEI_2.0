@@ -65,6 +65,13 @@
     pill.addEventListener('click', () => { button.click(); input.blur(); });
     pills.append(pill);
   }
+  // v2.0.146: 甘さ・氷 opens the drink table straight away (food/terms.json: 甜度冰塊)
+  const drinkPill = el('button', 'tt2d-pill tt2d-pill--drink', '甘さ・氷');
+  drinkPill.type = 'button';
+  drinkPill.dataset.drink = '甜度冰塊';
+  drinkPill.setAttribute('aria-label', 'ドリンクの甘さと氷の表');
+  drinkPill.addEventListener('click', () => search(drinkPill.dataset.drink));
+  pills.insertBefore(drinkPill, pills.children[1] || null);
   shortcuts.append(el('p', 'tt2d-label', 'よく使う字・種類'), pills);
   drawer.querySelector('.search-shell')?.after(shortcuts);
 
@@ -112,7 +119,7 @@
   // these terms form one lexicon; a search is read left to right, taking the longest known word
   // at each place, so a whole dish name always wins over a term inside it (甜不辣 never splits
   // into 甜 + 不辣). A search that holds no term keeps the dictionary exactly as before.
-  const CAT = {cook: '調理法', flavor: '味付け', style: '料理の形', cut: '部位', label: '表記',
+  const CAT = {drink: 'ドリンク', cook: '調理法', flavor: '味付け', style: '料理の形', cut: '部位', label: '表記',
     spice: '辛さ', sugar: '甘さ', ice: '氷', fixed: '甘さ・氷', custom: '追加', order: '注文・支払い'};
   const PREFIX = new Set(['cook', 'flavor', 'style', 'cut', 'label']);   // 紅燒牛肉麵, 招牌…
   const SUFFIX = new Set(['custom', 'label', 'style']);                  // 滷肉飯加蛋, 雞腿便當
@@ -223,7 +230,7 @@
     const segs = segment(input.value);
     const keep = [];
     for (const s of segs) {
-      if (s.term && (s.term.cat === row || s.term.cat === 'fixed')) continue;
+      if (s.term && (s.term.cat === row || s.term.cat === 'fixed' || s.term.cat === 'drink')) continue;
       keep.push(s.term ? s.term.zh[0] : s.key || s.other);
     }
     // a lone 固定 stands for both rows: the other row keeps it
@@ -275,7 +282,7 @@
   function scales(terms) {
     const cats = new Set(terms.map(t => t.cat));
     const frag = [];
-    if (cats.has('sugar') || cats.has('ice') || cats.has('fixed')) {
+    if (cats.has('sugar') || cats.has('ice') || cats.has('fixed') || cats.has('drink')) {
       frag.push(el('p', 'tt2d-section', '甘さと氷の目安'), drinkTable(terms),
         el('p', 'tt2d-scale-note', '％は目安です。店によって少し違います。タップで切り替えられます。'));
     }
@@ -538,7 +545,11 @@
     if (loaded) sub.textContent = `${loaded}件。中国語・日本語どちらの表記でも探せます`;
     const shortcut = originals.some(button => button.dataset.example === value);
     pills.querySelectorAll('.tt2d-pill').forEach(p => p.setAttribute('aria-pressed', String(p.dataset.example === value)));
-    drawer.classList.toggle('tt2d-searching', Boolean(value) && !shortcut);
+    // v2.0.146: while only 甘さ・氷 words are searched, the shortcuts stay (甘さ・氷 shown pressed)
+    const drinkOnly = Boolean(value) && termKeys.size > 0 && dict.foods().length > 0 &&
+      segment(value).every(s => s.term && ['sugar', 'ice', 'fixed', 'drink'].includes(s.term.cat));
+    drinkPill.setAttribute('aria-pressed', String(drinkOnly));
+    drawer.classList.toggle('tt2d-searching', Boolean(value) && !shortcut && !drinkOnly);
     let mode = 'list', nodes = null;
     const termNodes = loaded && value && !shortcut ? termView(value, pick) : null;   // v2.0.144
     if (termNodes) { mode = 'single'; nodes = termNodes; }
